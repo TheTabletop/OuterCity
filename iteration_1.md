@@ -1,4 +1,4 @@
-Main Views
+  Main Views
 Login Screen [1] 		      G
 Create or Edit Profile[2]	G
 Group Profile[3] 		      Q
@@ -11,7 +11,7 @@ Reset Password View[9]		G
 About View[10]			      Q
 Contact Us[11]			      Q  
 
-Misc Components
+  Misc Components
 General Navigation[A]		  ALL
 Player Pop-up[B]		      G
 Filters[C]			          A
