@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    background-image: url("tabletexture.jpg");
+}
+h1 {
+    color: tan;
+    margin-left: 64px;
+}
+p {
+	color: tan;
+}
+
+
+table {
+	color : tan;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button1 {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #4CAF50;
+}
+
+.button1:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.button2 {
+    background-color: white; 
+    color: black; 
+    border: 2px solid navy;
+}
+
+.button2:hover {
+    background-color: navy;
+    color: white;
+}
+
+.button3 {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #f44336;
+}
+
+.button3:hover {
+    background-color: #f44336;
+    color: white;
+}
+</style>
+</head>
+<body>
+<h1>[NAME_VALUE]</h1>
+<img src="groupPhoto.jpg" alt= "User Photo" width="256" height="256">
+
+<table>
+  <tr>
+    <td>Location:</td>
+    <td>[USER_ZIP]</td>
+  </tr>
+  <tr>
+    <td>Games Played:</td>
+    <td>[GAMES_LIST_VALUE0]<br>[GAMES_LIST_VALUE1]<br>[GAMES_LIST_VALUE2]...</td>
+  </tr>
+  <tr>
+    <td>Groups:</td>
+    <td>[GROUPS_VALUE1]<br>[GROUPS_VALUE2]...</td>
+    <!--Eventually gonna link to the groups-->
+  </tr>
+</table>
+
+<h1>Bio:</h1>
+<p>[USER_BIO]</p>
+
+
+<button class="button button1">View Full Profile</button>
+<button class="button button2">Message</button>
+<button class="button button3">Invite to Group</button>
+
+</body>
+</html>
