@@ -13,6 +13,7 @@ Contact Us[11]			      Q
 
   Misc Components
 General Navigation[A]		  ALL
-Player Pop-up[B]		      G
+Player Pop-up[B]		      Q
 Filters[C]			          A
 Message Pop-up[D]		      C
+//Group pop-up
