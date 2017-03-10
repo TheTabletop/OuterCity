@@ -75,44 +75,31 @@ th, td {
 </head>
 <body>
 <h1>[NAME_VALUE]</h1>
-<img src="groupPhoto.jpg" alt= "Group Photo" width="256" height="256">
+<img src="groupPhoto.jpg" alt= "User Photo" width="256" height="256">
 
 <table>
   <tr>
-    <td>Distance from you:</td>
-    <td>~[USER_ZIP]</td>
-    <!--This is gonna take some work. Google Maps?-->
-  </tr>
-  <tr>
-    <td>[NAME_VALUE] has been meeting for</td>
-    <td>[AGE_VALUE]</td>
+    <td>Location:</td>
+    <td>[USER_ZIP]</td>
   </tr>
   <tr>
     <td>Games Played:</td>
     <td>[GAMES_LIST_VALUE0]<br>[GAMES_LIST_VALUE1]<br>[GAMES_LIST_VALUE2]...</td>
   </tr>
   <tr>
-    <td>Meeting Time:</td>
-    <td>[TIME_VALUE]</td>
-  </tr>
-  <tr>
-    <td>Meeting Frequency:</td>
-    <td>[REGULARITY_VALUE]</td>
-  </tr>
-  <tr>
-    <td>Number of Members:</td>
-    <td>[MEMBERS.LENGTH() or something]</td>
-  </tr>
-    <tr>
-    <td>Admin(s):</td>
-    <td>[ADMINS_VALUE1]<br>[ADMINS_VALUE2]...</td>
+    <td>Groups:</td>
+    <td>[GROUPS_VALUE1]<br>[GROUPS_VALUE2]...</td>
+    <!--Eventually gonna link to the groups-->
   </tr>
 </table>
 
+<h1>Bio:</h1>
+<p>[USER_BIO]</p>
+
 
 <button class="button button1">View Full Profile</button>
-<button class="button button2">Message Group</button>
-<button class="button button3">Request to Join</button>
+<button class="button button2">Message</button>
+<button class="button button3">Invite to Group</button>
 
 </body>
 </html>
