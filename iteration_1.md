@@ -4,7 +4,7 @@ Main Views
 - [ ] Group Profile[3] 		      Q
 - [ ] Group Wall[4] 			      Q
 - [ ] Create/Edit Group[5]		???
-- [ ] Player Profile[6]		      G
+- [ ] Player Profile[6]		      Q
 - [ ] Search Screen[7]		      A
 - [ ] Inbox[8]			            C
 - [ ] Reset Password View[9]		G
@@ -13,6 +13,6 @@ Main Views
 
 Misc Components
 - [ ] General Navigation[A]		  ALL
-- [ ] Player Pop-up[B]		      G
+- [ ] Player Pop-up[B]		      Q
 - [ ] Filters[C]			          A
 - [ ] Message Pop-up[D]		      C
