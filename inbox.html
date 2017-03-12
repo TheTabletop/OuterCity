@@ -1,0 +1,44 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Inbox</title>
+	<link rel="stylesheet" href="css/styles.css?v=1.0">
+
+	<style>
+		.container {
+			/*clear: both;*/
+			/*display: block;*/
+			overflow-y: scroll;
+			height: 40%;
+			position: absolute;
+		}
+		.stack {
+			float: left;
+			height: 100%;
+			position: relative; 	/* reference point for children */
+		}
+
+	</style>
+</head>
+
+<body>
+	<!-- <script src="js/scripts.js"></script> -->
+	<div class="navigation"></div>
+	<div class="main_content">
+		<div class="stack">
+		<div class="clearfix" style="width:200px;">
+			<div class="container"></div>
+			<div class="container"></div>
+		</div>
+		</div>
+		<div class="stack" style="width:500px;">
+		<div class="clearfix">
+			<div class="container"></div>
+			<div class="container" style="min-height:50px; height: 10%; bottom:0;"></div>
+		</div>
+		</div>
+	</div>
+</body>
+</html>
