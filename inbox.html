@@ -4,41 +4,75 @@
 <head>
 	<meta charset="utf-8">
 	<title>Inbox</title>
-	<link rel="stylesheet" href="css/styles.css?v=1.0">
+	<link rel="stylesheet" href="css/styles.css">
 
 	<style>
+		div {
+			border: 1px solid black;
+			padding: 10px;
+		}
 		.container {
 			/*clear: both;*/
 			/*display: block;*/
-			overflow-y: scroll;
+			/*overflow-y: scroll;*/
 			height: 40%;
 			position: absolute;
 		}
-		.stack {
+		.contactBrowser {
 			float: left;
 			height: 100%;
 			position: relative; 	/* reference point for children */
 		}
 
+
 	</style>
 </head>
 
 <body>
-	<!-- <script src="js/scripts.js"></script> -->
-	<div class="navigation"></div>
-	<div class="main_content">
-		<div class="stack">
-		<div class="clearfix" style="width:200px;">
-			<div class="container"></div>
-			<div class="container"></div>
-		</div>
-		</div>
-		<div class="stack" style="width:500px;">
-		<div class="clearfix">
-			<div class="container"></div>
-			<div class="container" style="min-height:50px; height: 10%; bottom:0;"></div>
-		</div>
-		</div>
+	<!-- <div id="mySidenav" class="sidenav"> -->
+	  <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+	  <a href="#"><img class ="heroPic" src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg"/></a>
+	  <a href="#">Find</a>
+	  <div class="dropdown">
+	  <a href="#">Groups
+	  	<div class="dropdown-content">
+	  		<a href="#">Link 1</a>
+	    	<a href="#">Link 2</a>
+	    	<a href="#">Link 3</a>
+	   	</div>
+	  </div></a>
+	  <a href="#">Messages</a>
+	  <a href="#">Profile</a>
+	  <a href="#">Log Out</a>
+	  <a href="#">About</a>
+	  <a href="#">Contact Us</a> -->
+	<!-- </div> -->
+
+	<div id="main">
+
+	  <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Navigation</span> -->
+
+	  <div class="contactBrowser">
+		  <div class="container"></div>
+		  <div class="container"></div>
+	  </div>
+	  <!-- <div class="stack" style="width:500px;">
+		  <div class="container"></div>
+		  <div class="container" style="min-height:50px; height: 10%; bottom:0;"></div>
+	  </div> -->
 	</div>
+
+	<script>
+	function openNav() {
+	    document.getElementById("mySidenav").style.width = "250px";
+	    document.getElementById("main").style.marginLeft = "250px";
+	}
+
+	function closeNav() {
+	    document.getElementById("mySidenav").style.width = "0";
+	    document.getElementById("main").style.marginLeft= "0";
+	}
+	</script>
+
 </body>
 </html>
