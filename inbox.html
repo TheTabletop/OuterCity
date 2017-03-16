@@ -4,75 +4,197 @@
 <head>
 	<meta charset="utf-8">
 	<title>Inbox</title>
-	<link rel="stylesheet" href="css/styles.css">
+	<link rel="stylesheet" href="css/styles.css?v=1.0">
 
 	<style>
-		div {
-			border: 1px solid black;
-			padding: 10px;
+	a.inboxContact, a.inboxMessage {
+	    font-size: 20px;
+	    color: #aaa;
+		clear: both;
+		float: left;
+	}
+	a.inboxContact:hover, a.inboxMessage:hover {
+	    color: #555;
+	}
+	form {
+		margin: 0 auto;
+		margin-top: 20px;
+	}
+	label {
+		color: #555;
+		/*display: inline-block;*/
+		margin-left: 18px;
+		padding-top: 10px;
+		font-size: 14px;
+	}
+	input {
+	    font-family: "Helvetica Neue", Helvetica, sans-serif;
+	    font-size: 12px;
+	    outline: none;
+	}
+	input[type=text],
+	input[type=password] {
+	    color: #777;
+	    padding-left: 10px;
+	    margin: 10px;
+	    margin-top: 12px;
+	    /*margin-left: 18px;*/
+	    /*width: 290px;
+	    height: 35px;*/
+		width: auto;
+		border: 1px solid #c7d0d2;
+	    border-radius: 2px;
+	    box-shadow: inset 0 1.5px 3px rgba(190, 190, 190, .4), 0 0 0 5px #f5f7f8;
+	-webkit-transition: all .4s ease;
+	    -moz-transition: all .4s ease;
+	    transition: all .4s ease;
 		}
-		.container {
-			/*clear: both;*/
-			/*display: block;*/
-			/*overflow-y: scroll;*/
-			height: 40%;
-			position: absolute;
-		}
-		.contactBrowser {
-			float: left;
-			height: 100%;
-			position: relative; 	/* reference point for children */
-		}
+	input[type=text]:hover,
+	input[type=password]:hover {
+	    border: 1px solid #b6bfc0;
+	    box-shadow: inset 0 1.5px 3px rgba(190, 190, 190, .7), 0 0 0 5px #f5f7f8;
+	}
+	input[type=text]:focus,
+	input[type=password]:focus {
+	    border: 1px solid #a8c9e4;
+	    box-shadow: inset 0 1.5px 3px rgba(190, 190, 190, .4), 0 0 0 5px #e6f2f9;
+	}
 
+	#contactBrowser > *, #mailBrowser > *{
+		border: thin solid black;
+		border-radius: 3px;
+		border: 1px solid #ccc;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+	}
+
+
+
+	/*Allows a inboxContainer to wrap around its floated children*/
+	.clearfix:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+	.clearfix { display: inline-block; }
+	.inboxContainer {
+		margin: 1%;
+		padding: 1%;
+		/*clear: both;*/
+		/*display: block;*/
+		overflow-y: auto;
+		overflow-x: hidden;
+		/*height: 60%;*/
+		width: 96%;
+		position: absolute;
+		background-color: #fff;
+	}
+	#navIcon {
+		top: 0%;
+		left: 0%;
+		min-height: 5%;
+		max-height: 5%;
+		width: auto;
+		position: absolute; 	/* reference point for children */
+		/*background-color: gray;*/
+		border: none;
+		margin: 1%;
+		padding: .5%;
+		overflow: hidden;
+	}
+	#contactBrowser {
+		float: left;
+		top: 6%;
+		left: 2%;
+		min-width: 20%;
+		max-width: 20%;
+		height: 88%;
+		position: absolute; 	/* reference point for children */
+		/*background-color: #ecf2f5;*/
+		margin: 1%;
+	}
+	#mailBrowser {
+		float: left;
+		/*top: 15%;*/
+		top: 6%;
+		left: 25%;
+		min-width: 70%;
+		max-width: 70%;
+		height: 88%;
+		position: absolute; 	/* reference point for children */
+		background-color: #ecf2f5;
+		margin: 1%;
+	}
 
 	</style>
 </head>
 
 <body>
-	<!-- <div id="mySidenav" class="sidenav"> -->
-	  <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-	  <a href="#"><img class ="heroPic" src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg"/></a>
-	  <a href="#">Find</a>
-	  <div class="dropdown">
-	  <a href="#">Groups
-	  	<div class="dropdown-content">
-	  		<a href="#">Link 1</a>
-	    	<a href="#">Link 2</a>
-	    	<a href="#">Link 3</a>
-	   	</div>
-	  </div></a>
-	  <a href="#">Messages</a>
-	  <a href="#">Profile</a>
-	  <a href="#">Log Out</a>
-	  <a href="#">About</a>
-	  <a href="#">Contact Us</a> -->
-	<!-- </div> -->
+	<div id="mySidenav" class="sidenav">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+		<a href="#"><img class ="heroPic" src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg"/></a>
+		<a href="#">Find</a>
+		<div class="dropdown">
+		<a href="#">Groups
+			<div class="dropdown-content">
+				<a href="#">Link 1</a>
+			<a href="#">Link 2</a>
+			<a href="#">Link 3</a>
+			</div>
+		</div></a>
+		<a href="#">Messages</a>
+		<a href="#">Profile</a>
+		<a href="#">Log Out</a>
+		<a href="#">About</a>
+		<a href="#">Contact Us</a>
+	</div>
 
-	<div id="main">
+	<div id="main" class="clearfix">
+		<div id="navIcon">
+			<span style="font-size:30px;cursor:pointer;" onclick="openNav()">&#9776; Navigation</span>
+		</div>
+		<div id="contactBrowser" style="width:200px;">
+			<div class="inboxContainer"  style="top:0; min-height: 70%; max-height: 70%; background-color:none;">
+				<div> Recent </div>
+				<a href="#"  class="inboxContact"> [FIRSTNAME LASTNAME] </a>
+				<a href="#"  class="inboxContact"> [FIRSTNAME LASTNAME] </a>
+				<a href="#"  class="inboxContact"> [FIRSTNAME LASTNAME] </a>
+			</div>
+			<div class="inboxContainer" style="bottom:0; min-height: 20%; background-color:none;"></div>
+		</div>
+		<div id="mailBrowser">
+			<div class="inboxContainer"  style="top: 0; min-height:50%; max-height: 50%; background-color:none;">
+				<a href="#" class="inboxMessage" style="background-color:none;"> [FROM] [SUBJECT] [MESSAGE...] </a>
+				<a href="#" class="inboxMessage" style="background-color:none;"> [FROM] [SUBJECT] [MESSAGE...] </a>
+				<a href="#" class="inboxMessage" style="background-color:none;"> [FROM] [SUBJECT] [MESSAGE...] </a>
+			</div>
 
-	  <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Navigation</span> -->
-
-	  <div class="contactBrowser">
-		  <div class="container"></div>
-		  <div class="container"></div>
-	  </div>
-	  <!-- <div class="stack" style="width:500px;">
-		  <div class="container"></div>
-		  <div class="container" style="min-height:50px; height: 10%; bottom:0;"></div>
-	  </div> -->
+			<div class="inboxContainer" style="bottom:0; min-height:40%; max-height: 40%; background-color:none;">
+				<form>
+					<label for="msgRecipient">To</label>
+		            <input type="text" id="msgRecipient" name="msgRecipient" list="msgConstacts">
+					<datalist id="msgContacts">
+						<option value="fred@hotmail.com">
+					</datalist>
+					<label for="msgSubjecdt">Subject</label>
+		            <input type="text" id="msgSubject" name="msgSubject">
+					<textarea name="msgText", id="msgText">
+						Type a message...
+					</textarea>
+				</form>
+			</div>
+		</div>
 	</div>
 
 	<script>
 	function openNav() {
 	    document.getElementById("mySidenav").style.width = "250px";
-	    document.getElementById("main").style.marginLeft = "250px";
+	    // document.getElementById("main").style.marginLeft = "250px";
 	}
 
 	function closeNav() {
 	    document.getElementById("mySidenav").style.width = "0";
-	    document.getElementById("main").style.marginLeft= "0";
+	    // document.getElementById("main").style.marginLeft= "0";
 	}
 	</script>
-
 </body>
 </html>
