@@ -1,37 +1,17 @@
-## Welcome to GitHub Pages
+## README for Front End 
 
-You can use the [editor on GitHub](https://github.com/TheTabletop/OuterCity/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+For iteration 1 we hit our goal of getting down as much of the HTML and CSS we could 
+for the 11 views and 4 subviews that our design wishes to implement.  In this directory,
+we have static versions layouts for out Inbox, Player and Group Profile pages,
+the Search Screen, minor views like About Us and Contact Us, Login, and our Two-Stage Password recovery.  
+The directory also contains a stylesheet for universally used CSS styles, and a dynamic navigation
+bar that will be integrated into the majority of our pages (see Desgin Document for which in specific).  
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+As far as running the code, it probably is exceedingly obvious that all one need do is open the html
+page and one will be able to see our static (and in a few cases like our navbar, dynamic) views, such 
+as they are.  
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/TheTabletop/OuterCity/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+We waited to implement some of our more dynamic views that require a Angular and a functioning backend
+like the filters and message pop up (we want those to be animated pop-up screens), the Group Wall (filled
+with backend data), and the Edit pages (which rely on Angular to alter the data pulled from the DB).
+ 
