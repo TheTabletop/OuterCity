@@ -37,13 +37,13 @@
 
 #main {
     transition: margin-left .5s;
-	
+
 }
 
 .heroPic {
 	border-radius: 130px;
-	width:150px; 
-	
+	width:150px;
+
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -106,5 +106,7 @@ html, body {
 /* Login Screen Style */
 
 
-
-
+h2 {
+  font: "Helvetica Neue";
+  color: #444;
+}
