@@ -110,7 +110,7 @@
 	}
 	#contactBrowser {
 		float: left;
-		top: 6%;
+		top: 9%;
 		left: 2%;
 		min-width: 20%;
 		max-width: 20%;
@@ -160,9 +160,17 @@
 			<span style="font-size:30px;cursor:pointer;" onclick="openNav()">&#9776; Navigation</span>
 		</div>
 
+		<div id="contactSearch" style="position:absolute; top:7%; left:2%;">
+			<label for="msgRecipient" style="margin-left:0;"></label>
+			<input type="text" id="msgRecipient" name="msgRecipient" placeholder="search contacts"list="msgConstacts" size=15>
+			<datalist id="msgContacts">
+				<option value="fred@hotmail.com">
+			</datalist>
+		</div>
+
 
 		<div id="contactBrowser" style="width:200px;">
-			<div class="inboxContainer"  style="top:0; max-height: 70%; background-color:none;">
+			<div class="inboxContainer"  style="top:0; max-height: 50%; background-color:none;">
 				<p> Recent </p>
 				<div class="inboxContact"><a href="#"> Bilbo Baggins </a></div>
 				<div class="inboxContact"><a href="#"> Bilbo Baggins </a></div>
@@ -171,6 +179,12 @@
 				<div class="inboxContact"><a href="#"> Bilbo Baggins </a></div>
 				<div class="inboxContact"><a href="#"> Bilbo Baggins </a></div>
 				<div class="inboxContact"><a href="#"> Bilbo Baggins </a></div>
+				<div class="inboxContact"><a href="#"> Bilbo Baggins </a></div>
+				<div class="inboxContact"><a href="#"> Bilbo Baggins </a></div>
+				<div class="inboxContact"><a href="#"> Bilbo Baggins </a></div>
+				<div class="inboxContact"><a href="#"> Bilbo Baggins </a></div>
+			</div>
+			<div class="inboxContainer"  style="top:52%; max-height: 40%; background-color:none;">
 				<p> Groups </p>
 				<div class="inboxGroup"><a href="#"> Hobbits </a></div>
 				<div class="inboxGroup"><a href="#"> Hobbits </a></div>
