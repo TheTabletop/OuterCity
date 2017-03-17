@@ -215,17 +215,17 @@
 
 					<!-- Place where message recipient is entered -->
 					<label for="msgRecipient" style="margin-left:0;">To</label>
-					<input type="text" id="msgRecipient" name="msgRecipient" placeholder="Bilbo Baggins or bilbo@bagend.com"list="msgConstacts" size=35>
+					<input type="text" id="msgRecipient" name="msgRecipient" placeholder="Bilbo Baggins or bilbo@bagend.com"list="msgConstacts" size=35 required>
 					<datalist id="msgContacts">
 						<option value="fred@hotmail.com">
 					</datalist>
 
 					<!-- Place where message subject is entered -->
-					<input type="text" name="msgSubject" placeholder="Subject" size=45 style="margin-left:0;">
+					<input type="text" name="msgSubject" placeholder="Subject" size=45 style="margin-left:0;" required>
 
 					<!-- Place where message body is entered -->
 					<div id="msgEditor" style="bottom:0; min-width:98%;">
-						<textarea id="msgText" class="addBorder" name="msgText" placeholder="Message..."rows="8" style="width:98%;"></textarea>
+						<textarea id="msgText" class="addBorder" name="msgText" placeholder="Message..." rows="8" cols="82" required></textarea>
 					</div>
 
 					<input type="submit" value="Send">
