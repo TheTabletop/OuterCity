@@ -160,34 +160,39 @@
 			<span style="font-size:30px;cursor:pointer;" onclick="openNav()">&#9776; Navigation</span>
 		</div>
 
+		<!-- Place where user can find someone to contact -->
 		<div id="contactSearch" style="position:absolute; top:7%; left:2%;">
-			<!-- Place where user can find someone to contact -->
-			<label for="msgRecipient" style="margin-left:0;"></label>
-			<input type="text" id="msgRecipient" name="msgRecipient" placeholder="search contacts"list="msgConstacts" size=15>
-			<datalist id="msgContacts">
-				<option value="fred@hotmail.com">
-			</datalist>
+			<form>
+				<input type="text" name="searchContacts" placeholder="search contacts" size=15>
+				<!-- <datalist id="msgContacts">
+					<option value="fred@hotmail.com">
+				</datalist> -->
+				<input type="submit"
+       style="position: absolute; left: -9999px; width: 1px; height: 1px;"
+       tabindex="-1" />
+			</form>
 		</div>
 
 
 		<div id="contactBrowser">
+			<!-- List of people with whom there has been recent communication -->
 			<div class="inboxContainer"  style="top:0; max-height: 50%; background-color:none;">
-				<!-- List of people with whom there has been recent communication -->
 				<p> Recent </p>
-				<div class="inboxContact"><a href="#"><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>Frodo</a></div>
-				<div class="inboxContact"><a href="#"><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>Pippin</a></div>
-				<div class="inboxContact"><a href="#"><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>Mithrandir</a></div>
-				<div class="inboxContact"><a href="#"><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>Meriadoc</a></div>
-				<div class="inboxContact"><a href="#"><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>Legolas</a></div>
-				<div class="inboxContact"><a href="#"><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>Gimli</a></div>
-				<div class="inboxContact"><a href="#"><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>Faramir</a></div>
+				<div class="inboxContact"><a href="#"><div><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>Frodo</div></a></div>
+				<div class="inboxContact"><a href="#"><div><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>Frodo</div></a></div>
+				<div class="inboxContact"><a href="#"><div><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>Frodo</div></a></div>
+				<div class="inboxContact"><a href="#"><div><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>Frodo</div></a></div>
+				<div class="inboxContact"><a href="#"><div><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>Frodo</div></a></div>
+				<div class="inboxContact"><a href="#"><div><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>Frodo</div></a></div>
+				<div class="inboxContact"><a href="#"><div><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>Frodo</div></a></div>
+				<div class="inboxContact"><a href="#"><div><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>Frodo</div></a></div>
 			</div>
 			<div class="inboxContainer"  style="top:52%; max-height: 40%; background-color:none;">
 				<!-- List of Groups the user is a member of -->
 				<p> Groups </p>
-				<div class="inboxGroup"><a href="#"><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/> Hobbits </a></div>
-				<div class="inboxGroup"><a href="#"><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/> Orcs </a></div>
-				<div class="inboxGroup"><a href="#"><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/> Wizards </a></div>
+				<div class="inboxGroup"><a href="#"><div><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/> Hobbits </div></a></div>
+				<div class="inboxGroup"><a href="#"><div><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/> Hobbits </div></a></div>
+				<div class="inboxGroup"><a href="#"><div><img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="border-radius: 50%; width:40%;" alt="Bilbo Baggins"/> Hobbits </div></a></div>
 			</div>
 		</div>
 
@@ -225,7 +230,7 @@
 
 					<!-- Place where message body is entered -->
 					<div id="msgEditor" style="bottom:0; min-width:98%;">
-						<textarea id="msgText" class="addBorder" name="msgText" placeholder="Message..." rows="8" cols="82" required></textarea>
+						<textarea id="msgText" class="addBorder" name="msgText" placeholder="Message..." rows="8"  style="width:100%; max-width:98%;" required></textarea>
 					</div>
 
 					<input type="submit" value="Send">
