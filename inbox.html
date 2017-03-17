@@ -7,13 +7,23 @@
 	<link rel="stylesheet" href="css/styles.css?v=1.0">
 
 	<style>
-	a.inboxContact, a.inboxMessage {
+	a {
+		text-decoration: none;
+	}
+	.inboxContact, .inboxGroup {
+		padding: 5%;
+	}
+	.inboxContact > a, .inboxGroup >a {
+	    font-size: 15px;
+	    color: #aaa;
+	}
+	.inboxMessage > a{
 	    font-size: 20px;
 	    color: #aaa;
 		clear: both;
 		float: left;
 	}
-	a.inboxContact:hover, a.inboxMessage:hover {
+	.inboxContact > a:hover, .inboxGroup:hover > a, .inboxMessage:hover > a {
 	    color: #555;
 	}
 	form {
@@ -60,13 +70,13 @@
 	    box-shadow: inset 0 1.5px 3px rgba(190, 190, 190, .4), 0 0 0 5px #e6f2f9;
 	}
 
-	#contactBrowser > *, #mailBrowser > *{
+	/*#contactBrowser, #mailBrowser, #inboxContainer,*/
+	.addBorder, .inboxMessage, .inboxContact, .inboxGroup {
 		border: thin solid black;
 		border-radius: 3px;
 		border: 1px solid #ccc;
 		box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
 	}
-
 
 
 	/*Allows a inboxContainer to wrap around its floated children*/
@@ -79,14 +89,10 @@
 	.inboxContainer {
 		margin: 1%;
 		padding: 1%;
-		/*clear: both;*/
-		/*display: block;*/
+		width: 96%;
 		overflow-y: auto;
 		overflow-x: hidden;
-		/*height: 60%;*/
-		width: 96%;
 		position: absolute;
-		background-color: #fff;
 	}
 	#navIcon {
 		top: 0%;
@@ -121,7 +127,7 @@
 		max-width: 70%;
 		height: 88%;
 		position: absolute; 	/* reference point for children */
-		background-color: #ecf2f5;
+		/*background-color: #ecf2f5;*/
 		margin: 1%;
 	}
 
@@ -152,35 +158,67 @@
 		<div id="navIcon">
 			<span style="font-size:30px;cursor:pointer;" onclick="openNav()">&#9776; Navigation</span>
 		</div>
+
+
 		<div id="contactBrowser" style="width:200px;">
 			<div class="inboxContainer"  style="top:0; min-height: 70%; max-height: 70%; background-color:none;">
-				<div> Recent </div>
-				<a href="#"  class="inboxContact"> [FIRSTNAME LASTNAME] </a>
-				<a href="#"  class="inboxContact"> [FIRSTNAME LASTNAME] </a>
-				<a href="#"  class="inboxContact"> [FIRSTNAME LASTNAME] </a>
+				<p> Recent </p>
+				<div class="inboxContact"><a href="#"> Bilbo Baggins </a></div>
+				<div class="inboxContact"><a href="#"> Bilbo Baggins </a></div>
+				<div class="inboxContact"><a href="#"> Bilbo Baggins </a></div>
+				<div class="inboxContact"><a href="#"> Bilbo Baggins </a></div>
+				<div class="inboxContact"><a href="#"> Bilbo Baggins </a></div>
+				<div class="inboxContact"><a href="#"> Bilbo Baggins </a></div>
+				<div class="inboxContact"><a href="#"> Bilbo Baggins </a></div>
+				<p> Groups </p>
+				<div class="inboxGroup"><a href="#"> Hobbits </a></div>
+				<div class="inboxGroup"><a href="#"> Hobbits </a></div>
+				<div class="inboxGroup"><a href="#"> Hobbits </a></div>
 			</div>
-			<div class="inboxContainer" style="bottom:0; min-height: 20%; background-color:none;"></div>
 		</div>
-		<div id="mailBrowser">
-			<div class="inboxContainer"  style="top: 0; min-height:50%; max-height: 50%; background-color:none;">
-				<a href="#" class="inboxMessage" style="background-color:none;"> [FROM] [SUBJECT] [MESSAGE...] </a>
-				<a href="#" class="inboxMessage" style="background-color:none;"> [FROM] [SUBJECT] [MESSAGE...] </a>
-				<a href="#" class="inboxMessage" style="background-color:none;"> [FROM] [SUBJECT] [MESSAGE...] </a>
+
+
+		<div id="mailBrowser" >
+			<div id="messageHistory" class="inboxContainer"  style="top: 0; min-height:50%; max-height: 50%;">
+				<h2> Messages </h2>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
 			</div>
 
-			<div class="inboxContainer" style="bottom:0; min-height:40%; max-height: 40%; background-color:none;">
-				<form>
-					<label for="msgRecipient">To</label>
-		            <input type="text" id="msgRecipient" name="msgRecipient" list="msgConstacts">
-					<datalist id="msgContacts">
-						<option value="fred@hotmail.com">
-					</datalist>
-					<label for="msgSubjecdt">Subject</label>
-		            <input type="text" id="msgSubject" name="msgSubject">
-					<textarea name="msgText", id="msgText">
-						Type a message...
-					</textarea>
+			<div id="newMessage" class="inboxContainer" style="bottom:0; min-height:40%; max-height: 40%;">
+				<h2> New message </h2>
+				<form class="addBorder" style="padding:2%; background-color:#fff;">
+					<div id="msgRecipient">
+						<label for="msgRecipient">To</label>
+			            <input type="text" id="msgRecipient" name="msgRecipient" list="msgConstacts" style="left:10%;">
+						<datalist id="msgContacts">
+							<option value="fred@hotmail.com">
+						</datalist>
+					</div>
+
+					<div id="msgSubject">
+						<label for="msgSubject">Subject</label>
+		            	<input type="text" name="msgSubject" style="left:10%;">
+					</div>
+
+					<div id="msgEditor" style="bottom:0; min-width:98%">
+						<textarea id="msgText" name="msgText">
+							Type a message...
+						</textarea>
+					</div>
+
+					<input type="submit" value="Send">
 				</form>
+
 			</div>
 		</div>
 	</div>
@@ -188,12 +226,12 @@
 	<script>
 	function openNav() {
 	    document.getElementById("mySidenav").style.width = "250px";
-	    // document.getElementById("main").style.marginLeft = "250px";
+	    document.getElementById("main").style.marginLeft = "250px";
 	}
 
 	function closeNav() {
 	    document.getElementById("mySidenav").style.width = "0";
-	    // document.getElementById("main").style.marginLeft= "0";
+	    document.getElementById("main").style.marginLeft= "0";
 	}
 	</script>
 </body>
