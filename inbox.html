@@ -18,13 +18,14 @@
 	    font-size: 15px;
 	    color: #aaa;
 	}
-	.inboxMessage > a{
+	.messageSender, .messageExcerpt, .messageDate{
 	    font-size: 20px;
 	    color: #aaa;
-		clear: both;
-		float: left;
+		/*clear: both;*/
+		/*float: left;*/
+		display: inline-block;
 	}
-	.inboxContact > a:hover, .inboxGroup:hover > a, .inboxMessage:hover > a {
+	.inboxContact > a:hover, .inboxGroup:hover > a, .inboxMessage:hover .messageSender, .inboxMessage:hover .messageExcerpt, .inboxMessage:hover .messageDate {
 	    color: #555;
 	}
 	form {
@@ -200,17 +201,60 @@
 			<!-- List of messages sent to the user -->
 			<div id="messageHistory" class="inboxContainer"  style="top: 0; min-height:50%; max-height: 50%;">
 				<h2> Messages </h2>
-				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
-				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
-				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
-				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
-				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
-				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
-				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
-				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
-				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
-				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
-				<div class="inboxMessage clearfix" style="width:98%; padding:1%; background-color:#fff;"><a href="#"> Frodo <b>Traveling</b> - Gotta go take care of this thing ... [Mar. 15]</a></div>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;">
+					<a href="#">
+						<div>
+							<div class="messageSender"><b>Frodo</b></div>
+							<div class="messageExcerpt">- Gotta go take care of this thing ...</div>
+							<div class="messageDate" style="float:right">[Mar. 15]</div>
+						</div>
+					</a>
+				</div>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;">
+					<a href="#">
+						<div>
+							<div class="messageSender"><b>Frodo</b></div>
+							<div class="messageExcerpt">- Gotta go take care of this thing ...</div>
+							<div class="messageDate" style="float:right">[Mar. 15]</div>
+						</div>
+					</a>
+				</div>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;">
+					<a href="#">
+						<div>
+							<div class="messageSender"><b>Frodo</b></div>
+							<div class="messageExcerpt">- Gotta go take care of this thing ...</div>
+							<div class="messageDate" style="float:right">[Mar. 15]</div>
+						</div>
+					</a>
+				</div>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;">
+					<a href="#">
+						<div>
+							<div class="messageSender"><b>Frodo</b></div>
+							<div class="messageExcerpt">- Gotta go take care of this thing ...</div>
+							<div class="messageDate" style="float:right">[Mar. 15]</div>
+						</div>
+					</a>
+				</div>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;">
+					<a href="#">
+						<div>
+							<div class="messageSender"><b>Frodo</b></div>
+							<div class="messageExcerpt">- Gotta go take care of this thing ...</div>
+							<div class="messageDate" style="float:right">[Mar. 15]</div>
+						</div>
+					</a>
+				</div>
+				<div class="inboxMessage clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;">
+					<a href="#">
+						<div>
+							<div class="messageSender"><b>Frodo</b></div>
+							<div class="messageExcerpt">- Gotta go take care of this thing ...</div>
+							<div class="messageDate" style="float:right">[Mar. 15]</div>
+						</div>
+					</a>
+				</div>
 			</div>
 
 			<div id="newMessage" class="inboxContainer" style="bottom:-5%; max-height: 45%;">
