@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="Roll4Guild">
 <head>
 
-<link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="../../styles/css/styles.css">
 
 <style>
 body {
@@ -71,7 +71,31 @@ th, td {
 }
 </style>
 </head>
-<body>
+<body ng-controller="groupProfCtrl">
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="userProfile.html"><img class ="heroPic" src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg"/></a>
+  <a href="searchScreen.html">Find</a>
+  <div class="dropdown">
+    <a href="#">Groups
+      <div class="dropdown-content">
+        <a href="#">Link 1</a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
+      </div>
+    </a></div>
+  <a href="inbox.html">Messages</a>
+  <a href="userProfile.html">Profile</a>
+  <a href="../../index.html">Log Out</a>
+  <a href="aboutUs.html">About</a>
+  <a href="contactUs.html">Contact Us</a>
+</div>
+
+<div id="main">
+
+  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Navigation</span>
+
 <h1>[NAME_VALUE]</h1>
 <img src="groupPhoto.jpg" alt= "Group Photo" width="256" height="256">
 
@@ -108,9 +132,21 @@ th, td {
 </table>
 
 
-<button class="button button1">View Full Profile</button>
-<button class="button button2">Message Group</button>
-<button class="button button3">Request to Join</button>
+  <button class="button button1" onclick="location.href='components/views/groupWall.html'">View Full Profile</button>
+  <button class="button button2" onclick="location.href='components/views/inbox.html'">Message</button>
+  <button class="button button3" onclick="">Invite to Group</button>
+</div>
 
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft= "0";
+    }
+</script>
 </body>
 </html>

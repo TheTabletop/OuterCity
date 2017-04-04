@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="en">
+<html lang="en" ng-app="Roll4Guild">
 <head>
 	<meta charset="utf-8">
 	<title>Inbox</title>
@@ -128,11 +128,11 @@
 	</style>
 </head>
 
-<body>
+<body ng-controller="inboxCtrl">
 	<div id="mySidenav" class="sidenav">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-		<a href="#"><img class ="heroPic" src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg"/></a>
-		<a href="#">Find</a>
+		<a href="userProfile.html"><img class ="heroPic" src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg"/></a>
+		<a href="searchScreen.html">Find</a>
 		<div class="dropdown">
 		<a href="#">Groups
 			<div class="dropdown-content">
@@ -140,12 +140,12 @@
 			<a href="#">Link 2</a>
 			<a href="#">Link 3</a>
 			</div>
-		</div></a>
-		<a href="#">Messages</a>
-		<a href="#">Profile</a>
-		<a href="#">Log Out</a>
-		<a href="#">About</a>
-		<a href="#">Contact Us</a>
+		</a></div>
+		<a href="inbox.html">Messages</a>
+		<a href="userProfile.html">Profile</a>
+		<a href="../../index.html">Log Out</a>
+		<a href="aboutUs.html">About</a>
+		<a href="contactUs.html">Contact Us</a>
 	</div>
 
 	<div id="main" class="clearfix">

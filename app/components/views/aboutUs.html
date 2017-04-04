@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="Roll4Guild">
+<head>
+<title>Roll4Guild</title>
+<link rel="stylesheet" href="../../styles/css/styles.css">
+
+<style>
+body {
+
+}
+h1 {
+   
+}
+
+</style>
+</head>
+<body ng-controller="aboutCtrl">
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#"><img class ="heroPic" src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg"/></a>
+    <a href="#">Find</a>
+    <div class="dropdown">
+        <a href="#">Groups
+            <div class="dropdown-content">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+            </div>
+    </a></div>
+    <a href="#">Messages</a>
+    <a href="#">Profile</a>
+    <a href="#">Log Out</a>
+    <a href="aboutUs.html">About</a>
+    <a href="contactUs.html">Contact Us</a>
+</div>
+
+<div id="main">
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Navigation</span>
+    <h1>About Us</h1>
+    <p>    Initially formed for a small software engineering project, the Tabletop team is a small group of dedicated programmers working to ensure that fewer people undergo the frustration of finding a local group to play tabletop games with.</p>
+    <p><b>Individual bios/pictures?</b> Seems a bit overboard until we take off.</p>
+
+
+</div>
+
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft= "0";
+    }
+</script>
+
+</body>
+</html>
