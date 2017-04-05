@@ -6,6 +6,10 @@
 	<title>Inbox</title>
 	<link rel="stylesheet" href="../../styles/css/styles.css">
 
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+	<script src="../../scripts/app.js"></script>
+
 	<style>
 	a {
 		text-decoration: none;
@@ -30,12 +34,12 @@
 	}
 
 	/*Allows an element to wrap around its floated children*/
-	/*.clearfix:after {
+	.clearfix:after {
 		content: "";
 		display: table;
 		clear: both;
 	}
-	.clearfix { display: inline-block; }*/
+	.clearfix { display: inline-block; }
 	.inboxContainer {
 		margin: 1%;
 		padding: 1%;
@@ -235,80 +239,8 @@
 				<div class="inboxMessage roundBorder clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;">
 					<a href="#">
 						<div>
-							<div class="messageSender"><b>Frodo</b></div>
-							<div class="messageExcerpt">- Gotta go take care of this thing ...</div>
-							<div class="messageDate" style="float:right">[Mar. 15]</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxMessage roundBorder clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;">
-					<a href="#">
-						<div>
-							<div class="messageSender"><b>Frodo</b></div>
-							<div class="messageExcerpt">- Gotta go take care of this thing ...</div>
-							<div class="messageDate" style="float:right">[Mar. 15]</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxMessage roundBorder clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;">
-					<a href="#">
-						<div>
-							<div class="messageSender"><b>Frodo</b></div>
-							<div class="messageExcerpt">- Gotta go take care of this thing ...</div>
-							<div class="messageDate" style="float:right">[Mar. 15]</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxMessage roundBorder clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;">
-					<a href="#">
-						<div>
-							<div class="messageSender"><b>Frodo</b></div>
-							<div class="messageExcerpt">- Gotta go take care of this thing ...</div>
-							<div class="messageDate" style="float:right">[Mar. 15]</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxMessage roundBorder clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;">
-					<a href="#">
-						<div>
-							<div class="messageSender"><b>Frodo</b></div>
-							<div class="messageExcerpt">- Gotta go take care of this thing ...</div>
-							<div class="messageDate" style="float:right">[Mar. 15]</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxMessage roundBorder clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;">
-					<a href="#">
-						<div>
-							<div class="messageSender"><b>Frodo</b></div>
-							<div class="messageExcerpt">- Gotta go take care of this thing ...</div>
-							<div class="messageDate" style="float:right">[Mar. 15]</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxMessage roundBorder clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;">
-					<a href="#">
-						<div>
-							<div class="messageSender"><b>Frodo</b></div>
-							<div class="messageExcerpt">- Gotta go take care of this thing ...</div>
-							<div class="messageDate" style="float:right">[Mar. 15]</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxMessage roundBorder clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;">
-					<a href="#">
-						<div>
-							<div class="messageSender"><b>Frodo</b></div>
-							<div class="messageExcerpt">- Gotta go take care of this thing ...</div>
-							<div class="messageDate" style="float:right">[Mar. 15]</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxMessage roundBorder clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;">
-					<a href="#">
-						<div>
-							<div class="messageSender"><b>Frodo</b></div>
-							<div class="messageExcerpt">- Gotta go take care of this thing ...</div>
+							<div class="messageSender"><b>{{name}}</b></div>
+							<div class="messageExcerpt">- msgbody ...</div>
 							<div class="messageDate" style="float:right">[Mar. 15]</div>
 						</div>
 					</a>
