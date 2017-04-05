@@ -37,6 +37,13 @@ Roll4Guild
     .controller('inboxCtrl', function($scope, $routeParams) {
         $scope.name = 'inboxCtrl';
         $scope.params = $routeParams;
+		$scope.findPigeons = function(){
+			alert();
+		}
+		$scope.messages=[
+			{messageSender:"Frodo"},
+			{messageSender:"Pippin"}
+		];
     })
     .controller('userWallCtrl', function($scope, $routeParams) {
         $scope.name = 'userWallCtrl';
