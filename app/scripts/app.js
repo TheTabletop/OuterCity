@@ -3,50 +3,7 @@
 // Defining Angular app model with all other dependent modules
 var Roll4Guild = angular.module('Roll4Guild',["ngRoute"]);
 
-Roll4Guild.config(function($routeProvider, $locationProvider) {
-    $routeProvider
-        .when('components/views/aboutUs', {
-            templateUrl: '/components/views/aboutUs.html',
-            controller: 'aboutCtrl'
-        })
-        .when('components/views/contactUs', {
-            templateUrl: '/components/views/contactUs.html',
-            controller: 'contactCtrl'
-        })
-        .when('components/views/editProfile', {
-            templateUrl: '/components/views/editProfile.html',
-            controller: 'editProfCtrl'
-        })
-        .when('components/views/groupProfile', {
-            templateUrl: '/components/views/groupProfile.html',
-            controller: 'groupProfCtrl'
-        })
-        .when('components/views/groupWall', {
-            templateUrl: '/components/views/groupWall.html',
-            controller: 'groupWallCtrl'
-        })
-        .when('components/views/resetPasswordNew', {
-            templateUrl: '/components/views/restPasswordNew.html',
-            controller: 'passNewCtrl'
-        })
-        .when('components/views/resetPasswordVerify', {
-            templateUrl: '/components/views/resetPasswordVerify.html',
-            controller: 'passVerCtrl'
-        })
-        .when('components/views/searchScreen', {
-            templateUrl: '/components/views/searchScreen.html',
-            controller: 'aboutCtrl'
-        })
-        .when('components/views/userProfile', {
-            templateUrl: '/components/views/userProfile.html',
-            controller: 'userProfCtrl'
-        })
-        .when('components/views/userWall', {
-            templateUrl: '/components/views/userWall.html',
-            controller: 'userWallCtrl'
-        })
-})
-
+Roll4Guild
     .controller('loginCtrl', function($scope, $route, $routeParams, $location) {
         $scope.$route = $route;
         $scope.$location = $location;
