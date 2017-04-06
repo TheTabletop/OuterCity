@@ -84,8 +84,11 @@ th, td {
 </style>
 </head>
 <body ng-controller="userProfCtrl">
-<div id="includedContent"></div>
 <div data-ng-init="init()"></div>
+
+
+<div id="includedContent"></div>
+
 
 
 
@@ -98,15 +101,15 @@ th, td {
 <table>
   <tr>
     <td>Location:</td>
-    <td>[USER_ZIP]</td>
+    <td>Tatooine</td>
   </tr>
   <tr>
     <td>Games Played:</td>
-    <td>[GAMES_LIST_VALUE0]<br>[GAMES_LIST_VALUE1]<br>[GAMES_LIST_VALUE2]...</td>
+    <td>{{details.Genre}}<br>Pathfinder<br>Dungeons and Dragons 5th Ed.</td>
   </tr>
   <tr>
     <td>Groups:</td>
-    <td>[GROUPS_VALUE1]<br>[GROUPS_VALUE2]...</td>
+    <td>{{details.Production}}<br>The Skywalkers</td>
     <!--Eventually gonna link to the groups-->
   </tr>
 </table>

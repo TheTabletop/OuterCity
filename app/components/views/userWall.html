@@ -32,6 +32,7 @@ p {
 }
 
 
+
 .center {
     text-align: center;
     color: black;
@@ -41,16 +42,10 @@ p {
     width: 100%;
 }
 
-.right {
-    position: absolute;
-    right: 0px;
-    width: 256px;
-    background-color: grey;
-}
-
 </style>
 </head>
 <body ng-controller="userWallCtrl">
+<div data-ng-init="init()"></div>
 <div id="includedContent"></div>
 
 
@@ -59,22 +54,26 @@ p {
 <span ng-controller="navCtrl" style="font-size:30px;cursor:pointer" ng-click="openNav()">&#9776; Navigation</span>
 
 <div class="center">
-  <h1>[USER_NAME]</h1>
+  <h1>Gunnar Sroka</h1>
 </div>
 
 
 <div class="container">
-  <div class="right">
-    <img src="userPhoto.jpg" alt= "User Photo" width="256" height="256">
+  <div class="center">
+    <img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" alt= "User Photo" width="256" height="256">
   </div>
 </div>
 
-<p style="text-align:center">[GAMES: ]</p>
+  <div class="container">
+    <div class="center">
+      <h3>Games:</h3>
+      <h4>Dungeons and Dragons 3.5 Ed.</h4>
+    </div>
+  </div>
 
-<p>bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio bio </p>
-
+<h3>Bio</h3>
+<p>Smasher of Guitars, Writer of Scripts</p>
 </div>
-
 
 
 </body>
