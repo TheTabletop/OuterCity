@@ -235,13 +235,13 @@
 		<div id="mailBrowser">
 			<!-- List of messages sent to the user -->
 			<div id="messageHistory" class="inboxContainer"  style="top: 0; min-height:50%; max-height: 50%;">
-				<h2> Messages </h2>
-				<div class="inboxMessage roundBorder clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;">
+				<h2> {{ listNames() }} </h2>
+				<div class="inboxMessage roundBorder clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;" ng-repeat="msg in messages" ng-click="findPigeons()">
 					<a href="#">
 						<div>
-							<div class="messageSender"><b>{{name}}</b></div>
-							<div class="messageExcerpt">- msgbody ...</div>
-							<div class="messageDate" style="float:right">[Mar. 15]</div>
+							<div class="messageSender">{{msg.sender}}</div>
+							<div class="messageExcerpt">{{msg.body}}</div>
+							<div class="messageDate" style="float:right">{{msg.date}}</div>
 						</div>
 					</a>
 				</div>
@@ -253,9 +253,9 @@
 
 					<!-- Place where message recipient is entered -->
 					<label for="msgRecipient" style="margin-left:0;">To</label>
-					<input id="msgRecipient" type="text" name="msgRecipient" placeholder="Bilbo Baggins or bilbo@bagend.com"list="msgConstacts" style="width:90%;" required>
+					<input class="msgRecipient" type="text" name="msgRecipient" ng-model="recipient" placeholder="Bilbo Baggins" list="msgConstacts" style="width:90%;" required>
 					<datalist id="msgContacts">
-						<option value="fred@hotmail.com">
+						<option ng-repeat="contact in contacts" value="{{contact.name}}">
 					</datalist>
 
 					<!-- Place where message subject is entered -->
