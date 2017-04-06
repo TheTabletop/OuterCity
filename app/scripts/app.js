@@ -18,9 +18,21 @@ Roll4Guild
         $scope.name = 'contactCtrl';
         $scope.params = $routeParams;
     })
-    .controller('userProfCtrl', function($scope, $routeParams) {
+    .controller('userProfCtrl', function($scope, $routeParams, $http) {
         $scope.name = 'userProfCtrl';
         $scope.params = $routeParams;
+
+        $scope.init = function () {
+            $http.get("http://www.omdbapi.com/?t=Star+Wars")
+                .then(function successCallback(response){
+                    $scope.details = response.data;
+
+                }, function errorCallback(response){
+                    console.log("Unable to perform get request");
+                });
+        };
+
+
     })
     .controller('searchCtrl', function($scope, $routeParams) {
         $scope.name = 'searchCtrl';
@@ -38,20 +50,11 @@ Roll4Guild
         $scope.name = 'inboxCtrl';
         $scope.params = $routeParams;
 		$scope.findPigeons = function(){
-			console.log("lkjdsf");
-		}
-		$scope.conversation=['Frodo', 'Gimli'];
-		$scope.listNames = function(){
-			return $scope.conversation.join(', ');
+			alert();
 		}
 		$scope.messages=[
-			{sender:'Frodo', body:'Over hill and under tree', date:'Mar. 15'},
-			{sender:'Legolas', body:'They\'re taking the hobbits to Isengard!', date:'Mar. 19'},
-			{sender:'Gimli', body:'Salted pork!!!', date:'Mar. 17'},
-		];
-		$scope.contacts=[
-			{name:'Frodo', uhid:'3708473'},
-			{name:'Legolas', uhid:'0847545'},
+			{messageSender:"Frodo"},
+			{messageSender:"Pippin"}
 		];
     })
     .controller('userWallCtrl', function($scope, $routeParams) {
