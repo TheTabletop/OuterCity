@@ -38,20 +38,29 @@ Roll4Guild
         $scope.name = 'inboxCtrl';
         $scope.params = $routeParams;
 		$scope.findPigeons = function(){
-			console.log("lkjdsf");
 		}
-		$scope.conversation=['Frodo', 'Gimli'];
+		$scope.init = function(){
+			$scope.conversation = ['Frodo'];
+			// $scope.conversation = getConversations(['Frodo'])[0];
+		}
+		$scope.getConversations = function(conversants){
+			
+		}
+		// $scope.conversation=['Frodo', 'Gimli'];
 		$scope.listNames = function(){
 			return $scope.conversation.join(', ');
 		}
 		$scope.messages=[
 			{sender:'Frodo', body:'Over hill and under tree', date:'Mar. 15'},
-			{sender:'Legolas', body:'They\'re taking the hobbits to Isengard!', date:'Mar. 19'},
 			{sender:'Gimli', body:'Salted pork!!!', date:'Mar. 17'},
+			{sender:'Gandalf', body:'Follow your nose', date:'Mar. 17'},
+			{sender:'Legolas', body:'They\'re taking the hobbits to Isengard!', date:'Mar. 19'},
 		];
 		$scope.contacts=[
-			{name:'Frodo', uhid:'3708473'},
-			{name:'Legolas', uhid:'0847545'},
+			{name:'Frodo', uhid:'000'},
+			{name:'Legolas', uhid:'001'},
+			{name:'Gimli', uhid:'002'},
+			{name:'Gandalf', uhid:'003'},
 		];
     })
     .controller('userWallCtrl', function($scope, $routeParams) {

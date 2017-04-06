@@ -76,6 +76,7 @@
 </head>
 
 <body ng-controller="inboxCtrl">
+	<div ng-init="init()"></div>
 	<div id="mySidenav" class="sidenav">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 		<a href="userProfile.html"><img class ="heroPic" src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg"/></a>
@@ -104,13 +105,10 @@
 			<!-- Place where user can find someone to contact -->
 			<div id="contactSearch" class="inboxContainer" style="position:absolute; top:0%; max-height:10%; overflow:hidden;">
 				<form>
-					<input type="text" name="searchContacts" placeholder="search contacts" style="width:85%;">
-					<!-- <datalist id="msgContacts">
-					<option value="fred@hotmail.com">
-					</datalist> -->
-					<input type="submit"
-					style="position: absolute; left: -9999px; width: 1px; height: 1px;"
-					tabindex="-1" />
+					<input type="text" list="contactsList" placeholder="search contacts" style="width:85%;" ng-model="name" ng-keypress="($event.charCode==13)? init(name) : return"/>
+					<datalist id="contactsList">
+						<option ng-repeat="contact in contacts" value="{{contact.name}}">
+					</datalist>
 				</form>
 			</div>
 
@@ -248,19 +246,7 @@
 			</div>
 
 			<div id="newMessage" class="inboxContainer" style="bottom:-5%; max-height: 45%;">
-				<h2> New message </h2>
 				<form class="roundBorder" style="padding:2%; background-color:#fff;">
-
-					<!-- Place where message recipient is entered -->
-					<label for="msgRecipient" style="margin-left:0;">To</label>
-					<input class="msgRecipient" type="text" name="msgRecipient" ng-model="recipient" placeholder="Bilbo Baggins" list="msgConstacts" style="width:90%;" required>
-					<datalist id="msgContacts">
-						<option ng-repeat="contact in contacts" value="{{contact.name}}">
-					</datalist>
-
-					<!-- Place where message subject is entered -->
-					<!-- <input type="text" name="msgSubject" placeholder="Subject" size=45 style="margin-left:0;" required> -->
-
 					<!-- Place where message body is entered -->
 					<div id="msgEditor" style="bottom:0; margin-top:1%; min-width:98%;">
 						<textarea id="msgText" class="roundBorder" name="msgText" placeholder="Message..." rows="8"  style="width:100%; max-width:98%;" required></textarea>
