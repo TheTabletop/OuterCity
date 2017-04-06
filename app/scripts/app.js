@@ -18,9 +18,21 @@ Roll4Guild
         $scope.name = 'contactCtrl';
         $scope.params = $routeParams;
     })
-    .controller('userProfCtrl', function($scope, $routeParams) {
+    .controller('userProfCtrl', function($scope, $routeParams, $http) {
         $scope.name = 'userProfCtrl';
         $scope.params = $routeParams;
+
+        $scope.init = function () {
+            $http.get("http://www.omdbapi.com/?t=Star+Wars")
+                .then(function successCallback(response){
+                    $scope.details = response.data;
+
+                }, function errorCallback(response){
+                    console.log("Unable to perform get request");
+                });
+        };
+
+
     })
     .controller('searchCtrl', function($scope, $routeParams) {
         $scope.name = 'searchCtrl';
@@ -44,7 +56,7 @@ Roll4Guild
 			// $scope.conversation = getConversations(['Frodo'])[0];
 		}
 		$scope.getConversations = function(conversants){
-			
+
 		}
 		// $scope.conversation=['Frodo', 'Gimli'];
 		$scope.listNames = function(){

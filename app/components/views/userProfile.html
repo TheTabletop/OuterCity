@@ -78,6 +78,7 @@ th, td {
 </style>
 </head>
 <body ng-controller="userProfCtrl">
+<div data-ng-init="init()"></div>
 
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -101,8 +102,8 @@ th, td {
 <div id="main">
 <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Navigation</span>
 
-<h1>[NAME_VALUE]</h1>
-<img src="groupPhoto.jpg" alt= "User Photo" width="256" height="256">
+<h1>{{details.Title}}</h1>
+<img ng-src="{{ details.Poster=='N/A' ? 'http://placehold.it/150x220&text=N/A' : details.Poster }}">
 
 <table>
   <tr>
@@ -121,12 +122,14 @@ th, td {
 </table>
 
 <h1>Bio:</h1>
-<p>[USER_BIO]</p>
+<p>{{details.Plot}}</p>
 
 
 <button class="button button1" onclick="location.href='userWall.html'">View Full Profile</button>
 <button class="button button2" onclick="location.href='inbox.html'">Message</button>
-<button class="button button3" onclick="">Invite to Group</button>
+<button class="button button3" ng-click="">Invite to Group</button>
+
+
 </div>
 <script>
     function openNav() {
