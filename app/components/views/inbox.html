@@ -54,19 +54,20 @@
 		left: 2%;
 		min-width: 20%;
 		max-width: 20%;
-		height: 88%;
+		height: 88vh;
 		position: absolute; 	/* reference point for children */
 		/*background-color: #ecf2f5;*/
 		/*margin: 1%;*/
 	}
 	#mailBrowser {
-		float: left;
+		/*float: left;*/
 		/*top: 15%;*/
-		top: 6%;
+		/*top: 6%;*/
+		bottom: 5%;
 		left: 25%;
 		min-width: 70%;
 		max-width: 70%;
-		height: 88%;
+		/*height: 88vh;*/
 		position: absolute; 	/* reference point for children */
 		/*background-color: #ecf2f5;*/
 		/*margin: 1%;*/
@@ -103,7 +104,7 @@
 
 		<div id="contactBrowser">
 			<!-- Place where user can find someone to contact -->
-			<div id="contactSearch" class="inboxContainer" style="position:absolute; top:0%; max-height:10%; overflow:hidden;">
+			<div id="contactSearch" class="inboxContainer" style="position:absolute; top:0%; max-height:10vh; overflow:hidden;">
 				<form>
 					<input type="text" list="contactsList" placeholder="search contacts" style="width:85%;" ng-model="name" ng-keypress="($event.charCode==13)? init(name) : return"/>
 					<datalist id="contactsList">
@@ -113,7 +114,7 @@
 			</div>
 
 			<!-- List of people with whom there has been recent communication -->
-			<div id="inboxContacts" class="inboxContainer"  style="top:5%; max-height: 50%; background-color:none;">
+			<div id="inboxContacts" class="inboxContainer"  style="top:5%; max-height:50vh; background-color:none;">
 				<h2> Recent </h2>
 				<div class="inboxContact clearfix">
 					<a href="#">
@@ -121,7 +122,7 @@
 							<div style="margin:">
 								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
 							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50%; margin:5%;">
+							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
 								<h3>Bilbo Baggins</h3>
 							</div>
 						</div>
@@ -133,7 +134,7 @@
 							<div style="margin:">
 								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
 							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50%; margin:5%;">
+							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
 								<h3>Bilbo Baggins</h3>
 							</div>
 						</div>
@@ -145,7 +146,7 @@
 							<div style="margin:">
 								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
 							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50%; margin:5%;">
+							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
 								<h3>Bilbo Baggins</h3>
 							</div>
 						</div>
@@ -157,14 +158,14 @@
 							<div style="margin:">
 								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
 							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50%; margin:5%;">
+							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
 								<h3>Bilbo Baggins</h3>
 							</div>
 						</div>
 					</a>
 				</div>
 			</div>
-			<div id="inboxGroups" class="inboxContainer"  style="top:60%; max-height: 40%; background-color:none;">
+			<div id="inboxGroups" class="inboxContainer"  style="top:62%; max-height:30vh; background-color:none;">
 				<!-- List of Groups the user is a member of -->
 				<h2> Groups </h2>
 				<div class="inboxGroup clearfix">
@@ -173,7 +174,7 @@
 							<div style="margin:">
 								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
 							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50%; margin:5%;">
+							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
 							<h3>Circle of Elrond</h3>
 							</div>
 						</div>
@@ -185,7 +186,7 @@
 							<div style="margin:">
 								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
 							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50%; margin:5%;">
+							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
 							<h3>Circle of Elrond</h3>
 							</div>
 						</div>
@@ -197,7 +198,7 @@
 							<div style="margin:">
 								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
 							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50%; margin:5%;">
+							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
 							<h3>Circle of Elrond</h3>
 							</div>
 						</div>
@@ -209,7 +210,7 @@
 							<div style="margin:">
 								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
 							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50%; margin:5%;">
+							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
 							<h3>Circle of Elrond</h3>
 							</div>
 						</div>
@@ -221,7 +222,7 @@
 							<div style="margin:">
 								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
 							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50%; margin:5%;">
+							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
 							<h3>Circle of Elrond</h3>
 							</div>
 						</div>
@@ -230,26 +231,24 @@
 			</div>
 		</div>
 
-		<div id="mailBrowser">
+		<div id="mailBrowser" class="clearfix" style="max-height:90vh;">
 			<!-- List of messages sent to the user -->
-			<div id="messageHistory" class="inboxContainer"  style="top: 0; min-height:50%; max-height: 50%;">
-				<h2> {{ listNames() }} </h2>
-				<div class="inboxMessage roundBorder clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;" ng-repeat="msg in messages" ng-click="findPigeons()">
-					<a href="#">
-						<div>
-							<div class="messageSender">{{msg.sender}}</div>
-							<div class="messageExcerpt">{{msg.body}}</div>
-							<div class="messageDate" style="float:right">{{msg.date}}</div>
-						</div>
-					</a>
+			<div class="inboxContainer" style="bottom:75vh; margin:1%;">
+			<h2> {{ listNames() }} </h2>
+			</div>
+			<div id="messageHistory" class="inboxContainer scrollVertical" style="bottom:25vh; max-height:50vh; padding:1%;">
+				<div class="inboxMessage roundBorder clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff; overflow-y:auto;" ng-repeat="msg in messages" ng-click="findPigeons()">
+					<div class="messageSender"><b>{{msg.sender}}</b></div>
+					<div class="messageExcerpt">{{msg.body}}</div>
+					<div class="messageDate" style="float:right">{{msg.date}}</div>
 				</div>
 			</div>
 
-			<div id="newMessage" class="inboxContainer" style="bottom:-5%; max-height: 45%;">
-				<form class="roundBorder" style="padding:2%; background-color:#fff;">
+			<div id="newMessage" class="inboxContainer scrollVertical" style="bottom:0vh; margin-top:2%; min-height:20vh; max-height:20vh; padding:0 1% 0 1%;">
+				<form class="roundBorder" style="min-height:100%; max-height:100%; padding:1%; background-color:#fff;">
 					<!-- Place where message body is entered -->
-					<div id="msgEditor" style="bottom:0; margin-top:1%; min-width:98%;">
-						<textarea id="msgText" class="roundBorder" name="msgText" placeholder="Message..." rows="8"  style="width:100%; max-width:98%;" required></textarea>
+					<div id="msgEditor" class="clearfix" style="bottom:0; min-width:97%;">
+						<textarea id="msgText" class="roundBorder" name="msgText" placeholder="Message..." style="width:100%; max-width:100%; min-height:10vh;  margin:1%;" required></textarea>
 					</div>
 
 					<input type="submit" value="Send">
