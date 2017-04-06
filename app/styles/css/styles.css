@@ -193,6 +193,20 @@ input[type=password]:focus {
 	box-shadow: inset 0 1.5px 3px rgba(190, 190, 190, .4), 0 0 0 5px #e6f2f9;
 }
 
+input[type=submit] {
+  /*float: right;*/
+  /*margin-right: 20px;*/
+  /*margin-top: 20px;*/
+  /*width: 80px;*/
+  /*height: 30px;*/
+  font-size: 14px;
+  font-weight: bold;
+  color: #555;
+  background-color: #acd6ef; /*IE fallback*/
+
+  cursor: pointer;
+}
+
 input[type=submit]:hover {
   background-image: -webkit-gradient(linear, left top, left bottom, from(#b6e2ff), to(#6ec2e8));
 
