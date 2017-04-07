@@ -64,19 +64,76 @@ Roll4Guild
     })
     .controller('inboxCtrl', function($scope, $http) {
         $scope.name = 'inboxCtrl';
-
-		$scope.findPigeons = function(){
-		}
+		$scope.currConversation = undefined;
+		$scope.contacts = [];
+		$scope.conversations = [];
+		$scope.default = {
+			profilePic: 'https://pbs.twimg.com/profile_images/724556438241181696/0tQ-pyo_.jpg',
+			groupPic: 'https://bigtallwords.files.wordpress.com/2015/04/lord-of-the-rings-two-towers-orc-gathering.png?w=256&h=256&crop=1'
+		};
+		// Called when page first loads
 		$scope.init = function(){
-			$scope.conversation = ['Frodo'];
-			// $scope.conversation = getConversations(['Frodo'])[0];
-		}
-		$scope.getConversations = function(conversants){
+			$scope.setCurrConversation($scope.getMostRecentConversation());
+			$scope.updateContacts();
 
 		}
+
+		$scope.getMostRecentConversation = function() {
+			$scope.updateConversations();
+			return $scope.conversations[0];
+		}
+
+		// Does HTTP request, updates list of conversations
+		$scope.updateConversations = function() {
+			// some fake sample data TODO; remove/replace w/ welcome conversation
+			$scope.conversations = [
+				{conversationID: '101', participants: ['Frodo','Sam']},
+				{conversationID: '100', participants: ['Frodo','Sam','Pippin','Merriadoc'], groupPic: 'https://at-cdn-s01.audiotool.com/2011/08/18/documents/concerning_hobbits/1/cover256x256-530088cd58af464ebb208af0944f6f02.jpg'},
+				{conversationID: '102', participants: ['Pippin','Merriadoc']},
+			];
+		}
+
+		// Chooses the conversation displayed
+		$scope.setCurrConversation = function(conversation) {
+			$scope.currConversation = conversation;
+			$scope.messages = [];
+			$scope.updateMessages();
+		}
+
+		$scope.getConversation = function(conversationID) {
+			for(conversation in $scope.conversations){
+				if(conversation.conversationID == conversationID){
+					return conversation;
+				}
+				console.log(conversation.participants);
+			}
+		}
+
+		// Does HTTP request, updates list of conversations
+		$scope.updateContacts = function() {
+			$scope.contacts=[
+				{contactID:'000', name:'Frodo', profilePic:'https://68.media.tumblr.com/avatar_d0ed961c17e0_128.png'},
+				{contactID:'001', name:'Sam', profilePic:'http://orig15.deviantart.net/0503/f/2011/089/9/1/samwise_gamgee_avatar_by_angelprincess101-d3ctyz9.png'},
+				{contactID:'002', name:'Pippin'},
+				{contactID:'003', name:'Merriadoc'},
+				{contactID:'004', name:'Gandalf'},
+				{contactID:'005', name:'Aragorn, son of Arathorn'},
+			];
+		}
+
+		// Check for new messages
+		$scope.updateMessages = function() {
+
+		}
+
+		// Go deeper into message backlog, appending older ones to back of queue
+		$scope.getNextNolderMessages = function(numMessagesToGet) {
+
+		}
+
 		// $scope.conversation=['Frodo', 'Gimli'];
-		$scope.listNames = function(){
-			return $scope.conversation.join(', ');
+		$scope.listNames = function(names){
+			return names.join(', ');
 		}
 		$scope.messages=[
 			{sender:'Frodo', body:'Over hill and under tree', date:'Mar. 15'},
@@ -218,12 +275,6 @@ Roll4Guild
 
 			We must away! We must away!
 			We ride before the break of day!`, date:'Mar. 19'},
-		];
-		$scope.contacts=[
-			{name:'Frodo', uhid:'000'},
-			{name:'Legolas', uhid:'001'},
-			{name:'Gimli', uhid:'002'},
-			{name:'Gandalf', uhid:'003'},
 		];
     })
 

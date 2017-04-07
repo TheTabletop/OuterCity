@@ -18,6 +18,11 @@
 	</script>
 
 	<style>
+	html, body {
+		margin: 0;
+		overflow: hidden;
+	}
+
 	a {
 		text-decoration: none;
 	}
@@ -25,9 +30,13 @@
 	.inboxContact, .inboxGroup {
 		padding: 2%;
 	}
-	.inboxContact > a, .inboxGroup >a {
+	.inboxContact a, .inboxGroup a {
 	    font-size: 15px;
 	    color: #aaa;
+	}
+	.contactList {
+		overflow: hidden;
+		background-color: none;
 	}
 	.messageSender, .messageBody, .messageDate{
 	    font-size: 15px;
@@ -48,17 +57,25 @@
 	}
 	.clearfix { display: inline-block; }
 	.inboxContainer {
-		margin: 1%;
-		padding: 1%;
-		width: 96%;
-		overflow-y: auto;
-		overflow-x: hidden;
+		margin: 1%; padding: 1%;
+		min-width: 96%;
 		position: absolute;
+	}
+	.profilePic {
+		border-radius: 50%; width: 90px;"
+	}
+	.profileLabel {
+		min-width: 50%; max-height: 50vh;
+		margin: 0%;
+	}
+	.profileLabel h3 {
+		margin-top: 0;
+		max-width: 50%;
 	}
 	#contactBrowser {
 		float: left;
 		top: 9%;
-		left: 2%;
+		left: 0%;
 		min-width: 20%;
 		max-width: 20%;
 		height: 88vh;
@@ -85,8 +102,7 @@
 
 <body ng-controller="inboxCtrl">
 <div id="includedContent"></div>
-	<div ng-init="init()"></div>
-
+	<div ng-init="init(None)"></div>
 
 	<div id="main" class="clearfix">
 		<div id="navIcon">
@@ -105,119 +121,39 @@
 			</div>
 
 			<!-- List of people with whom there has been recent communication -->
-			<div id="inboxContacts" class="inboxContainer"  style="top:5%; max-height:50vh; background-color:none;">
+			<div id="inboxContacts" class="contactList inboxContainer"  style="top:5%; min-height:50vh;">
 				<h2> Recent </h2>
-				<div class="inboxContact clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
+				<div class="inboxContainer scrollVertical" style="top:50px; max-height:50vh;">
+					<div class="inboxContact clearfix" ng-repeat="contact in contacts">
+						<a href="#">
+							<div style="">
+								<div style="margin:">
+									<img class="profilePic" ng-src="{{ contact.profilePic ? contact.profilePic : default.profilePic }}" alt=""/>
+								</div>
+								<div class="profileLabel center">
+									<h3>{{contact.name}}</h3>
+								</div>
 							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-								<h3>Bilbo Baggins</h3>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxContact clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
-							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-								<h3>Bilbo Baggins</h3>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxContact clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
-							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-								<h3>Bilbo Baggins</h3>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxContact clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
-							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-								<h3>Bilbo Baggins</h3>
-							</div>
-						</div>
-					</a>
+						</a>
+					</div>
 				</div>
 			</div>
-			<div id="inboxGroups" class="inboxContainer"  style="top:62%; max-height:30vh; background-color:none;">
+			<div id="inboxGroups" class="contactList inboxContainer" style="top:62%; min-height:30vh;">
 				<!-- List of Groups the user is a member of -->
 				<h2> Groups </h2>
-				<div class="inboxGroup clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
+				<div class="inboxContainer scrollVertical" style="top:50px; max-height:30vh;">
+					<div class="inboxGroup clearfix" ng-repeat="conversation in conversations">
+						<a href="#">
+							<div style="">
+								<div style="margin:">
+									<img class="profilePic" ng-src="{{ conversation.groupPic ? conversation.groupPic : default.groupPic }}" alt=""/>
+								</div>
+								<div class="profileLabel center">
+									<h3>{{ listNames(conversation.participants) }}</h3>
+								</div>
 							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-							<h3>Circle of Elrond</h3>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxGroup clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
-							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-							<h3>Circle of Elrond</h3>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxGroup clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
-							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-							<h3>Circle of Elrond</h3>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxGroup clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
-							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-							<h3>Circle of Elrond</h3>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxGroup clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
-							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-							<h3>Circle of Elrond</h3>
-							</div>
-						</div>
-					</a>
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -225,10 +161,10 @@
 		<div id="mailBrowser" class="clearfix" style="max-height:90vh;">
 			<!-- List of messages sent to the user -->
 			<div class="inboxContainer" style="bottom:75vh; margin:1%;">
-			<h2> {{ listNames() }} </h2>
+			<h2> {{ listNames(currConversation.participants) }} </h2>
 			</div>
 			<div id="messageHistory" class="inboxContainer scrollVertical" style="bottom:25vh; max-height:50vh; padding:1%;">
-				<div class="inboxMessage roundBorder scrollVertical clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;" ng-repeat="msg in messages" ng-click="findPigeons()">
+				<div class="inboxMessage roundBorder scrollVertical clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;" ng-repeat="msg in messages">
 					<div class="messageSender"><b>{{msg.sender}}&nbsp&nbsp</b></div>
 					<div class="messageBody" style="white-space: pre-line;">{{msg.body}}</div>
 					<div class="messageDate" style="float:right">{{msg.date}}</div>
