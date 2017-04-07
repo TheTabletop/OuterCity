@@ -87,9 +87,10 @@ Roll4Guild
 		$scope.updateConversations = function() {
 			// some fake sample data TODO; remove/replace w/ welcome conversation
 			$scope.conversations = [
-				{conversationID: '101', participants: ['Frodo','Sam']},
-				{conversationID: '100', participants: ['Frodo','Sam','Pippin','Merriadoc'], groupPic: 'https://at-cdn-s01.audiotool.com/2011/08/18/documents/concerning_hobbits/1/cover256x256-530088cd58af464ebb208af0944f6f02.jpg'},
-				{conversationID: '102', participants: ['Pippin','Merriadoc']},
+				{id: '101', participants: ['Frodo','Sam']},
+				{id: '100', participants: ['Frodo','Sam','Pippin','Merriadoc'], groupPic: 'https://at-cdn-s01.audiotool.com/2011/08/18/documents/concerning_hobbits/1/cover256x256-530088cd58af464ebb208af0944f6f02.jpg'},
+				{id: '102', participants: ['Pippin','Merriadoc']},
+				{id: '103', participants: ['Gandalf','Aragorn']},
 			];
 		}
 
@@ -100,29 +101,33 @@ Roll4Guild
 			$scope.updateMessages();
 		}
 
-		$scope.getConversation = function(conversationID) {
-			for(conversation in $scope.conversations){
-				if(conversation.conversationID == conversationID){
-					return conversation;
-				}
-				console.log(conversation.participants);
-			}
-		}
-
 		// Does HTTP request, updates list of conversations
 		$scope.updateContacts = function() {
 			$scope.contacts=[
+				{contactID:'005', name:'Aragorn, son of Arathorn'},
 				{contactID:'000', name:'Frodo', profilePic:'https://68.media.tumblr.com/avatar_d0ed961c17e0_128.png'},
 				{contactID:'001', name:'Sam', profilePic:'http://orig15.deviantart.net/0503/f/2011/089/9/1/samwise_gamgee_avatar_by_angelprincess101-d3ctyz9.png'},
 				{contactID:'002', name:'Pippin'},
 				{contactID:'003', name:'Merriadoc'},
 				{contactID:'004', name:'Gandalf'},
-				{contactID:'005', name:'Aragorn, son of Arathorn'},
+				{contactID:'006', name:'Legolas'},
+				{contactID:'007', name:'Gimli'},
+				{contactID:'008', name:'Bilbo'},
 			];
 		}
 
-		// Check for new messages
+		$scope.includeParticipant = function() {
+			
+		}
+
+		// Check for new messages based on current conversation
 		$scope.updateMessages = function() {
+			// check for unread messages, append to front of queue
+
+			$scope.messges = $scope.getMessages($scope.currConversation, Date());
+		}
+
+		$scope.getMessages = function(conversation, timestamp) {
 
 		}
 
@@ -136,12 +141,12 @@ Roll4Guild
 			return names.join(', ');
 		}
 		$scope.messages=[
-			{sender:'Frodo', body:'Over hill and under tree', date:'Mar. 15'},
-			{sender:'Gimli', body:'Salted pork!!!', date:'Mar. 17'},
-			{sender:'Gandalf', body:'Follow your nose', date:'Mar. 17'},
-			{sender:'Legolas', body:'They\'re taking the hobbits to Isengard!', date:'Mar. 19'},
-			{sender:'Legolas', body:'They\'re taking the hobbits to Isengard!', date:'Mar. 19'},
-			{sender:'Bilbo', body:`Over The Misty Mountains Cold
+			{id:'000', sender:'Frodo', body:'Over hill and under tree', date:'Mar. 15'},
+			{id:'007', sender:'Gimli', body:'Salted pork!!!', date:'Mar. 17'},
+			{id:'004', sender:'Gandalf', body:'Follow your nose', date:'Mar. 17'},
+			{id:'006', sender:'Legolas', body:'They\'re taking the hobbits to Isengard!', date:'Mar. 19'},
+			{id:'000', sender:'Legolas', body:'They\'re taking the hobbits to Isengard!', date:'Mar. 19'},
+			{id:'000', sender:'Bilbo', body:`Over The Misty Mountains Cold
 
 			Far over the Misty Mountains cold,
 			To dungeons deep and caverns old,
