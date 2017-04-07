@@ -29,6 +29,10 @@
 
 	.inboxContact, .inboxGroup {
 		padding: 2%;
+		width: 100px; max-width: 100px;
+		height: 120px; max-height: 120px;
+		overflow: hidden;
+		margin: 1%;
 	}
 	.inboxContact a, .inboxGroup a {
 	    font-size: 15px;
@@ -65,7 +69,7 @@
 		border-radius: 50%; width: 90px;"
 	}
 	.profileLabel {
-		min-width: 50%; max-height: 50vh;
+		min-width: 50%;
 		margin: 0%;
 	}
 	.profileLabel h3 {
@@ -78,7 +82,7 @@
 		left: 0%;
 		min-width: 20%;
 		max-width: 20%;
-		height: 88vh;
+		height: 100%;
 		position: absolute; 	/* reference point for children */
 		/*background-color: #ecf2f5;*/
 		/*margin: 1%;*/
@@ -91,7 +95,6 @@
 		left: 25%;
 		min-width: 70%;
 		max-width: 70%;
-		/*height: 88vh;*/
 		position: absolute; 	/* reference point for children */
 		/*background-color: #ecf2f5;*/
 		/*margin: 1%;*/
@@ -111,7 +114,7 @@
 
 		<div id="contactBrowser">
 			<!-- Place where user can find someone to contact -->
-			<div id="contactSearch" class="inboxContainer" style="position:absolute; top:0%; max-height:10vh; overflow:hidden;">
+			<div id="contactSearch" class="inboxContainer" style="position:absolute; top:0%; max-height:10%; overflow:hidden;">
 				<form>
 					<input type="text" list="contactsList" placeholder="search contacts" style="width:85%;" ng-model="name" ng-keypress="($event.charCode==13)? init(name) : return"/>
 					<datalist id="contactsList">
@@ -121,35 +124,35 @@
 			</div>
 
 			<!-- List of people with whom there has been recent communication -->
-			<div id="inboxContacts" class="contactList inboxContainer"  style="top:5%; min-height:50vh;">
+			<div id="inboxContacts" class="contactList inboxContainer"  style="top:5%; min-height:50%;">
 				<h2> Recent </h2>
-				<div class="inboxContainer scrollVertical" style="top:50px; max-height:50vh;">
+				<div class="inboxContainer scrollVertical" style="top:50px; max-height:70%;">
 					<div class="inboxContact clearfix" ng-repeat="contact in contacts">
 						<a href="#">
 							<div style="">
 								<div style="margin:">
 									<img class="profilePic" ng-src="{{ contact.profilePic ? contact.profilePic : default.profilePic }}" alt=""/>
 								</div>
-								<div class="profileLabel center">
-									<h3>{{contact.name}}</h3>
+								<div class="profileLabel">
+									<h3 class="center">{{contact.name}}</h3>
 								</div>
 							</div>
 						</a>
 					</div>
 				</div>
 			</div>
-			<div id="inboxGroups" class="contactList inboxContainer" style="top:62%; min-height:30vh;">
+			<div id="inboxGroups" class="contactList inboxContainer" style="top:45%; min-height:95%;">
 				<!-- List of Groups the user is a member of -->
 				<h2> Groups </h2>
-				<div class="inboxContainer scrollVertical" style="top:50px; max-height:30vh;">
+				<div class="inboxContainer scrollVertical" style="top:50px; max-height:40%;">
 					<div class="inboxGroup clearfix" ng-repeat="conversation in conversations">
 						<a href="#">
 							<div style="">
 								<div style="margin:">
 									<img class="profilePic" ng-src="{{ conversation.groupPic ? conversation.groupPic : default.groupPic }}" alt=""/>
 								</div>
-								<div class="profileLabel center">
-									<h3>{{ listNames(conversation.participants) }}</h3>
+								<div class="profileLabel">
+									<h3 class="center">{{ listNames(conversation.participants) | limitTo: 20 }}</h3><span ng-if="listNames(conversation.participants).length > 20">&hellip;</span>
 								</div>
 							</div>
 						</a>
@@ -175,6 +178,8 @@
 				<form class="roundBorder" style="min-height:100%; max-height:100%; padding:1%; background-color:#fff;">
 					<!-- Place where message body is entered -->
 					<div id="msgEditor" class="clearfix" style="bottom:0; min-width:97%;">
+						<input id="msgRecipient" ng-if="" type="text" name="msgRecipient" placeholder="Add someone to the conversation..."list="msgConstacts" style="min-width:50%;" ng-submit="includeParticipant(currConversation)">
+
 						<textarea id="msgText" class="roundBorder" name="msgText" placeholder="Message..." style="width:100%; max-width:100%; min-height:10vh;  margin:1%;" required ng-model="newMessage"></textarea>
 					</div>
 
