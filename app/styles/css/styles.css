@@ -136,14 +136,22 @@ h2 {
 h3 {
 }
 
-.roundBorder{
+.roundBorder {
 	border: thin solid black;
 	border-radius: 3px;
 	border: 1px solid #ccc;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
 }
 
-.scrollVertical{
+.center {
+	/*Centers an element inside another. To use, set min-width on outer element to any value, and min-width: 100% for the element 
+	you want centered*/
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.scrollVertical {
 	 overflow-x:hidden;
 	 overflow-y:auto;
 }
