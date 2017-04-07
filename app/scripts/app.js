@@ -4,23 +4,29 @@
 var Roll4Guild = angular.module('Roll4Guild',["ngRoute"]);
 
 Roll4Guild
-    .controller('loginCtrl', function($scope, $route, $routeParams, $location) {
-        $scope.$route = $route;
-        $scope.$location = $location;
-        $scope.$routeParams = $routeParams;
+    .controller('loginCtrl', function($scope, $http) {
+
     })
 
-    .controller('aboutCtrl', function($scope, $routeParams) {
+    .controller('navCtrl', function($scope){
+        $scope.openNav = function() {
+            document.getElementById("mySidenav").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+    })
+
+    .controller('aboutCtrl', function($scope, $http) {
         $scope.name = 'aboutCtrl';
-        $scope.params = $routeParams;
+
     })
-    .controller('contactCtrl', function($scope, $routeParams) {
+    .controller('contactCtrl', function($scope, $http) {
         $scope.name = 'contactCtrl';
-        $scope.params = $routeParams;
+
+
     })
-    .controller('userProfCtrl', function($scope, $routeParams, $http) {
+    .controller('userProfCtrl', function($scope, $http) {
         $scope.name = 'userProfCtrl';
-        $scope.params = $routeParams;
+
 
         $scope.init = function () {
             $http.get("http://www.omdbapi.com/?t=Star+Wars")
@@ -34,21 +40,30 @@ Roll4Guild
 
 
     })
-    .controller('searchCtrl', function($scope, $routeParams) {
+    .controller('searchCtrl', function($scope, $http) {
         $scope.name = 'searchCtrl';
-        $scope.params = $routeParams;
+
     })
-    .controller('passNewCtrl', function($scope, $routeParams) {
+    .controller('passNewCtrl', function($scope, $http) {
         $scope.name = 'passNewCtrl';
-        $scope.params = $routeParams;
+
     })
-    .controller('passVerCtrl', function($scope, $routeParams) {
+    .controller('passVerCtrl', function($scope, $http) {
         $scope.name = 'passVerCtrl';
-        $scope.params = $routeParams;
+        $scope.init = function () {
+            $http.get("http://www.omdbapi.com/?t=Star+Wars")
+                .then(function successCallback(response){
+                    $scope.details = response.data;
+
+                }, function errorCallback(response){
+                    console.log("Unable to perform get request");
+                });
+        };
+
     })
-    .controller('inboxCtrl', function($scope, $routeParams) {
+    .controller('inboxCtrl', function($scope, $http) {
         $scope.name = 'inboxCtrl';
-        $scope.params = $routeParams;
+
 		$scope.findPigeons = function(){
 		}
 		$scope.init = function(){
@@ -210,19 +225,53 @@ Roll4Guild
 			{name:'Gandalf', uhid:'003'},
 		];
     })
-    .controller('userWallCtrl', function($scope, $routeParams) {
+
+   Roll4Guild
+    .controller('userWallCtrl', function($scope, $http) {
         $scope.name = 'userWallCtrl';
-        $scope.params = $routeParams;
+        $scope.init = function () {
+            $http.get("http://www.omdbapi.com/?t=Star+Wars")
+                .then(function successCallback(response){
+                    $scope.details = response.data;
+
+                }, function errorCallback(response){
+                    console.log("Unable to perform get request");
+                });
+        };
     })
-    .controller('groupProfCtrl', function($scope, $routeParams) {
+    .controller('groupProfCtrl', function($scope, $http) {
         $scope.name = 'groupProfCtrl';
-        $scope.params = $routeParams;
+        $scope.init = function () {
+            $http.get("http://www.omdbapi.com/?t=Star+Wars")
+                .then(function successCallback(response){
+                    $scope.details = response.data;
+
+                }, function errorCallback(response){
+                    console.log("Unable to perform get request");
+                });
+        };
     })
-    .controller('groupWallCtrl', function($scope, $routeParams) {
+    .controller('groupWallCtrl', function($scope, $http) {
         $scope.name = 'groupWallCtrl';
-        $scope.params = $routeParams;
+        $scope.init = function () {
+            $http.get("http://www.omdbapi.com/?t=Star+Wars")
+                .then(function successCallback(response){
+                    $scope.details = response.data;
+
+                }, function errorCallback(response){
+                    console.log("Unable to perform get request");
+                });
+        };
     })
-    .controller('editProfCtrl', function($scope, $routeParams) {
+    .controller('editProfCtrl', function($scope, $http) {
         $scope.name = 'editProfCtrl';
-        $scope.params = $routeParams;
+        $scope.init = function () {
+            $http.get("http://www.omdbapi.com/?t=Star+Wars")
+                .then(function successCallback(response){
+                    $scope.details = response.data;
+
+                }, function errorCallback(response){
+                    console.log("Unable to perform get request");
+                });
+        };
     })
