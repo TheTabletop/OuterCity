@@ -30,7 +30,7 @@
 	.inboxContact, .inboxGroup {
 		padding: 2%;
 		width: 100px; max-width: 100px;
-		height: 120px; max-height: 120px;
+		height: 150px; max-height: 150px;
 		overflow: hidden;
 		margin: 1%;
 	}
@@ -66,7 +66,7 @@
 		position: absolute;
 	}
 	.profilePic {
-		border-radius: 50%; width: 90px;"
+		border-radius: 50%; width: 90px;
 	}
 	.profileLabel {
 		min-width: 50%;
@@ -105,7 +105,7 @@
 
 <body ng-controller="inboxCtrl">
 <div id="includedContent"></div>
-	<div ng-init="init(None)"></div>
+	<div ng-init="init(undefined)"></div>
 
 	<div id="main" class="clearfix">
 		<div id="navIcon">
@@ -124,14 +124,14 @@
 			<div id="inboxContacts" class="contactList inboxContainer"  style="top:5%; min-height:50%;">
 				<h2> Recent </h2>
 				<div class="inboxContainer scrollVertical" style="top:50px; max-height:70%;">
-					<div class="inboxContact clearfix" ng-repeat="contact in contacts | filter:nameQuery">
+					<div class="inboxContact clearfix" ng-repeat="conversation in conversations.concat(contacts) | filter:nameQuery" ng-click=init(conversation)>
 						<a href="#">
 							<div style="">
 								<div style="margin:">
-									<img class="profilePic" ng-src="{{ contact.profilePic ? contact.profilePic : default.profilePic }}" alt=""/>
+									<img class="profilePic" ng-src="{{ conversation.profilePic ? conversation.profilePic : default.profilePic }}" alt=""/>
 								</div>
 								<div class="profileLabel">
-									<h3 class="center">{{contact.name}}</h3>
+									<h3 class="center">{{ listNames(conversation.participants) | limitTo: 20 }}</h3>
 								</div>
 							</div>
 						</a>
@@ -142,14 +142,14 @@
 				<!-- List of Groups the user is a member of -->
 				<h2> Groups </h2>
 				<div class="inboxContainer scrollVertical" style="top:50px; max-height:40%;">
-					<div class="inboxGroup clearfix" ng-repeat="conversation in conversations | filter:nameQuery">
+					<div class="inboxGroup clearfix" ng-repeat="group in groups | filter:nameQuery" ng-click=init(group)>
 						<a href="#">
 							<div style="">
-								<div style="margin:">
-									<img class="profilePic" ng-src="{{ conversation.groupPic ? conversation.groupPic : default.groupPic }}" alt=""/>
+								<div>
+									<img class="profilePic" ng-src="{{ group.groupPic ? group.groupPic : default.groupPic }}" alt=""/>
 								</div>
 								<div class="profileLabel">
-									<h3 class="center">{{ listNames(conversation.participants) | limitTo: 20 }}</h3><span ng-if="listNames(conversation.participants).length > 20">&hellip;</span>
+									<h3 class="center">{{ listNames(group.participants) }}</h3>
 								</div>
 							</div>
 						</a>
