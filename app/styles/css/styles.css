@@ -143,9 +143,10 @@ h3 {
 	box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
 }
 
-.center {
-	/*Centers an element inside another. To use, set min-width on outer element to any value, and min-width: 100% for the element 
-	you want centered*/
+.center{
+	/*Centers an element inside another. To use, set min-width
+	attribute on the parent element */
+	min-width: 100%;
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
