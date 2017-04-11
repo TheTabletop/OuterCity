@@ -166,7 +166,7 @@
 			<div id="messageHistory" class="inboxContainer scrollVertical" style="bottom:25vh; max-height:50vh; padding:1%;">
 				<div class="inboxMessage roundBorder scrollVertical clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;" ng-repeat="msg in messages">
 					<div class="messageSender"><b>{{msg.sender}}&nbsp&nbsp</b></div>
-					<div class="messageBody" style="white-space: pre-line;">{{msg.body}}</div>
+					<div class="messageBody" style="white-space: pre-line;">{{msg.body? msg.body : "(no message)" }}</div>
 					<div class="messageDate" style="float:right">{{msg.date}}</div>
 				</div>
 			</div>

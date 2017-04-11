@@ -74,10 +74,12 @@ Roll4Guild
 		};
 		// Called when page first loads
 		$scope.init = function(conversation){
+			conversation = (conversation? conversation : $scope.getMostRecentConversation())
+			$scope.myUserName = 'Frodo';
 			$scope.updateContacts();
 			$scope.updateGroups();
-			console.log(conversation.id);
-			$scope.setCurrConversation(conversation? conversation : $scope.getMostRecentConversation());
+			console.log(conversation.participants);
+			$scope.setCurrConversation(conversation);
 			$scope.updateMessages(conversation);
 		}
 
@@ -88,12 +90,16 @@ Roll4Guild
 
 		// Does HTTP request, updates list of conversations
 		$scope.updateConversations = function() {
-			// fake data for now
+			// fake data for now, by definition all conversations have at least 2 participants, though only lists those that aren't you
 			$scope.conversations = [
-				{id: '101', participants: ['Frodo','Sam']},
-				{id: '100', participants: ['Frodo','Sam','Pippin','Merriadoc'], groupPic: 'https://at-cdn-s01.audiotool.com/2011/08/18/documents/concerning_hobbits/1/cover256x256-530088cd58af464ebb208af0944f6f02.jpg'},
+				{id: '100', participants: ['Sam','Pippin','Merriadoc'], groupPic: 'https://at-cdn-s01.audiotool.com/2011/08/18/documents/concerning_hobbits/1/cover256x256-530088cd58af464ebb208af0944f6f02.jpg'},
 				{id: '102', participants: ['Pippin','Merriadoc']},
-				{id: '103', participants: ['Gandalf','Aragorn']},
+				{id: '101', participants: ['Sam'], messages:[
+					{date:'11.29.2016', body:'Over hill and under tree'},
+				]},
+				{id: '103', participants: ['Gandalf','Aragorn son of Arathorn'], messages:[
+					{date:'04.14.2017', body:'Follow your nose'},
+				]},
 			];
 		}
 
@@ -108,40 +114,15 @@ Roll4Guild
 		$scope.updateContacts = function() {
 			// fake data for now
 			$scope.contacts=[
-				{id:'005', participants:['Aragorn, son of Arathorn'], message:[
-					{date:'11.29.2016', body:'Over hill and under tree'},
-				]},
+				{id:'005', participants:['Aragorn son of Arathorn']},
 				{id:'000', participants:['Frodo'], profilePic:'https://68.media.tumblr.com/avatar_d0ed961c17e0_128.png'},
 				{id:'001', participants:['Sam'], profilePic:'http://orig15.deviantart.net/0503/f/2011/089/9/1/samwise_gamgee_avatar_by_angelprincess101-d3ctyz9.png'},
 				{id:'002', participants:['Pippin']},
 				{id:'003', participants:['Merriadoc']},
-				{id:'004', participants:['Gandalf'], messages:[
-					{date:'04.14.2017', body:'Follow your nose'},
-				]},
-				{id:'006', participants:['Legolas'], messages:[
-					{date:'05.28.2017', body:'They\'re taking the hobbits to Isengard!'},
-				]},
-				{id:'007', participants:['Gimli'], messages:[
-					{date:'03.03.2017', body:'Salted pork!!!'},
-				]},
-				{id:'008', participants:['Bilbo'], messages:[
-					{date:'04.25.2017', body:`Over The Misty Mountains Cold
-
-					Far over the Misty Mountains cold,
-					To dungeons deep and caverns old,
-					We must away, ere break of day,
-					To seek our pale enchanted gold.
-
-					The dwarves of yore made mighty spells,
-					While hammers fell like ringing bells,
-					In places deep, where dark things sleep,
-					In hollow halls beneath the fells.
-
-					For ancient king and elvish lord
-					There many a gleaming golden hoard
-					They shaped and wrought, and light they caught,
-					To hide in gems on hilt of sword.`},
-				]},
+				{id:'004', participants:['Gandalf']},
+				{id:'006', participants:['Legolas']},
+				{id:'007', participants:['Gimli']},
+				{id:'008', participants:['Bilbo']},
 			];
 		}
 
@@ -150,12 +131,30 @@ Roll4Guild
 			// fake data fro now
 			$scope.groups = [
 				{id:'200', participants:['Wizards'], messages:[
-					{date:'03.27.2017', body:'Do you wish me a good morning, or mean that it is a good morning whether I want it or not; or that you feel good this morning; or that it is a morning to be good on?'},
-					{date:'02.05.2017', body:'I will not say, do not weep, for not all tears are an evil.'},
-					{date:'02.02.2017', body:'All we have to decide is what to do with the time that is given us.'},
+					{date:'03.27.2017', sender:'Gandalf', body:'Do you wish me a good morning, or mean that it is a good morning whether I want it or not; or that you feel good this morning; or that it is a morning to be good on?'},
+					{date:'02.05.2017', sender:'Gandalf',  body:'I will not say, do not weep, for not all tears are an evil.'},
+					{date:'02.02.2017', sender:'Gandalf',  body:'All we have to decide is what to do with the time that is given us.'},
 				]},
-				{id:'201', participants:['Shirlings'], messages:[
-					{date:'01.17.2017', body:'The Road goes ever on and on Down from the door where it began. Now far ahead the Road has gone, And I must follow, if I can.'},
+				{id:'201', participants:['Shirelings'], messages:[
+					{date:'01.17.2017', sender:'Frodo', body:'The Road goes ever on and on Down from the door where it began. Now far ahead the Road has gone, And I must follow, if I can.'}, {date:'04.25.2017', sender:'Bilbo', body:`Over The Misty Mountains Cold
+
+						Far over the Misty Mountains cold,
+						To dungeons deep and caverns old,
+						We must away, ere break of day,
+						To seek our pale enchanted gold.
+
+						The dwarves of yore made mighty spells,
+						While hammers fell like ringing bells,
+						In places deep, where dark things sleep,
+						In hollow halls beneath the fells.
+
+						For ancient king and elvish lord
+						There many a gleaming golden hoard
+						They shaped and wrought, and light they caught,
+						To hide in gems on hilt of sword.`},
+				]},
+				{id:'202', participants:['Fellowship'], messages:[
+					{date:'03.03.2017', sender:'Gimli', body:'Salted pork!!!'},
 				]},
 			];
 		}
@@ -168,19 +167,27 @@ Roll4Guild
 		// Check for new messages based on current conversation
 		$scope.updateMessages = function() {
 			// check for unread messages, append to front of queue
-
 			$scope.messages = $scope.getMessages($scope.currConversation, Date());
 		}
 
 		$scope.getMessages = function(nextConversation, timestamp){
 			// temporary
-			for(var conversation in $scope.conversations.concat($scope.groups)){
+			var conversations = $scope.conversations.concat($scope.groups);
+			var conversation = undefined;
+			for(var i = 0; i < conversations.length; i++){
+				conversation = conversations[i];
 				if(conversation.id == nextConversation.id){
 					console.log(conversation.messages, conversation.id);
-					return conversation.messages;
+					return conversation.messages? conversation.messages : [{}];
 				}
 			}
+			return [{date:undefined, body:"(no messages)"}]
 
+		}
+
+		$scope.getMessageBody = function(msg, messages) {
+			return $last;
+			// return ($index == messages.length? "beginning of message history" : "");
 		}
 
 		// Go deeper into message backlog, appending older ones to back of queue
