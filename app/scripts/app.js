@@ -25,9 +25,15 @@ Roll4Guild
                .then(function successCallback(response){
                    $rootScope.userID = response.uhid;
                }, function errorCallback(response){
-               console.log("Unable to perform get request");
+               console.log("Credentials don't match known user!");
+               $scope.reset();
            });
        };
+
+        $scope.reset = function(){
+            $scope.email="";
+            $scope.password="";
+        };
     })
 
     .controller('navCtrl', function($scope){
