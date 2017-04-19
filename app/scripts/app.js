@@ -64,8 +64,14 @@ Roll4Guild
     })
     .controller('inboxCtrl', function($scope, $http) {
         $scope.name = 'inboxCtrl';
-		$scope.currConversation = undefined;
-		$scope.newMessage = undefined;
+		$scope.uncontactedContacts = [];
+		$scope.newConversation = {};
+		$scope.currConversation = {
+			participants:undefined,
+			messages:[],
+			message:"",
+		};
+		$scope.newMessage = {};
 		$scope.contacts = [];
 		$scope.conversations = [];
 		$scope.default = {
@@ -76,31 +82,27 @@ Roll4Guild
 		$scope.init = function(conversation){
 			conversation = (conversation? conversation : $scope.getMostRecentConversation())
 			$scope.myUserName = 'Frodo';
-			$scope.updateContacts();
-			$scope.updateGroups();
-			console.log(conversation.participants);
-			$scope.setCurrConversation(conversation);
-			$scope.updateMessages(conversation);
+			console.log('hee');
+			$scope.updateInbox();
+			if(conversation.upid) {
+				$scope.setCurrConversation(conversation);
+			}
+			else if(conversation.uhid) {
+				// add participant to new conversation
+				$scope.includeParticipant(conversant);
+			}
+			else if(conversation.ugid) {
+
+			}
+			else{}
+		}
+		$scope.updateInbox = function() {
+			$scope.updateContactBrowser();
 		}
 
 		$scope.getMostRecentConversation = function() {
 			$scope.updateConversations();
 			return $scope.conversations[0];
-		}
-
-		// Does HTTP request, updates list of conversations
-		$scope.updateConversations = function() {
-			// fake data for now, by definition all conversations have at least 2 participants, though only lists those that aren't you
-			$scope.conversations = [
-				{id: '100', participants: ['Sam','Pippin','Merriadoc'], groupPic: 'https://at-cdn-s01.audiotool.com/2011/08/18/documents/concerning_hobbits/1/cover256x256-530088cd58af464ebb208af0944f6f02.jpg'},
-				{id: '102', participants: ['Pippin','Merriadoc']},
-				{id: '101', participants: ['Sam'], messages:[
-					{date:'11.29.2016', body:'Over hill and under tree'},
-				]},
-				{id: '103', participants: ['Gandalf','Aragorn son of Arathorn'], messages:[
-					{date:'04.14.2017', body:'Follow your nose'},
-				]},
-			];
 		}
 
 		// Chooses the conversation displayed
@@ -110,64 +112,105 @@ Roll4Guild
 			$scope.updateMessages();
 		}
 
+		$scope.updateContactBrowser = function() {
+			$scope.updateGroups();
+			$scope.updateContacts();
+			$scope.updateConversations();
+			$scope.updateUncontactedContacts();
+		}
+
+		// Does HTTP request, updates list of conversations
+		$scope.updateConversations = function() {
+			// fake data for now, by definition all conversations
+			// don't list self in participants on page
+			$scope.conversations = [
+				{upid: '100', participants: ['Sam','Pippin','Merriadoc'], profilePic: 'https://at-cdn-s01.audiotool.com/2011/08/18/documents/concerning_hobbits/1/cover256x256-530088cd58af464ebb208af0944f6f02.jpg', messages:[
+					{date:'10.21.2016', sender:'Pippin', body:'Mushrooms!!'},
+				],},
+				{upid: '101', participants: ['Sam'], messages:[
+					{date:'11.29.2016', sender:'Sam', body:'Over hill and under tree'},
+				]},
+				{upid: '103', participants: ['Gandalf','Aragorn son of Arathorn'], messages:[
+					{date:'04.14.2017', sender:'Gandalf', body:'Follow your nose'},
+				]},
+			];
+		}
+
 		// Does HTTP request, updates list of contacts (may not have messaged each other yet)
 		$scope.updateContacts = function() {
 			// fake data for now
 			$scope.contacts=[
-				{id:'005', participants:['Aragorn son of Arathorn']},
-				{id:'000', participants:['Frodo'], profilePic:'https://68.media.tumblr.com/avatar_d0ed961c17e0_128.png'},
-				{id:'001', participants:['Sam'], profilePic:'http://orig15.deviantart.net/0503/f/2011/089/9/1/samwise_gamgee_avatar_by_angelprincess101-d3ctyz9.png'},
-				{id:'002', participants:['Pippin']},
-				{id:'003', participants:['Merriadoc']},
-				{id:'004', participants:['Gandalf']},
-				{id:'006', participants:['Legolas']},
-				{id:'007', participants:['Gimli']},
-				{id:'008', participants:['Bilbo']},
+				{uhid:'005', participants:['Aragorn son of Arathorn']},
+				{uhid:'000', participants:['Frodo'], profilePic:'https://68.media.tumblr.com/avatar_d0ed961c17e0_128.png'},
+				{uhid:'001', participants:['Sam'], profilePic:'http://orig15.deviantart.net/0503/f/2011/089/9/1/samwise_gamgee_avatar_by_angelprincess101-d3ctyz9.png'},
+				{uhid:'002', participants:['Pippin']},
+				{uhid:'003', participants:['Merriadoc']},
+				{uhid:'004', participants:['Gandalf']},
+				{uhid:'006', participants:['Legolas']},
+				{uhid:'007', participants:['Gimli']},
+				{uhid:'008', participants:['Bilbo']},
 			];
+		}
+
+		// Looks at lists of conversations and lists of contacts
+		// and updates list of contacts that have not yet been contacted
+		$scope.updateUncontactedContacts = function() {
+			var contactedContacts = {};
+			for(var i in $scope.conversations) {
+				var conv = $scope.conversations[i];
+				if(conv.participants.length === 1) {
+					contactedContacts[conv.participants[0]] = undefined;
+				}
+			}
+			$scope.uncontactedContacts = $scope.contacts.filter(function(contact) {
+				return !(contact.participants in contactedContacts);
+			})
 		}
 
 		// Does HTTP request, gets list of groups user is a member of
 		$scope.updateGroups = function() {
 			// fake data fro now
 			$scope.groups = [
-				{id:'200', participants:['Wizards'], messages:[
+				{ugid:'201', participants:['Shirelings'], messages:[
+					{date:'01.17.2017', sender:'Frodo', body:'The Road goes ever on and on Down from the door where it began. Now far ahead the Road has gone, And I must follow, if I can.'}, {date:'04.25.2017', sender:'Bilbo', body:`Over The Misty Mountains Cold
+
+					Far over the Misty Mountains cold,
+					To dungeons deep and caverns old,
+					We must away, ere break of day,
+					To seek our pale enchanted gold.
+
+					The dwarves of yore made mighty spells,
+					While hammers fell like ringing bells,
+					In places deep, where dark things sleep,
+					In hollow halls beneath the fells.
+
+					For ancient king and elvish lord
+					There many a gleaming golden hoard
+					They shaped and wrought, and light they caught,
+					To hide in gems on hilt of sword.`},
+				]},
+				{ugid:'200', participants:['Wizards'], messages:[
 					{date:'03.27.2017', sender:'Gandalf', body:'Do you wish me a good morning, or mean that it is a good morning whether I want it or not; or that you feel good this morning; or that it is a morning to be good on?'},
 					{date:'02.05.2017', sender:'Gandalf',  body:'I will not say, do not weep, for not all tears are an evil.'},
 					{date:'02.02.2017', sender:'Gandalf',  body:'All we have to decide is what to do with the time that is given us.'},
 				]},
-				{id:'201', participants:['Shirelings'], messages:[
-					{date:'01.17.2017', sender:'Frodo', body:'The Road goes ever on and on Down from the door where it began. Now far ahead the Road has gone, And I must follow, if I can.'}, {date:'04.25.2017', sender:'Bilbo', body:`Over The Misty Mountains Cold
-
-						Far over the Misty Mountains cold,
-						To dungeons deep and caverns old,
-						We must away, ere break of day,
-						To seek our pale enchanted gold.
-
-						The dwarves of yore made mighty spells,
-						While hammers fell like ringing bells,
-						In places deep, where dark things sleep,
-						In hollow halls beneath the fells.
-
-						For ancient king and elvish lord
-						There many a gleaming golden hoard
-						They shaped and wrought, and light they caught,
-						To hide in gems on hilt of sword.`},
-				]},
-				{id:'202', participants:['Fellowship'], messages:[
+				{ugid:'202', participants:['Fellowship'], messages:[
 					{date:'03.03.2017', sender:'Gimli', body:'Salted pork!!!'},
 				]},
 			];
 		}
 
 		// Add someone to a conversation (new conversation ONLY?)
-		$scope.includeParticipant = function() {
+		$scope.includeParticipant = function(participant) {
 
 		}
 
 		// Check for new messages based on current conversation
 		$scope.updateMessages = function() {
 			// check for unread messages, append to front of queue
-			$scope.messages = $scope.getMessages($scope.currConversation, Date());
+			$scope.currConversation.messages = $scope.getMessages($scope.currConversation, Date());
+
+			// update "unread messages" indicators
 		}
 
 		$scope.getMessages = function(nextConversation, timestamp){
@@ -176,12 +219,12 @@ Roll4Guild
 			var conversation = undefined;
 			for(var i = 0; i < conversations.length; i++){
 				conversation = conversations[i];
-				if(conversation.id == nextConversation.id){
-					console.log(conversation.messages, conversation.id);
-					return conversation.messages? conversation.messages : [{}];
+				if(conversation.upid === nextConversation.upid){
+					// console.log(conversation.participants, conversation.messages);
+					return conversation.messages;
 				}
 			}
-			return [{date:undefined, body:"(no messages)"}]
+			return {date:undefined, body:"(no messages)"};
 
 		}
 
