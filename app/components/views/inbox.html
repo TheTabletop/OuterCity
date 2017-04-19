@@ -84,6 +84,9 @@
 		max-width: 20%;
 		height: 100%;
 		position: absolute; 	/* reference point for children */
+		border-top: none;
+		border-left: none;
+		border-bottom: none;
 		/*background-color: #ecf2f5;*/
 		/*margin: 1%;*/
 	}
@@ -112,8 +115,8 @@
 			<span ng-controller="navCtrl" style="font-size:30px;cursor:pointer;" ng-click="openNav()">&#9776; Navigation</span>
 		</div>
 
-		<div id="contactBrowser">
-			<!-- Place where user can find someone to contact -->
+		<div id="contactBrowser" class="roundBorder">
+			<!-- Search bar where user can find someone to contact -->
 			<div id="contactSearch" class="inboxContainer" style="position:absolute; top:0%; max-height:10%; overflow:hidden;">
 				<form>
 					<input type="text" list="contactsList" placeholder="search contacts" style="width:85%;" ng-model="nameQuery" ng-keypress="($event.charCode==13)? init(nameQuery) : return"/>
@@ -124,7 +127,7 @@
 			<div id="inboxContacts" class="contactList inboxContainer"  style="top:5%; min-height:50%;">
 				<h2> Recent </h2>
 				<div class="inboxContainer scrollVertical" style="top:50px; max-height:70%;">
-					<div class="inboxContact clearfix" ng-repeat="conversation in conversations.concat(contacts) | filter:nameQuery" ng-click=init(conversation)>
+					<div class="inboxContact clearfix" ng-repeat="conversation in conversations.concat(uncontactedContacts) | filter:nameQuery" ng-click=init(conversation)>
 						<a href="#">
 							<div style="">
 								<div style="margin:">
@@ -140,7 +143,7 @@
 			</div>
 			<div id="inboxGroups" class="contactList inboxContainer" style="top:45%; min-height:95%;">
 				<!-- List of Groups the user is a member of -->
-				<h2> Groups </h2>
+				<h2> Guilds </h2>
 				<div class="inboxContainer scrollVertical" style="top:50px; max-height:40%;">
 					<div class="inboxGroup clearfix" ng-repeat="group in groups | filter:nameQuery" ng-click=init(group)>
 						<a href="#">
@@ -164,7 +167,7 @@
 			<h2> {{ listNames(currConversation.participants) }} </h2>
 			</div>
 			<div id="messageHistory" class="inboxContainer scrollVertical" style="bottom:25vh; max-height:50vh; padding:1%;">
-				<div class="inboxMessage roundBorder scrollVertical clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;" ng-repeat="msg in messages">
+				<div class="inboxMessage roundBorder scrollVertical clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;" ng-repeat="msg in currConversation.messages">
 					<div class="messageSender"><b>{{msg.sender}}&nbsp&nbsp</b></div>
 					<div class="messageBody" style="white-space: pre-line;">{{msg.body? msg.body : "(no message)" }}</div>
 					<div class="messageDate" style="float:right">{{msg.date}}</div>
