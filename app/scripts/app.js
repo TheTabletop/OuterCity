@@ -82,14 +82,18 @@ Roll4Guild
 		$scope.init = function(conversation){
 			conversation = (conversation? conversation : $scope.getMostRecentConversation())
 			$scope.myUserName = 'Frodo';
-			console.log('hee');
 			$scope.updateInbox();
 			if(conversation.upid) {
 				$scope.setCurrConversation(conversation);
 			}
 			else if(conversation.uhid) {
 				// add participant to new conversation
-				$scope.includeParticipant(conversant);
+				$scope.setCurrConversation({
+					body:undefined,
+					sender:$scope.myUserName,
+					participants:[conversation.participants],
+					messages:[{body:undefined}],
+				});
 			}
 			else if(conversation.ugid) {
 
@@ -108,7 +112,7 @@ Roll4Guild
 		// Chooses the conversation displayed
 		$scope.setCurrConversation = function(conversation) {
 			$scope.currConversation = conversation;
-			$scope.newMessage = [];
+			$scope.newMessage.body = [];
 			$scope.updateMessages();
 		}
 
@@ -209,14 +213,18 @@ Roll4Guild
 		$scope.updateMessages = function() {
 			// check for unread messages, append to front of queue
 			$scope.currConversation.messages = $scope.getMessages($scope.currConversation, Date());
-
 			// update "unread messages" indicators
 		}
 
+		// Update displayed messages for the given conversation
 		$scope.getMessages = function(nextConversation, timestamp){
 			// temporary
 			var conversations = $scope.conversations.concat($scope.groups);
 			var conversation = undefined;
+			var noMessages = [{date:undefined, body:"(no messages)"}];
+			if( !nextConversation || !nextConversation.upid){
+				return noMessages;
+			}
 			for(var i = 0; i < conversations.length; i++){
 				conversation = conversations[i];
 				if(conversation.upid === nextConversation.upid){
@@ -224,7 +232,7 @@ Roll4Guild
 					return conversation.messages;
 				}
 			}
-			return {date:undefined, body:"(no messages)"};
+			return noMessages;
 
 		}
 
