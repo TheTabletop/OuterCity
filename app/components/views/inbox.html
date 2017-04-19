@@ -169,7 +169,7 @@
 			<div id="messageHistory" class="inboxContainer scrollVertical" style="bottom:25vh; max-height:50vh; padding:1%;">
 				<div class="inboxMessage roundBorder scrollVertical clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;" ng-repeat="msg in currConversation.messages">
 					<div class="messageSender"><b>{{msg.sender}}&nbsp&nbsp</b></div>
-					<div class="messageBody" style="white-space: pre-line;">{{msg.body? msg.body : "(no message)" }}</div>
+					<div class="messageBody" style="white-space: pre-line;">{{msg.body? msg.body : "(no message)"}}</div>
 					<div class="messageDate" style="float:right">{{msg.date}}</div>
 				</div>
 			</div>
@@ -180,7 +180,7 @@
 					<div id="msgEditor" class="clearfix" style="bottom:0; min-width:97%;">
 						<input id="msgRecipient" ng-if="" type="text" name="msgRecipient" placeholder="Add someone to the conversation..."list="msgConstacts" style="min-width:50%;" ng-submit="includeParticipant(currConversation)">
 
-						<textarea id="msgText" class="roundBorder" name="msgText" placeholder="Message..." style="width:100%; max-width:100%; min-height:10vh;  margin:1%;" required ng-model="newMessage"></textarea>
+						<textarea id="msgText" class="roundBorder" name="msgText" placeholder="Message..." style="width:100%; max-width:100%; min-height:10vh;  margin:1%;" required ng-model="newMessage.body"></textarea>
 					</div>
 
 					<input type="submit" value="Send">
