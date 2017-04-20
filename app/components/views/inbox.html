@@ -126,11 +126,29 @@
 			</div>
 
 			<div id="startNewConversation" class="inboxContainer" style="top:4%; max-height:5%; min-width:85%; max-width:85%; overflow:hidden;">
-				<button class="center" ng-click="init(conversation = newConversation, newMessage = undefined)">New Conversation</button>
+				<button class="center" ng-if="!currConversation.isNew" ng-click="init(conversation = newConversation, newMessage = undefined)">New Conversation</button>
+				<button class="center" ng-if="!currConversation.isNew" ng-click="init(conversation = newConversation, newMessage = undefined)">New Conversation</button>
 			</div>
 
 			<!-- List of people with whom there has been recent communication -->
-			<div id="inboxContacts" class="contactList inboxContainer"  style="top:7%; min-height:50%; max-width:10%;">
+			<div id="inboxContacts" class="contactList inboxContainer"  style="top:7%; min-height:90%; max-width:10%;" ng-show="currConversation.isNew">
+				<h2> Companions </h2>
+				<div class="inboxContainer scrollVertical" style="top:50px; max-height:70%;">
+					<div class="inboxContact clearfix" ng-repeat="contact in contacts | filter:nameQuery" ng-click="currConversation.isNew? currConversation.includeParticipants(contact.participants) : init(conversation = contact, newMessage = undefined)">
+						<a href="#">
+							<div style="">
+								<div style="margin:">
+									<img class="profilePic" ng-src="{{ contact.profilePic ? contact.profilePic : default.profilePic }}" alt=""/>
+								</div>
+								<div class="profileLabel">
+									<h3 class="center">{{ listNames(contact.participants) | limitTo: 20 }}</h3>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div id="inboxConversations" class="contactList inboxContainer"  style="top:7%; min-height:50%; max-width:10%;" ng-hide="currConversation.isNew">
 				<h2> Recent </h2>
 				<div class="inboxContainer scrollVertical" style="top:50px; max-height:70%;">
 					<div class="inboxContact clearfix" ng-repeat="conversation in conversations.concat(uncontactedContacts) | filter:nameQuery" ng-click="currConversation.isNew? currConversation.includeParticipants(conversation.participants) : init(conversation = conversation, newMessage = undefined)">
@@ -147,7 +165,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="inboxGroups" class="contactList inboxContainer" style="top:48%; min-height:95%;">
+			<div id="inboxGroups" class="contactList inboxContainer" style="top:48%; min-height:95%;"  ng-hide="currConversation.isNew">
 				<!-- List of Groups the user is a member of -->
 				<h2> Guilds </h2>
 				<div class="inboxContainer scrollVertical" style="top:50px; max-height:40%;">
