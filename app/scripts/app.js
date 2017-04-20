@@ -65,8 +65,31 @@ Roll4Guild
     .controller('inboxCtrl', function($scope, $http) {
         $scope.name = 'inboxCtrl';
 		$scope.uncontactedContacts = [];
-		$scope.newConversation = {};
-		$scope.currConversation = {
+		// $scope.Conversation = {
+		// 	includeParticipants:function(sdf) {
+		// 		console.log("blah");
+		// 	},
+		// }
+		$scope.newConversation = {
+			// prototype:$scope.Conversation,
+			body:undefined,
+			sender:$scope.myUserName,
+			participants:[],
+			messages:[{body:undefined}],
+			isNew:true,
+			removeParticipant:function(nameToRemove){
+				this.participants = this.participants.filter(function(name) {
+					return name !== nameToRemove;
+				})
+			},
+			includeParticipants:function(participants) {
+				var currParticipants = $scope.currConversation.participants;
+				$scope.currConversation.participants = [...new Set(participants.concat(currParticipants))];
+			},
+		};
+
+		$scope.currConversation={
+			// prototype:$scope.Conversation,
 			participants:undefined,
 			messages:[],
 			message:"",
@@ -79,7 +102,7 @@ Roll4Guild
 			groupPic: 'https://bigtallwords.files.wordpress.com/2015/04/lord-of-the-rings-two-towers-orc-gathering.png?w=256&h=256&crop=1'
 		};
 		// Called when page first loads
-		$scope.init = function(conversation){
+		$scope.init = function(conversation, newMessage){
 			conversation = (conversation? conversation : $scope.getMostRecentConversation())
 			$scope.myUserName = 'Frodo';
 			$scope.updateInbox();
@@ -91,14 +114,18 @@ Roll4Guild
 				$scope.setCurrConversation({
 					body:undefined,
 					sender:$scope.myUserName,
-					participants:[conversation.participants],
+					participants:conversation.participants,
 					messages:[{body:undefined}],
 				});
 			}
 			else if(conversation.ugid) {
 
 			}
-			else{}
+			else{
+				$scope.setCurrConversation(conversation);
+			}
+
+			$scope.newMessage = newMessage? newMessage : {};
 		}
 		$scope.updateInbox = function() {
 			$scope.updateContactBrowser();
@@ -112,7 +139,6 @@ Roll4Guild
 		// Chooses the conversation displayed
 		$scope.setCurrConversation = function(conversation) {
 			$scope.currConversation = conversation;
-			$scope.newMessage.body = [];
 			$scope.updateMessages();
 		}
 
@@ -204,11 +230,6 @@ Roll4Guild
 			];
 		}
 
-		// Add someone to a conversation (new conversation ONLY?)
-		$scope.includeParticipant = function(participant) {
-
-		}
-
 		// Check for new messages based on current conversation
 		$scope.updateMessages = function() {
 			// check for unread messages, append to front of queue
@@ -219,9 +240,9 @@ Roll4Guild
 		// Update displayed messages for the given conversation
 		$scope.getMessages = function(nextConversation, timestamp){
 			// temporary
+			var noMessages = [{date:undefined, body:"(no messages)"}];
 			var conversations = $scope.conversations.concat($scope.groups);
 			var conversation = undefined;
-			var noMessages = [{date:undefined, body:"(no messages)"}];
 			if( !nextConversation || !nextConversation.upid){
 				return noMessages;
 			}
