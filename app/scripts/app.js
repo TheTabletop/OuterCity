@@ -93,28 +93,45 @@ Roll4Guild
     .controller('inboxCtrl', function($scope, $http) {
         $scope.name = 'inboxCtrl';
 		$scope.uncontactedContacts = [];
-		// $scope.Conversation = {
-		// 	includeParticipants:function(sdf) {
-		// 		console.log("blah");
+
+		$scope.getNewConversation = function() {
+			this.NewConversation = function(){
+				// prototype:$scope.Conversation,
+				this.body = undefined;
+				this.sender = $scope.myUserName;
+				this.participants = [];
+				this.messages = [{body:undefined}];
+				this.isNew = true;
+				this.removeParticipant = function(nameToRemove){
+					this.participants = this.participants.filter(function(name) {
+						return name !== nameToRemove;
+					})
+				}
+				this.includeParticipants = function(participants) {
+					var currParticipants = $scope.currConversation.participants;
+					$scope.currConversation.participants = [...new Set(participants.concat(currParticipants))];
+				}
+			}
+			return new this.NewConversation();
+		}
+
+		// $scope.newConversation = {
+		// 	// prototype:$scope.Conversation,
+		// 	body:undefined,
+		// 	sender:$scope.myUserName,
+		// 	participants:[],
+		// 	messages:[{body:undefined}],
+		// 	isNew:true,
+		// 	removeParticipant:function(nameToRemove){
+		// 		this.participants = this.participants.filter(function(name) {
+		// 			return name !== nameToRemove;
+		// 		})
 		// 	},
-		// }
-		$scope.newConversation = {
-			// prototype:$scope.Conversation,
-			body:undefined,
-			sender:$scope.myUserName,
-			participants:[],
-			messages:[{body:undefined}],
-			isNew:true,
-			removeParticipant:function(nameToRemove){
-				this.participants = this.participants.filter(function(name) {
-					return name !== nameToRemove;
-				})
-			},
-			includeParticipants:function(participants) {
-				var currParticipants = $scope.currConversation.participants;
-				$scope.currConversation.participants = [...new Set(participants.concat(currParticipants))];
-			},
-		};
+		// 	includeParticipants:function(participants) {
+		// 		var currParticipants = $scope.currConversation.participants;
+		// 		$scope.currConversation.participants = [...new Set(participants.concat(currParticipants))];
+		// 	},
+		// };
 
 		$scope.currConversation={
 			// prototype:$scope.Conversation,
@@ -138,7 +155,7 @@ Roll4Guild
 				$scope.setCurrConversation(conversation);
 			}
 			else if(conversation.uhid) {
-				// add participant to new conversation
+				// add participant to new conversation with 1 other person
 				$scope.setCurrConversation({
 					body:undefined,
 					sender:$scope.myUserName,
@@ -150,6 +167,7 @@ Roll4Guild
 
 			}
 			else{
+				// create a new conversation, will choose participants
 				$scope.setCurrConversation(conversation);
 			}
 
