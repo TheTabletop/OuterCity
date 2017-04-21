@@ -121,7 +121,7 @@
 			<!-- Search bar where user can find someone to contact -->
 			<div id="contactSearch" class="inboxContainer" style="position:absolute; top:0%; max-height:10%; overflow:hidden;">
 				<form>
-					<input type="text" list="contactsList" placeholder="search contacts" style="width:85%;" ng-model="nameQuery" ng-keypress="($event.charCode==13)? init(conversation = ameQuery, newMessage = undefined) : return"/>
+					<input type="text" list="contactsList" placeholder="search contacts" style="width:85%;" ng-model="nameQuery"/>
 				</form>
 			</div>
 
@@ -134,7 +134,7 @@
 			<div id="inboxContacts" class="contactList inboxContainer"  style="top:7%; min-height:90%; max-width:10%;" ng-show="currConversation.isNew">
 				<h2> Companions </h2>
 				<div class="inboxContainer scrollVertical" style="top:50px; max-height:70%;">
-					<div class="inboxContact clearfix" ng-repeat="contact in contacts | filter:nameQuery" ng-click="currConversation.isNew? currConversation.includeParticipants(contact.participants) : init(conversation = contact, newMessage = undefined)">
+					<div class="inboxContact clearfix" ng-repeat="contact in contacts | filter:{participants:nameQuery}" ng-click="currConversation.isNew? currConversation.includeParticipants(contact.participants) : init(conversation = contact, newMessage = undefined)">
 						<a href="#">
 							<div style="">
 								<div style="margin:">
@@ -151,7 +151,7 @@
 			<div id="inboxConversations" class="contactList inboxContainer"  style="top:7%; min-height:50%; max-width:10%;" ng-hide="currConversation.isNew">
 				<h2> Recent </h2>
 				<div class="inboxContainer scrollVertical" style="top:50px; max-height:70%;">
-					<div class="inboxContact clearfix" ng-repeat="conversation in conversations.concat(uncontactedContacts) | filter:nameQuery" ng-click="currConversation.isNew? currConversation.includeParticipants(conversation.participants) : init(conversation = conversation, newMessage = undefined)">
+					<div class="inboxContact clearfix" ng-repeat="conversation in conversations.concat(uncontactedContacts) | filter:{participants:nameQuery}" ng-click="currConversation.isNew? currConversation.includeParticipants(conversation.participants) : init(conversation = conversation, newMessage = undefined)">
 						<a href="#">
 							<div style="">
 								<div style="margin:">
@@ -169,7 +169,7 @@
 				<!-- List of Groups the user is a member of -->
 				<h2> Guilds </h2>
 				<div class="inboxContainer scrollVertical" style="top:50px; max-height:40%;">
-					<div class="inboxGroup clearfix" ng-repeat="group in groups | filter:nameQuery" ng-click="init(conversation = group, newMessage = undefined)">
+					<div class="inboxGroup clearfix" ng-repeat="group in groups | filter:{participants:nameQuery}" ng-click="init(conversation = group, newMessage = undefined)">
 						<a href="#">
 							<div style="">
 								<div>
