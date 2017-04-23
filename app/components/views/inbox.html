@@ -40,7 +40,6 @@
 	}
 	.contactList {
 		overflow: hidden;
-		background-color: none;
 	}
 	.messageSender, .messageBody, .messageDate{
 	    font-size: 15px;
@@ -110,7 +109,7 @@
 
 <body ng-controller="inboxCtrl">
 <div id="includedContent"></div>
-	<div ng-init="init(conversation = undefined, newMessage = undefined)"></div>
+	<div ng-init="init(undefined, undefined)"></div>
 
 	<div id="main" class="clearfix">
 		<div id="navIcon">
@@ -126,15 +125,15 @@
 			</div>
 
 			<div id="startNewConversation" class="inboxContainer" style="top:4%; max-height:5%; min-width:85%; max-width:85%; overflow:hidden;">
-				<button class="center" ng-if="!currConversation.isNew" ng-click="init(conversation = getNewConversation(), newMessage = undefined)">New Conversation</button>
-				<button class="center" ng-if="currConversation.isNew" ng-click="init(conversation = undefined, newMessage = undefined)">Close</button>
+				<button class="center" ng-if="!currConversation.isNew" ng-click="init( getNewConversation(), undefined)">New Conversation</button>
+				<button class="center" ng-if="currConversation.isNew" ng-click="init( undefined, undefined)">Close</button>
 			</div>
 
 			<!-- List of people with whom there has been recent communication -->
 			<div id="inboxContacts" class="contactList inboxContainer"  style="top:7%; min-height:90%; max-width:10%;" ng-show="currConversation.isNew">
 				<h2> Companions </h2>
 				<div class="inboxContainer scrollVertical" style="top:50px; max-height:70%;">
-					<div class="inboxContact clearfix" ng-repeat="contact in contacts | filter:{participants:nameQuery}" ng-click="currConversation.isNew? currConversation.includeParticipants(contact.participants) : init(conversation = contact, newMessage = undefined)">
+					<div class="inboxContact clearfix" ng-repeat="contact in contacts | filter:{participants:nameQuery}" ng-click="currConversation.isNew? currConversation.includeParticipants(contact.participants) : init( contact, undefined)">
 						<a href="#">
 							<div style="">
 								<div style="margin:">
@@ -151,7 +150,7 @@
 			<div id="inboxConversations" class="contactList inboxContainer"  style="top:7%; min-height:50%; max-width:10%;" ng-hide="currConversation.isNew">
 				<h2> Recent </h2>
 				<div class="inboxContainer scrollVertical" style="top:50px; max-height:70%;">
-					<div class="inboxContact clearfix" ng-repeat="conversation in conversations.concat(uncontactedContacts) | filter:{participants:nameQuery}" ng-click="currConversation.isNew? currConversation.includeParticipants(conversation.participants) : init(conversation = conversation, newMessage = undefined)">
+					<div class="inboxContact clearfix" ng-repeat="conversation in conversations.concat(uncontactedContacts) | filter:{participants:nameQuery}" ng-click="currConversation.isNew? currConversation.includeParticipants(conversation.participants) : init( conversation, undefined)">
 						<a href="#">
 							<div style="">
 								<div style="margin:">
@@ -169,7 +168,7 @@
 				<!-- List of Groups the user is a member of -->
 				<h2> Guilds </h2>
 				<div class="inboxContainer scrollVertical" style="top:50px; max-height:40%;">
-					<div class="inboxGroup clearfix" ng-repeat="group in groups | filter:{participants:nameQuery}" ng-click="init(conversation = group, newMessage = undefined)">
+					<div class="inboxGroup clearfix" ng-repeat="group in groups | filter:{participants:nameQuery}" ng-click="init( group, undefined)">
 						<a href="#">
 							<div style="">
 								<div>
@@ -186,7 +185,7 @@
 		</div>
 
 		<div id="mailBrowser" class="clearfix" style="max-height:90vh;">
-			<!-- List of messages sent to the user -->
+			<!-- List of participants in conversation -->
 			<div class="inboxContainer" style="top:0; margin:1%;">
 				<div id="existingConversationParticipants" ng-if="!currConversation.isNew">
 					<h2> {{ listNames(currConversation.participants) }} </h2>
@@ -199,7 +198,8 @@
 					</div>
 				</div>
 			</div>
-			<div id="messageHistory" class="inboxContainer scrollVertical" style="bottom:25vh; max-height:50vh; padding:1%;">
+			<!-- List of messages sent to the user -->
+			<div id="messageHistory" class="inboxContainer scrollVertical" style="bottom:25vh; max-height:50vh; padding:1%;" ng-hide="currConversation.isNew">
 				<div class="inboxMessage roundBorder scrollVertical clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;" ng-repeat="msg in currConversation.messages">
 					<div class="messageSender"><b>{{msg.sender}}&nbsp&nbsp</b></div>
 					<div class="messageBody" style="white-space: pre-line;">{{msg.body? msg.body : "(no message)"}}</div>
@@ -213,10 +213,10 @@
 					<div id="msgEditor" class="clearfix" style="bottom:0; min-width:97%;">
 						<!-- <input id="msgRecipient" ng-if="" type="text" name="msgRecipient" placeholder="Add someone to the conversation..."list="msgConstacts" style="min-width:50%;" ng-submit="includeParticipant(currConversation)"> -->
 
-						<textarea id="msgText" class="roundBorder" name="msgText" placeholder="Message..." style="width:100%; max-width:100%; min-height:10vh;  margin:1%;" required ng-model="newMessage.body"></textarea>
+						<textarea id="msgText" class="roundBorder" name="msgText" placeholder="Message..." style="width:100%; max-width:100%; min-height:10vh;  margin:1%;" ng-model="newMessage.body"></textarea>
 					</div>
 
-					<input type="submit" value="Send">
+					<input type="submit" value="Send" ng-click="sendMessage()"></input>
 				</form>
 
 			</div>
