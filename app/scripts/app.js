@@ -103,11 +103,13 @@ Roll4Guild
 				this.messages = [{body:undefined}];
 				this.isNew = true;
 				this.removeParticipant = function(nameToRemove){
+					console.log('remove', nameToRemove);
 					this.participants = this.participants.filter(function(name) {
 						return name !== nameToRemove;
 					})
 				}
 				this.includeParticipants = function(participants) {
+					console.log('add', participants);
 					var currParticipants = $scope.currConversation.participants;
 					$scope.currConversation.participants = [...new Set(participants.concat(currParticipants))];
 				}
@@ -301,6 +303,22 @@ Roll4Guild
 			}
 			return noMessages;
 
+		}
+
+		$scope.sendMessage = function() {
+			if(!$scope.newMessage.body) { return; }
+
+			// send message
+
+			// reset state
+			if($scope.currConversation.isNew) {
+				$scope.init(undefined, undefined);
+			}
+			else {
+				$scope.newMessage = undefined;
+			}
+
+			$scope.updateInbox();
 		}
 
 		$scope.getMessageBody = function(msg, messages) {
