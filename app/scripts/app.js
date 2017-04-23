@@ -372,7 +372,12 @@ Roll4Guild
                     console.log("Unable to perform get request");
                 });
         };
-    })
+
+		$scope.group = {name: 'Troopers', ugid:1138};
+		$scope.popups = {
+			showMessagbox: false,
+		}
+	})
     .controller('groupWallCtrl', function($scope, $http) {
         $scope.name = 'groupWallCtrl';
         $scope.init = function () {
@@ -402,9 +407,9 @@ Roll4Guild
 	.service('message', function() {
 		this.send = function(newMessage) {
 			if(!newMessage || !newMessage.body) { return; }
-			console.log(newMessage.body, " sent");
 
 			// send message
+			console.log("\""+ newMessage.body +"\" sent");
 		}
 	}
 )

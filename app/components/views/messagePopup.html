@@ -1,6 +1,6 @@
 <form id="newMessage" class="roundBorder scrollVertical" style="max-height:40%; padding:1vh; background-color:#fff;" ng-controller="messagePopup">
 	<div ng-init=init()></div>
-	<h2 style="margin:0;">{{hero.name}}</h2>
+	<h2 style="margin:0;">{{recipient.name}}</h2>
 	<button class="redClosebtn" ng-click=closeMessage()>X</button>
 	<!-- Place where message body is entered -->
 	<textarea id="msgText" class="roundBorder" name="msgText" placeholder="Message..." style="width:100%; min-width: 40vh; height:20vh; align:center; margin-left:auto; margin-right:auto;" ng-model="newMessage.body"></textarea>
