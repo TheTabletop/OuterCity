@@ -54,7 +54,8 @@ Roll4Guild
     })
     .controller('userProfCtrl', function($scope, $http) {
         $scope.name = 'userProfCtrl';
-
+		// TODO: use hero's actual uhid, name
+		$scope.hero = {name:'Luke', uhid:'TK421'};
 
         $scope.init = function () {
             $http.get("https://www.omdbapi.com/?t=Star+Wars")
@@ -66,6 +67,9 @@ Roll4Guild
                 });
         };
 
+		$scope.popups = {
+			showMessagbox: false,
+		}
 
     })
     .controller('searchCtrl', function($scope, $http) {
@@ -116,24 +120,6 @@ Roll4Guild
 			}
 			return new this.NewConversation();
 		}
-
-		// $scope.newConversation = {
-		// 	// prototype:$scope.Conversation,
-		// 	body:undefined,
-		// 	sender:$scope.myUserName,
-		// 	participants:[],
-		// 	messages:[{body:undefined}],
-		// 	isNew:true,
-		// 	removeParticipant:function(nameToRemove){
-		// 		this.participants = this.participants.filter(function(name) {
-		// 			return name !== nameToRemove;
-		// 		})
-		// 	},
-		// 	includeParticipants:function(participants) {
-		// 		var currParticipants = $scope.currConversation.participants;
-		// 		$scope.currConversation.participants = [...new Set(participants.concat(currParticipants))];
-		// 	},
-		// };
 
 		$scope.currConversation={
 			// prototype:$scope.Conversation,
@@ -336,6 +322,31 @@ Roll4Guild
 			return names.join(', ');
 		}
     })
+	.controller('messagePopup', function($scope, $http, message) {
+		$scope.init = function() {
+			document.getElementById("msgText").focus();
+			$scope.newMessage = $scope.getNewMessage();
+		}
+		$scope.getNewMessage = function() {
+			this.message = function() {
+				this.sender = undefined;
+				this.body = undefined;
+			}
+			return new this.message();
+		}
+
+		$scope.closeMessage = function() {
+			// access parent scope's "popups" object
+			$scope.popups.showMessagbox = false;
+		}
+
+		$scope.sendMessage = function() {
+			message.send($scope.newMessage);
+			// access parent scope's "popups" object
+			$scope.popups.showMessagbox = false;
+		}
+
+	})
 
    Roll4Guild
     .controller('userWallCtrl', function($scope, $http) {
@@ -386,3 +397,14 @@ Roll4Guild
                 });
         };
     })
+
+	Roll4Guild
+	.service('message', function() {
+		this.send = function(newMessage) {
+			if(!newMessage || !newMessage.body) { return; }
+			console.log(newMessage.body, " sent");
+
+			// send message
+		}
+	}
+)

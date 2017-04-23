@@ -235,3 +235,14 @@ input[type=submit]:active {
     background-color: navy;
     color: white;
 }
+
+.redClosebtn {
+	position:absolute;
+	top:0;
+	right:0;
+	margin:2px;
+}
+
+.redClosebtn:hover {
+	background-color: red;
+}
