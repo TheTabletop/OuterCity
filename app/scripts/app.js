@@ -98,35 +98,13 @@ Roll4Guild
         $scope.name = 'inboxCtrl';
 		$scope.uncontactedContacts = [];
 
-		$scope.getNewConversation = function() {
-			this.NewConversation = function(){
-				// prototype:$scope.Conversation,
-				this.body = undefined;
-				this.sender = $scope.myUserName;
-				this.participants = [];
-				this.messages = [{body:undefined}];
-				this.isNew = true;
-				this.removeParticipant = function(nameToRemove){
-					console.log('remove', nameToRemove);
-					this.participants = this.participants.filter(function(name) {
-						return name !== nameToRemove;
-					})
-				}
-				this.includeParticipants = function(participants) {
-					console.log('add', participants);
-					var currParticipants = $scope.currConversation.participants;
-					$scope.currConversation.participants = [...new Set(participants.concat(currParticipants))];
-				}
-			}
-			return new this.NewConversation();
-		}
 
-		$scope.currConversation={
-			// prototype:$scope.Conversation,
-			participants:undefined,
-			messages:[],
-			message:"",
-		};
+		// $scope.currConversation={
+		// 	// prototype:$scope.Conversation,
+		// 	participants:undefined,
+		// 	messages:[],
+		// 	message:"",
+		// };
 		$scope.newMessage = {};
 		$scope.contacts = [];
 		$scope.conversations = [];
@@ -160,6 +138,28 @@ Roll4Guild
 			}
 
 			$scope.newMessage = newMessage? newMessage : {};
+		}
+		$scope.getNewConversation = function() {
+			this.NewConversation = function(){
+				// prototype:$scope.Conversation,
+				this.body = undefined;
+				this.sender = $scope.myUserName;
+				this.participants = [];
+				this.messages = [{body:undefined}];
+				this.isNew = true;
+				this.removeParticipant = function(nameToRemove){
+					// console.log('remove', nameToRemove);
+					$scope.currConversation.participants = $scope.currConversation.participants.filter(function(name) {
+						return name !== nameToRemove;
+					});
+				}
+				this.includeParticipants = function(participants) {
+					// console.log('include', participants);
+					var currParticipants = $scope.currConversation.participants;
+					$scope.currConversation.participants = [...new Set(participants.concat(currParticipants))];
+				}
+			}
+			return new this.NewConversation();
 		}
 		$scope.updateInbox = function() {
 			$scope.updateContactBrowser();

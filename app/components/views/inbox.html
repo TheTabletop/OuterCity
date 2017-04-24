@@ -129,11 +129,11 @@
 				<button class="center" ng-if="currConversation.isNew" ng-click="init( undefined, undefined)">Close</button>
 			</div>
 
-			<!-- List of people with whom there has been recent communication -->
-			<div id="inboxContacts" class="contactList inboxContainer"  style="top:7%; min-height:90%; max-width:10%;" ng-show="currConversation.isNew">
+			<!-- List of contacts used to start NEW conversation -->
+			<div id="inboxContacts" class="contactList inboxContainer"  style="top:7%; min-height:90%; max-width:10%;" ng-if="currConversation.isNew">
 				<h2> Companions </h2>
 				<div class="inboxContainer scrollVertical" style="top:50px; max-height:70%;">
-					<div class="inboxContact clearfix" ng-repeat="contact in contacts | filter:{participants:nameQuery}" ng-click="currConversation.isNew? currConversation.includeParticipants(contact.participants) : init( contact, undefined)">
+					<div class="inboxContact clearfix" ng-repeat="contact in contacts | filter:{participants:nameQuery}" ng-click="currConversation.includeParticipants(contact.participants)">
 						<a href="#">
 							<div style="">
 								<div style="margin:">
@@ -147,10 +147,11 @@
 					</div>
 				</div>
 			</div>
+			<!-- List of people with whom there is an EXISTING conversation -->
 			<div id="inboxConversations" class="contactList inboxContainer"  style="top:7%; min-height:50%; max-width:10%;" ng-hide="currConversation.isNew">
 				<h2> Recent </h2>
 				<div class="inboxContainer scrollVertical" style="top:50px; max-height:70%;">
-					<div class="inboxContact clearfix" ng-repeat="conversation in conversations.concat(uncontactedContacts) | filter:{participants:nameQuery}" ng-click="currConversation.isNew? currConversation.includeParticipants(conversation.participants) : init( conversation, undefined)">
+					<div class="inboxContact clearfix" ng-repeat="conversation in conversations.concat(uncontactedContacts) | filter:{participants:nameQuery}" ng-click="init( conversation, undefined)">
 						<a href="#">
 							<div style="">
 								<div style="margin:">
@@ -194,7 +195,9 @@
 				<div id="newConversationParticipantList" style="" ng-if="currConversation.isNew">
 					<div id="newConversationParticipant" style="display:inline-block; margin:0 5px 0 5px" ng-repeat="name in currConversation.participants">
 						<button class="newParticipant" style="float:left;"><h2 style="margin:0;"> {{ name }} </h2></button>
-						<button style="float:left;"><h2 style="margin:0;" ng-click="currConversation.removeParticipant(name)">X</h2></button>
+						<button style="float:left;" ng-click="currConversation.removeParticipant(name)">
+							<h2 style="margin:0;">X</h2>
+						</button>
 					</div>
 				</div>
 			</div>
