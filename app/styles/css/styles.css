@@ -236,13 +236,13 @@ input[type=submit]:active {
     color: white;
 }
 
-.redClosebtn {
+.cornerButton {
 	position:absolute;
 	top:0;
 	right:0;
 	margin:2px;
 }
 
-.redClosebtn:hover {
+.clickWarning:hover {
 	background-color: red;
 }

@@ -126,7 +126,7 @@
 
 			<div id="startNewConversation" class="inboxContainer" style="top:4%; max-height:5%; min-width:85%; max-width:85%; overflow:hidden;">
 				<button class="center" ng-if="!currConversation.isNew" ng-click="init( getNewConversation(), undefined)">New Conversation</button>
-				<button class="center" ng-if="currConversation.isNew" ng-click="init( undefined, undefined)">Close</button>
+				<button class="clickWarning center" ng-if="currConversation.isNew" ng-click="init( undefined, undefined)">Close</button>
 			</div>
 
 			<!-- List of contacts used to start NEW conversation -->
