@@ -94,7 +94,7 @@ Roll4Guild
 
 
     })
-    .controller('inboxCtrl', function($scope, $http) {
+    .controller('inboxCtrl', function($scope, $http, message) {
         $scope.name = 'inboxCtrl';
 		$scope.uncontactedContacts = [];
 
@@ -136,7 +136,7 @@ Roll4Guild
 				// create a new conversation, will choose participants
 				$scope.setCurrConversation(conversation);
 			}
-
+			document.getElementById("msgText").focus();
 			$scope.newMessage = newMessage? newMessage : {};
 		}
 		$scope.getNewConversation = function() {
@@ -292,9 +292,8 @@ Roll4Guild
 		}
 
 		$scope.sendMessage = function() {
-			if(!$scope.newMessage.body) { return; }
-
 			// send message
+			message.send($scope.newMessage);
 
 			// reset state
 			if($scope.currConversation.isNew) {
