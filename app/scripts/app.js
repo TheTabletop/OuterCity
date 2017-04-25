@@ -74,8 +74,7 @@ Roll4Guild
     })
     .controller('searchCtrl', function($scope, $http) {
         $scope.name = 'searchCtrl';
-		$scope.isAdmin = true;
-        $scope.init = function () {
+        $scope.init = function (mode) {
             $http.get("https://www.omdbapi.com/?t=Star+Wars")
                 .then(function successCallback(response){
                     $scope.details = response.data;
@@ -83,8 +82,63 @@ Roll4Guild
                 }, function errorCallback(response){
                     console.log("Unable to perform get request");
                 });
-			
+			switch(mode) {
+				case 'users':
+					$scope.results = $scope.getUsers();
+					break;
+				case 'groups':
+					$scope.results = $scope.getGroups();
+					break;
+			}
 		};
+
+		// get search results (i.e. relevant users) from back-end
+		$scope.getUsers = function() {
+			return [
+				{'_id': "1",
+				'games': ["7 Wonders", "MTG", "Coup"],
+				'heroname': "Gandalf",
+				'backstory': "The Grey Pilgrim. That is what they used to call me. Three hundred lives of men I've walked this earth and now, I have no time."},
+				{'_id': "2",
+				'games': ["DnD", "Betrayal at the House on the Hill", "X-Wing", "Settlers of Catan", "7 Wonders", "MTG", "Coup"],
+				'heroname': "Bilbo",
+				'backstory': "He was hired by Thorin and Company to be their burglar in the Quest of Erebor, and later fought in the Battle of the Five Armies. Bilbo was also one of the bearers of the One Ring, and the first to voluntarily give it up, although with some difficulty. He wrote many of his adventures in a book he called There and Back Again. Bilbo adopted Frodo Baggins as his nephew after his parents, Drogo Baggins and Primula Brandybuck, drowned in the Brandywine River."},
+				{'_id': "3",
+				'games': ["7 Wonders", "MTG", "Coup"],
+				'heroname': "Frodo",
+				'backstory': "I wander Middle Earth"},
+				{'_id': "4",
+				'games': ["7 Wonders", "MTG", "Coup"],
+				'heroname': "Sam",
+				'backstory': "I wander Middle Earth"},
+				{'_id': "5",
+				'games': ["7 Wonders", "MTG", "Coup"],
+				'heroname': "Pippin",
+				'backstory': "I wander Middle Earth"},
+				{'_id': "6",
+				'games': ["7 Wonders", "MTG", "Coup"],
+				'heroname': "Merriadoc",
+				'backstory': "I wander Middle Earth"},
+				{'_id': "7",
+				'games': ["7 Wonders", "MTG", "Coup"],
+				'heroname': "Gimli",
+				'backstory': "I wander Middle Earth"},
+				{'_id': "8",
+				'games': ["7 Wonders", "MTG", "Coup"],
+				'heroname': "Elrond",
+				'backstory': "I wander Middle Earth"},
+			];
+		}
+
+		$scope.getGroups = function() {
+			return [];
+		}
+		$scope.showUserPopup = function(user) {
+			$scope.currUser = user;
+		}
+		$scope.hideUserPopup = function() {
+			$scope.currUser = undefined;
+		}
 
     })
     .controller('passNewCtrl', function($scope, $http) {
