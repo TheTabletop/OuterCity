@@ -74,6 +74,7 @@ Roll4Guild
     })
     .controller('searchCtrl', function($scope, $http) {
         $scope.name = 'searchCtrl';
+		$scope.isAdmin = true;
         $scope.init = function () {
             $http.get("https://www.omdbapi.com/?t=Star+Wars")
                 .then(function successCallback(response){
@@ -82,7 +83,8 @@ Roll4Guild
                 }, function errorCallback(response){
                     console.log("Unable to perform get request");
                 });
-        };
+			
+		};
 
     })
     .controller('passNewCtrl', function($scope, $http) {
