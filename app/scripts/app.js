@@ -102,7 +102,7 @@ Roll4Guild
 			experienceLevel: undefined,
 			name: undefined,
 			meetingTime: undefined,
-			regularity: undefined, 
+			regularity: undefined,
 		}
 
         $scope.init = function () {
@@ -505,7 +505,7 @@ Roll4Guild
 			if(!newMessage || !newMessage.body) { return; }
 
 			// send message
-			console.log("\""+ newMessage.body +"\" sent");
+			console.log("\""+ newMessage.body +"\" sent from", newMessage.sender, "to", newMessage.participants);
 		}
 	}
 )

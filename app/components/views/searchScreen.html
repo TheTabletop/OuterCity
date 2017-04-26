@@ -46,14 +46,13 @@ $("#includedContent").load("generalNav.html");
 		</div></center>
 
 		<div id="searchResults" style="margin:1%;">
-			<button class="userResults" style="margin:1%;" ng-repeat="result in results" ng-click="userPopup.show(result)" ng-if="searchCriteria.mode==='users'">{{result.heroname}}</button>
-			<div ng-include="'../partials/playerPopup.html'" ng-if="userPopup.user"
-			style="position:absolute; top:15vh; left:25vw;"></div>
+			<a href="userProfile.html">
+				<button class="userResults" style="margin:1%;" ng-repeat="result in results" ng-if="searchCriteria.mode==='users'">{{result.heroname}}</button>
+			</a>
 
-			<button class="groupResults" style="margin:1%;" ng-repeat="result in results" ng-click="groupPopup.show(result)" ng-if="searchCriteria.mode==='groups'">{{result.name}}</button>
-			{{groupPopup.name}}
-			<div ng-include="'../partials/groupPopup.html'" ng-if="groupPopup.group"
-			style="position:absolute; top:15vh; left:25vw;"></div>
+			<a href="groupProfile.html">
+				<button class="groupResults" style="margin:1%;" ng-repeat="result in results" ng-click="groupPopup.show(result)" ng-if="searchCriteria.mode==='groups'">{{result.name}}</button>
+			</a>
 		</div>
 	</div>
 
