@@ -75,26 +75,6 @@ Roll4Guild
     .controller('searchCtrl', function($scope, $http) {
         $scope.name = 'searchCtrl';
 
-		$scope.userPopup = {
-			user: undefined,
-			show: function(user) {
-				$scope.userPopup.user = user;
-			},
-			hide: function() {
-				$scope.userPopup.user = undefined;
-			},
-		}
-
-		$scope.groupPopup = {
-			group: undefined,
-			show: function(group) {
-				$scope.groupPopup.group = group;
-			},
-			hide: function() {
-				$scope.groupPopup.group = undefined;
-			},
-		}
-
 		$scope.searchCriteria = {
 			mode: undefined,
 			location: undefined,
