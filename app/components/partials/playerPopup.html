@@ -1,9 +1,10 @@
 <!-- Could be used anywhere in app to get more info about someone -->
 <div class="roundBorder scrollVertical" style="max-height:60vh; width:40vw; padding:1%; background-color:#fff;">
-	<button class="cornerButton clickWarning" ng-click=hideUserPopup()>X</button>
-	<h3>{{currUser.heroname}}</h3>
-	<p>{{currUser.backstory}}</p>
+	<button class="cornerButton clickWarning" ng-click="userPopup.hide()">X</button>
+	<h3>{{userPopup.user.heroname}}</h3>
+	<p>{{userPopup.user.backstory}}</p>
+	<p>Games:</p>
 	<ul>
-		<li ng-repeat="game in currUser.games">{{game}}</li>
+		<li ng-repeat="game in userPopup.user.games">{{game}}</li>
 	</ul>
 </div>

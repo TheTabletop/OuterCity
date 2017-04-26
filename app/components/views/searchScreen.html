@@ -33,7 +33,7 @@ $("#includedContent").load("generalNav.html");
 </head>
 
 <body ng-controller="searchCtrl">
-	<div data-ng-init="init('users')"></div>
+	<div data-ng-init="init()"></div>
 	<div id="includedContent"></div>
 
 	<div id="main">
@@ -41,16 +41,18 @@ $("#includedContent").load("generalNav.html");
 		<span ng-controller="navCtrl" style="font-size:30px;cursor:pointer" ng-click="openNav()">&#9776; Navigation</span>
 		<center><div id="searchField">
 		<h2>Search for a:</h2>
-		<button class="groupButton" ng-click="init('groups')">Groups</button>
-		<button class="userButton" ng-click="init('users')">Users</button>
+		<button class="groupButton" ng-click="searchCriteria.mode='groups'; search();">Groups</button>
+		<button class="userButton" ng-click="searchCriteria.mode='users'; search();">Users</button>
 		</div></center>
 
 		<div id="searchResults" style="margin:1%;">
-			<div class="userResults roundBorder" style="margin:1%;" ng-repeat="result in results" ng-click="showUserPopup(result)">
-				<a href="#">{{result.heroname}}</a>
+			<button class="userResults" style="margin:1%;" ng-repeat="result in results" ng-click="userPopup.show(result)" ng-if="searchCriteria.mode==='users'">{{result.heroname}}</button>
+			<div ng-include="'../partials/playerPopup.html'" ng-if="userPopup.user"
+			style="position:absolute; top:15vh; left:25vw;"></div>
 
-			</div>
-			<div ng-include="'../partials/playerPopup.html'" ng-if="currUser"
+			<button class="groupResults" style="margin:1%;" ng-repeat="result in results" ng-click="groupPopup.show(result)" ng-if="searchCriteria.mode==='groups'">{{result.name}}</button>
+			{{groupPopup.name}}
+			<div ng-include="'../partials/groupPopup.html'" ng-if="groupPopup.group"
 			style="position:absolute; top:15vh; left:25vw;"></div>
 		</div>
 	</div>

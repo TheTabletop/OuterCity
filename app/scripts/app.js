@@ -74,7 +74,38 @@ Roll4Guild
     })
     .controller('searchCtrl', function($scope, $http) {
         $scope.name = 'searchCtrl';
-        $scope.init = function (mode) {
+
+		$scope.userPopup = {
+			user: undefined,
+			show: function(user) {
+				$scope.userPopup.user = user;
+			},
+			hide: function() {
+				$scope.userPopup.user = undefined;
+			},
+		}
+
+		$scope.groupPopup = {
+			group: undefined,
+			show: function(group) {
+				$scope.groupPopup.group = group;
+			},
+			hide: function() {
+				$scope.groupPopup.group = undefined;
+			},
+		}
+
+		$scope.searchCriteria = {
+			mode: undefined,
+			location: undefined,
+			games: undefined,
+			experienceLevel: undefined,
+			name: undefined,
+			meetingTime: undefined,
+			regularity: undefined, 
+		}
+
+        $scope.init = function () {
             $http.get("https://www.omdbapi.com/?t=Star+Wars")
                 .then(function successCallback(response){
                     $scope.details = response.data;
@@ -82,63 +113,73 @@ Roll4Guild
                 }, function errorCallback(response){
                     console.log("Unable to perform get request");
                 });
-			switch(mode) {
-				case 'users':
-					$scope.results = $scope.getUsers();
-					break;
-				case 'groups':
-					$scope.results = $scope.getGroups();
-					break;
-			}
+			$scope.searchCriteria.mode = 'users';
+			$scope.search();
 		};
 
-		// get search results (i.e. relevant users) from back-end
-		$scope.getUsers = function() {
-			return [
-				{'_id': "1",
-				'games': ["7 Wonders", "MTG", "Coup"],
-				'heroname': "Gandalf",
-				'backstory': "The Grey Pilgrim. That is what they used to call me. Three hundred lives of men I've walked this earth and now, I have no time."},
-				{'_id': "2",
-				'games': ["DnD", "Betrayal at the House on the Hill", "X-Wing", "Settlers of Catan", "7 Wonders", "MTG", "Coup"],
-				'heroname': "Bilbo",
-				'backstory': "He was hired by Thorin and Company to be their burglar in the Quest of Erebor, and later fought in the Battle of the Five Armies. Bilbo was also one of the bearers of the One Ring, and the first to voluntarily give it up, although with some difficulty. He wrote many of his adventures in a book he called There and Back Again. Bilbo adopted Frodo Baggins as his nephew after his parents, Drogo Baggins and Primula Brandybuck, drowned in the Brandywine River."},
-				{'_id': "3",
-				'games': ["7 Wonders", "MTG", "Coup"],
-				'heroname': "Frodo",
-				'backstory': "I wander Middle Earth"},
-				{'_id': "4",
-				'games': ["7 Wonders", "MTG", "Coup"],
-				'heroname': "Sam",
-				'backstory': "I wander Middle Earth"},
-				{'_id': "5",
-				'games': ["7 Wonders", "MTG", "Coup"],
-				'heroname': "Pippin",
-				'backstory': "I wander Middle Earth"},
-				{'_id': "6",
-				'games': ["7 Wonders", "MTG", "Coup"],
-				'heroname': "Merriadoc",
-				'backstory': "I wander Middle Earth"},
-				{'_id': "7",
-				'games': ["7 Wonders", "MTG", "Coup"],
-				'heroname': "Gimli",
-				'backstory': "I wander Middle Earth"},
-				{'_id': "8",
-				'games': ["7 Wonders", "MTG", "Coup"],
-				'heroname': "Elrond",
-				'backstory': "I wander Middle Earth"},
+		$scope.search = function() {
+			// get search results (i.e. relevant users) from back-end
+			this.getUsers = function() {
+				return [
+					{'_id': "1",
+					'games': ["7 Wonders", "MTG", "Coup"],
+					'heroname': "Gandalf",
+					'backstory': "The Grey Pilgrim. That is what they used to call me. Three hundred lives of men I've walked this earth and now, I have no time."},
+					{'_id': "2",
+					'games': ["DnD", "Betrayal at the House on the Hill", "X-Wing", "Settlers of Catan", "7 Wonders", "MTG", "Coup"],
+					'heroname': "Bilbo",
+					'backstory': "He was hired by Thorin and Company to be their burglar in the Quest of Erebor, and later fought in the Battle of the Five Armies. Bilbo was also one of the bearers of the One Ring, and the first to voluntarily give it up, although with some difficulty. He wrote many of his adventures in a book he called There and Back Again. Bilbo adopted Frodo Baggins as his nephew after his parents, Drogo Baggins and Primula Brandybuck, drowned in the Brandywine River."},
+					{'_id': "3",
+					'games': ["7 Wonders", "MTG", "Coup"],
+					'heroname': "Frodo",
+					'backstory': "I wander Middle Earth"},
+					{'_id': "4",
+					'games': ["7 Wonders", "MTG", "Coup"],
+					'heroname': "Sam",
+					'backstory': "I wander Middle Earth"},
+					{'_id': "5",
+					'games': ["7 Wonders", "MTG", "Coup"],
+					'heroname': "Pippin",
+					'backstory': "I wander Middle Earth"},
+					{'_id': "6",
+					'games': ["7 Wonders", "MTG", "Coup"],
+					'heroname': "Merriadoc",
+					'backstory': "I wander Middle Earth"},
+					{'_id': "7",
+					'games': ["7 Wonders", "MTG", "Coup"],
+					'heroname': "Gimli",
+					'backstory': "I wander Middle Earth"},
+					{'_id': "8",
+					'games': ["7 Wonders", "MTG", "Coup"],
+					'heroname': "Elrond",
+					'backstory': "I wander Middle Earth"},
+				];
+			}
+
+			// get search results (i.e. relevant groups) from back-end
+			this.getGroups = function() {
+				return [
+					{'_id': "001",
+					'games': ["list", "of", "games"],
+					'name': "Shirelings",
+					'charter': "What is a charter?",
+					'members': ["list", "of", "members"],
+					'last_session': {"ts": "<timestamp", "game": "<game>"}
+				},
 			];
 		}
 
-		$scope.getGroups = function() {
-			return [];
+			switch($scope.searchCriteria.mode) {
+				case 'users':
+					$scope.results = this.getUsers();
+					break;
+				case 'groups':
+					$scope.results = this.getGroups();
+					break;
+			}
 		}
-		$scope.showUserPopup = function(user) {
-			$scope.currUser = user;
-		}
-		$scope.hideUserPopup = function() {
-			$scope.currUser = undefined;
-		}
+
+
 
     })
     .controller('passNewCtrl', function($scope, $http) {
