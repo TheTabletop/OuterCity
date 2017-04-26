@@ -3,6 +3,20 @@
 // Defining Angular app model with all other dependent modules
 var Roll4Guild = angular.module('Roll4Guild',["ngRoute"]);
 
+Roll4Guild.run(function($rootScope) {
+	$rootScope.user = {};
+	$rootScope.games = [
+		"Dungeons and Dragons",
+		"Magic the Gathering",
+		"7 Wonders",
+		"Coup",
+		"Settlers of Catan",
+		"Citadels",
+		"Betrayal at the House on the Hill",
+		"Secret Hitler",
+	];
+});
+
 Roll4Guild
     .controller('loginCtrl', function($scope, $http) {
 
@@ -58,6 +72,7 @@ Roll4Guild
 		$scope.hero = {name:'Luke', uhid:'TK421'};
 
         $scope.init = function () {
+			console.log(profile.getCurrProfileId());
             $http.get("https://www.omdbapi.com/?t=Star+Wars")
                 .then(function successCallback(response){
                     $scope.details = response.data;
@@ -72,20 +87,24 @@ Roll4Guild
 		}
 
     })
-    .controller('searchCtrl', function($scope, $http) {
+    .controller('searchCtrl', function($scope, $http, $rootScope, profile) {
         $scope.name = 'searchCtrl';
 
 		$scope.searchCriteria = {
 			mode: undefined,
 			location: undefined,
-			games: undefined,
 			experienceLevel: undefined,
 			name: undefined,
 			meetingTime: undefined,
 			regularity: undefined,
+			games: {},
+			getGames: function() {
+				return Object.keys(this.games);
+			},
 		}
 
         $scope.init = function () {
+			// console.log("$rootScope.user.name", $rootScope.user.name);
             $http.get("https://www.omdbapi.com/?t=Star+Wars")
                 .then(function successCallback(response){
                     $scope.details = response.data;
@@ -94,19 +113,24 @@ Roll4Guild
                     console.log("Unable to perform get request");
                 });
 			$scope.searchCriteria.mode = 'users';
+			for(var i in $rootScope.games) {
+				$scope.searchCriteria.games[$rootScope.games[i]] = false;
+			}
 			$scope.search();
-		};
+
+			// $rootScope.user['name'] = 'Elrond';
+		}
 
 		$scope.search = function() {
 			// get search results (i.e. relevant users) from back-end
 			this.getUsers = function() {
 				return [
 					{'_id': "1",
-					'games': ["7 Wonders", "MTG", "Coup"],
+					'games': ["Dungeons and Dragons","7 Wonders", "Magic the Gathering", "Coup"],
 					'heroname': "Gandalf",
 					'backstory': "The Grey Pilgrim. That is what they used to call me. Three hundred lives of men I've walked this earth and now, I have no time."},
 					{'_id': "2",
-					'games': ["DnD", "Betrayal at the House on the Hill", "X-Wing", "Settlers of Catan", "7 Wonders", "MTG", "Coup"],
+					'games': ["Betrayal at the House on the Hill", "X-Wing", "Settlers of Catan", "7 Wonders", "Dead of Winter", "Coup"],
 					'heroname': "Bilbo",
 					'backstory': "He was hired by Thorin and Company to be their burglar in the Quest of Erebor, and later fought in the Battle of the Five Armies. Bilbo was also one of the bearers of the One Ring, and the first to voluntarily give it up, although with some difficulty. He wrote many of his adventures in a book he called There and Back Again. Bilbo adopted Frodo Baggins as his nephew after his parents, Drogo Baggins and Primula Brandybuck, drowned in the Brandywine River."},
 					{'_id': "3",
@@ -118,15 +142,15 @@ Roll4Guild
 					'heroname': "Sam",
 					'backstory': "I wander Middle Earth"},
 					{'_id': "5",
-					'games': ["7 Wonders", "MTG", "Coup"],
+					'games': ["7 Wonders", "Betrayal at the House on the Hill", "Coup"],
 					'heroname': "Pippin",
 					'backstory': "I wander Middle Earth"},
 					{'_id': "6",
-					'games': ["7 Wonders", "MTG", "Coup"],
+					'games': ["7 Wonders", "MTG", "Secret Hitler"],
 					'heroname': "Merriadoc",
 					'backstory': "I wander Middle Earth"},
 					{'_id': "7",
-					'games': ["7 Wonders", "MTG", "Coup"],
+					'games': ["7 Wonders", "Citadels", "Coup"],
 					'heroname': "Gimli",
 					'backstory': "I wander Middle Earth"},
 					{'_id': "8",
@@ -169,9 +193,8 @@ Roll4Guild
     .controller('passVerCtrl', function($scope, $http) {
         $scope.name = 'passVerCtrl';
 
-
     })
-    .controller('inboxCtrl', function($scope, $http, message) {
+    .controller('inboxCtrl', function($scope, $http, $rootScope, message) {
         $scope.name = 'inboxCtrl';
 		$scope.uncontactedContacts = [];
 
@@ -191,6 +214,7 @@ Roll4Guild
 		};
 		// Called when page first loads
 		$scope.init = function(conversation, newMessage){
+			console.log("$rootScope.user.name", $rootScope.user.name);
 			conversation = (conversation? conversation : $scope.getMostRecentConversation())
 			$scope.myUserName = 'Frodo';
 			$scope.updateInbox();
@@ -479,6 +503,7 @@ Roll4Guild
         };
     })
 
+	// Services
 	Roll4Guild
 	.service('message', function() {
 		this.send = function(newMessage) {
@@ -487,5 +512,88 @@ Roll4Guild
 			// send message
 			console.log("\""+ newMessage.body +"\" sent from", newMessage.sender, "to", newMessage.participants);
 		}
-	}
-)
+	})
+	// Not currently used
+	.service('profile', function() {
+		var currProfileId;
+		this.setCurrProfileId = function(id) {
+			urrProfileId = id;
+		}
+		this.getCurrProfileId = function() {
+			return currProfileId;
+		}
+
+	})
+
+	Roll4Guild
+	.filter('userSearchFilter', function() {
+		return function(results, searchCriteria) {
+			var meetsGameCriteria = function(result) {
+				var games = searchCriteria.getGames();
+				var gamesMatch = true;
+				for(var j in games){
+					var game = games[j];
+					if(searchCriteria.games[game] && !result.games.includes(game)){
+						gamesMatch = false;
+						return false;
+					}
+				}
+				return true;
+			}
+
+			var filteredResults = [];
+			for(var i in results){
+				var result = results[i];
+				if(meetsGameCriteria(result)) {
+					filteredResults.push(result);
+				}
+			}
+			return filteredResults;
+			// return undefined;
+		}
+	})
+
+	// Roll4Guild
+	// .config(function($routeProvider, $locationProvider) {
+	// 	$routeProvider
+	// 	.when('components/views/searchScreen', {
+	// 		templateUrl: '/components/views/searchScreen.html',
+	// 		controller: 'searchCtrl'
+	// 	})
+	// 	.when('components/views/aboutUs', {
+	// 		templateUrl: '/components/views/aboutUs.html',
+	// 		controller: 'aboutCtrl'
+	// 	})
+	// 	.when('components/views/contactUs', {
+	// 		templateUrl: '/components/views/contactUs.html',
+	// 		controller: 'contactCtrl'
+	// 	})
+	// 	.when('components/views/editProfile', {
+	// 		templateUrl: '/components/views/editProfile.html',
+	// 		controller: 'editProfCtrl'
+	// 	})
+	// 	.when('components/views/groupProfile', {
+	// 		templateUrl: '/components/views/groupProfile.html',
+	// 		controller: 'groupProfCtrl'
+	// 	})
+	// 	.when('components/views/groupWall', {
+	// 		templateUrl: '/components/views/groupWall.html',
+	// 		controller: 'groupWallCtrl'
+	// 	})
+	// 	.when('components/views/resetPasswordNew', {
+	// 		templateUrl: '/components/views/restPasswordNew.html',
+	// 		controller: 'passNewCtrl'
+	// 	})
+	// 	.when('components/views/resetPasswordVerify', {
+	// 		templateUrl: '/components/views/resetPasswordVerify.html',
+	// 		controller: 'passVerCtrl'
+	// 	})
+	// 	.when('components/views/userProfile', {
+	// 		templateUrl: '/components/views/userProfile.html',
+	// 		controller: 'userProfCtrl'
+	// 	})
+	// 	.when('components/views/userWall', {
+	// 		templateUrl: '/components/views/userWall.html',
+	// 		controller: 'userWallCtrl'
+	// 	})
+	// })

@@ -33,7 +33,7 @@ $("#includedContent").load("generalNav.html");
 </head>
 
 <body ng-controller="searchCtrl">
-	<div data-ng-init="init()"></div>
+	<div ng-init="init()"></div>
 	<div id="includedContent"></div>
 
 	<div id="main">
@@ -45,9 +45,19 @@ $("#includedContent").load("generalNav.html");
 		<button class="userButton" ng-click="searchCriteria.mode='users'; search();">Users</button>
 		</div></center>
 
+		<form id="searchCriteria" style="float:left;">
+			Games:
+			<div ng-repeat="game in searchCriteria.getGames()">
+				<label>
+					<input type="checkbox" ng-model="searchCriteria.games[game]">
+					{{game}}
+				</label>
+			</div>
+		</form>
+
 		<div id="searchResults" style="margin:1%;">
 			<a href="userProfile.html">
-				<button class="userResults" style="margin:1%;" ng-repeat="result in results" ng-if="searchCriteria.mode==='users'">{{result.heroname}}</button>
+				<button class="userResults" style="margin:1%;" ng-repeat="result in results | userSearchFilter : searchCriteria" ng-if="searchCriteria.mode==='users'" ng-click="profile.setCurrProfileId(result._id)">{{result.heroname}}</button>
 			</a>
 
 			<a href="groupProfile.html">
