@@ -4,6 +4,7 @@
 var Roll4Guild = angular.module('Roll4Guild',["ngRoute"]);
 
 Roll4Guild.run(function($rootScope) {
+	console.log('loading app');
 	$rootScope.user = {};
 	$rootScope.games = [
 		"Dungeons and Dragons",
@@ -72,7 +73,6 @@ Roll4Guild
 		$scope.hero = {name:'Luke', uhid:'TK421'};
 
         $scope.init = function () {
-			console.log(profile.getCurrProfileId());
             $http.get("https://www.omdbapi.com/?t=Star+Wars")
                 .then(function successCallback(response){
                     $scope.details = response.data;
@@ -80,14 +80,37 @@ Roll4Guild
                 }, function errorCallback(response){
                     console.log("Unable to perform get request");
                 });
+            $scope.results = this.getGroups();
         };
 
 		$scope.popups = {
 			showMessagbox: false,
 		}
 
+        $scope.getGroups = function() {
+            return [
+                {
+                    '_id': "001",
+                    'games': ["Pathfinder"],
+                    'name': "The Rebelz",
+                    'charter': "What is a charter?",
+                    'members': ["Luke Skywalker", "Princess Leia", "Han Solo"],
+                    'last_session': {"ts": "<timestamp", "game": "<game>"}
+                },
+                {
+                    '_id': "002",
+                    'games': ["D&D 3.5"],
+                    'name': "The Last Jedis",
+                    'charter': "What is a charter?",
+                    'members': ["Luke skywalker", "Rey"],
+                    'last_session': {"ts": "<timestamp", "game": "<game>"}
+                },
+            ];
+        }
+
+
     })
-    .controller('searchCtrl', function($scope, $http, $rootScope, profile) {
+    .controller('searchCtrl', function($scope, $http, $rootScope) {
         $scope.name = 'searchCtrl';
 
 		$scope.searchCriteria = {
@@ -471,12 +494,35 @@ Roll4Guild
                 }, function errorCallback(response){
                     console.log("Unable to perform get request");
                 });
+            $scope.results = this.getGroups();
         };
 
 		$scope.group = {name: 'Troopers', ugid:1138};
 		$scope.popups = {
 			showMessagbox: false,
-		}
+		};
+
+        $scope.getGroups = function() {
+            return [
+                {
+                    '_id': "001",
+                    'games': ["Pathfinder"],
+                    'name': "The Rebelz",
+                    'charter': "What is a charter?",
+                    'members': ["Luke Skywalker", "Princess Leia", "Han Solo"],
+                    'last_session': {"ts": "<timestamp", "game": "<game>"}
+                },
+                {
+                    '_id': "002",
+                    'games': ["D&D 3.5"],
+                    'name': "The Last Jedis",
+                    'charter': "What is a charter?",
+                    'members': ["Luke skywalker", "Rey"],
+                    'last_session': {"ts": "<timestamp", "game": "<game>"}
+                },
+            ];
+        }
+
 	})
     .controller('groupWallCtrl', function($scope, $http) {
         $scope.name = 'groupWallCtrl';
@@ -512,17 +558,6 @@ Roll4Guild
 			// send message
 			console.log("\""+ newMessage.body +"\" sent from", newMessage.sender, "to", newMessage.participants);
 		}
-	})
-	// Not currently used
-	.service('profile', function() {
-		var currProfileId;
-		this.setCurrProfileId = function(id) {
-			urrProfileId = id;
-		}
-		this.getCurrProfileId = function() {
-			return currProfileId;
-		}
-
 	})
 
 	Roll4Guild
