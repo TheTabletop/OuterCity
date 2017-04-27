@@ -576,16 +576,7 @@ Roll4Guild
         };
     })
     .controller('editProfCtrl', function($scope, $http) {
-        $scope.name = 'editProfCtrl';
-        $scope.init = function () {
-            $http.get("https://www.omdbapi.com/?t=Star+Wars")
-                .then(function successCallback(response){
-                    $scope.details = response.data;
 
-                }, function errorCallback(response){
-                    console.log("Unable to perform get request");
-                });
-        };
     })
 
 	Roll4Guild
