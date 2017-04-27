@@ -3,6 +3,21 @@
 // Defining Angular app model with all other dependent modules
 var Roll4Guild = angular.module('Roll4Guild',["ngRoute"]);
 
+Roll4Guild.factory('UserService', function() {
+    	var user;
+    	return {
+            getUser : function () {
+                localStorage.getItem("Username");
+            	return user;
+            },
+
+            setUser : function (UID) {
+                user = UID;
+                localStorage.setItem("Username", user);
+            }
+        }
+});
+
 Roll4Guild
     .controller('loginCtrl', function($scope, $http) {
 
@@ -52,8 +67,8 @@ Roll4Guild
 
 
     })
-    .controller('userProfCtrl', function($scope, $http) {
-        $scope.name = 'userProfCtrl';
+    .controller('userProfCtrl', function($scope, $http, UserService) {
+
 		// TODO: use hero's actual uhid, name
 		$scope.hero = {name:'Luke', uhid:'TK421'};
 
@@ -72,6 +87,11 @@ Roll4Guild
 		$scope.popups = {
 			showMessagbox: false,
 		}
+
+		$scope.changeUser = function(){
+			UserService.setUser("Han Solo");
+            $scope.name = UserService.getUser();
+        }
 
         $scope.getGroups = function() {
             return [
@@ -499,8 +519,7 @@ Roll4Guild
                 });
         };
     })
-    .controller('groupProfCtrl', function($scope, $http) {
-        $scope.name = 'groupProfCtrl';
+    .controller('groupProfCtrl', function($scope, $http, UserService) {
         $scope.init = function () {
             $http.get("https://www.omdbapi.com/?t=Star+Wars")
                 .then(function successCallback(response){
@@ -510,12 +529,17 @@ Roll4Guild
                     console.log("Unable to perform get request");
                 });
             $scope.results = this.getGroups();
+            console.log("Blat");
         };
 
 		$scope.group = {name: 'Troopers', ugid:1138};
 		$scope.popups = {
 			showMessagbox: false,
 		};
+
+		$scope.getCurrentUser = function(){
+			$scope.name = localStorage.getItem("Username");
+		}
 
         $scope.getGroups = function() {
             return [
