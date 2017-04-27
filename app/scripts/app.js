@@ -187,7 +187,7 @@ Roll4Guild
 			this.getGroups = function() {
 				return [
 					{'_id': "001",
-					'games': ["list", "of", "games"],
+					'games': ["Coup", "Magic the Gathering", "Citadels"],
 					'name': "Shirelings",
 					'charter': "What is a charter?",
 					'members': ["list", "of", "members"],
@@ -561,9 +561,9 @@ Roll4Guild
 	})
 
 	Roll4Guild
-	.filter('userSearchFilter', function() {
+	.filter('SearchFilter', function() {
 		return function(results, searchCriteria) {
-			var meetsGameCriteria = function(result) {
+			function meetsGameCriteria(result) {
 				var games = searchCriteria.getGames();
 				var gamesMatch = true;
 				for(var j in games){
@@ -577,11 +577,20 @@ Roll4Guild
 			}
 
 			var filteredResults = [];
+			// All filtering that applies to Groups and Users:
 			for(var i in results){
 				var result = results[i];
 				if(meetsGameCriteria(result)) {
 					filteredResults.push(result);
 				}
+			}
+
+			// Filtering that applies only to Groups or Users
+			switch(searchCriteria.mode) {
+				case 'users':
+					break;
+				case 'groups':
+					break;
 			}
 			return filteredResults;
 			// return undefined;
