@@ -580,8 +580,10 @@ Roll4Guild
                 });
         };
     })
-    .controller('editProfCtrl', function($scope, $http) {
-
+    .controller('editProfCtrl', function($scope, $http, $rootScope) {
+		window.onload = function() {
+            $scope.games = $rootScope.games;
+        };
     })
 
 	// Services
