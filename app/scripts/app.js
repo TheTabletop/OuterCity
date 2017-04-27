@@ -3,6 +3,21 @@
 // Defining Angular app model with all other dependent modules
 var Roll4Guild = angular.module('Roll4Guild',["ngRoute"]);
 
+<<<<<<< HEAD
+Roll4Guild.factory('UserService', function() {
+    	var user;
+    	return {
+            getUser : function () {
+                localStorage.getItem("Username");
+            	return user;
+            },
+
+            setUser : function (UID) {
+                user = UID;
+                localStorage.setItem("Username", user);
+            }
+        }
+=======
 Roll4Guild.run(function($rootScope) {
 	console.log('loading app');
 	$rootScope.user = {};
@@ -16,6 +31,7 @@ Roll4Guild.run(function($rootScope) {
 		"Betrayal at the House on the Hill",
 		"Secret Hitler",
 	];
+>>>>>>> refs/remotes/origin/master
 });
 
 Roll4Guild
@@ -67,8 +83,8 @@ Roll4Guild
 
 
     })
-    .controller('userProfCtrl', function($scope, $http) {
-        $scope.name = 'userProfCtrl';
+    .controller('userProfCtrl', function($scope, $http, UserService) {
+
 		// TODO: use hero's actual uhid, name
 		$scope.hero = {name:'Luke', uhid:'TK421'};
 
@@ -81,11 +97,17 @@ Roll4Guild
                     console.log("Unable to perform get request");
                 });
             $scope.results = this.getGroups();
+            $scope.userInfo = this.getUsers();
         };
 
 		$scope.popups = {
 			showMessagbox: false,
 		}
+
+		$scope.changeUser = function(){
+			UserService.setUser("Han Solo");
+            $scope.name = UserService.getUser();
+        }
 
         $scope.getGroups = function() {
             return [
@@ -107,6 +129,24 @@ Roll4Guild
                 },
             ];
         }
+
+        $scope.getUsers = function(){
+			return [
+				{
+                    "_id": "<uhid>",
+                    "playername": "Luke Skywalker",
+                    "heroname" : "LastJedi2017",
+                    "games": ["Pathfinder, D&D3.5"],
+                    "companions": ["list", "of", "friends"],
+                    "guilds": ["The Rebelz", "The Last Jedis"],
+	 //the below are only returned if session token relates to hero requested (i.e. you request yourself)
+            		"email": "skywalker@skynet.com",
+               		 "guild_invites": ["guild", "ugids", "who", "invited", "hero"],
+               		 "requested_guilds": ["guild", "ugids", "hero", "request", "to join"],
+               		 "ucid": "<ucid>"
+				}
+			];
+		}
 
 
     })
@@ -484,8 +524,7 @@ Roll4Guild
                 });
         };
     })
-    .controller('groupProfCtrl', function($scope, $http) {
-        $scope.name = 'groupProfCtrl';
+    .controller('groupProfCtrl', function($scope, $http, UserService) {
         $scope.init = function () {
             $http.get("https://www.omdbapi.com/?t=Star+Wars")
                 .then(function successCallback(response){
@@ -495,12 +534,17 @@ Roll4Guild
                     console.log("Unable to perform get request");
                 });
             $scope.results = this.getGroups();
+            console.log("Blat");
         };
 
 		$scope.group = {name: 'Troopers', ugid:1138};
 		$scope.popups = {
 			showMessagbox: false,
 		};
+
+		$scope.getCurrentUser = function(){
+			$scope.name = localStorage.getItem("Username");
+		}
 
         $scope.getGroups = function() {
             return [
@@ -537,16 +581,7 @@ Roll4Guild
         };
     })
     .controller('editProfCtrl', function($scope, $http) {
-        $scope.name = 'editProfCtrl';
-        $scope.init = function () {
-            $http.get("https://www.omdbapi.com/?t=Star+Wars")
-                .then(function successCallback(response){
-                    $scope.details = response.data;
 
-                }, function errorCallback(response){
-                    console.log("Unable to perform get request");
-                });
-        };
     })
 
 	// Services
