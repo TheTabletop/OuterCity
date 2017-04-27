@@ -24,9 +24,29 @@ $("#includedContent").load("generalNav.html");
 .userButton {
 	border-radius: 0px 50px 50px 0px;
 }
-.userResults {
+.results{
+	min-width: 20vw; max-width: 20vw;
+	min-height: 40vh; max-height: 40vh;
+	padding: 2%;
+	background-color: #fff;
+	margin: 1%;
 	float: left;
-	width: 20%;
+}
+.results:hover *, .results:hover{
+	background-color: gray;
+	text-decoration: none;
+	color: white;
+}
+.result div{
+	min-width: 20vw; max-width: 20vw;
+	min-height: 40vh; max-height: 40vh;
+	/*min-width: 100%; max-width: 100%;
+	min-height: 100%; max-height: 100%;*/
+	text-align:left;
+}
+.result:visited, .result:link {
+	text-decoration: none;
+	color: gray;
 }
 
 </style>
@@ -45,24 +65,42 @@ $("#includedContent").load("generalNav.html");
 		<button class="userButton" ng-click="searchCriteria.mode='users'; search();">Users</button>
 		</div></center>
 
-		<form id="searchCriteria" style="float:left;">
+		<form id="searchCriteria" style="float:left; width:300px; height:90%;">
+			Location:
+			<div>
+				<input type="text" ng-model="searchCriteria.location"/>
+			</div>
+
 			Games:
 			<div ng-repeat="game in searchCriteria.getGames()">
 				<label>
-					<input type="checkbox" ng-model="searchCriteria.games[game]">
+					<input type="checkbox" ng-model="searchCriteria.games[game]" />
 					{{game}}
 				</label>
 			</div>
 		</form>
 
-		<div id="searchResults" style="margin:1%;">
-			<a href="userProfile.html">
-				<button class="userResults" style="margin:1%;" ng-repeat="result in results | SearchFilter : searchCriteria" ng-if="searchCriteria.mode==='users'" >{{result.heroname}}</button>
-			</a>
-
-			<a href="groupProfile.html">
-				<button class="groupResults" style="margin:1%;" ng-repeat="result in results | SearchFilter : searchCriteria"  ng-if="searchCriteria.mode==='groups'">{{result.name}}</button>
-			</a>
+		<div id="searchResults" class="scrollVertical" style="max-height:100%; margin:1%;">
+			<div class="results scrollVertical roundBorder" ng-repeat="result in results | SearchFilter : searchCriteria">
+				<a class="result" href="userProfile.html" ng-if="searchCriteria.mode==='users'">
+					<div>
+						<h2>{{result.heroname}}</h2>
+						<p>Games:</p>
+						<ul>
+							<li ng-repeat="game in result.games">{{game}}</li>
+						</ul>
+					</div>
+				</a>
+				<a class="result" href="groupProfile.html" ng-if="searchCriteria.mode==='groups'">
+					<div>
+						<h2>{{result.name}}  ({{result.members.length}})</h2>
+						<p>Games:</p>
+						<ul>
+							<li ng-repeat="game in result.games">{{game}}</li>
+						</ul>
+					</div>
+				</a>
+			</div>
 		</div>
 	</div>
 
