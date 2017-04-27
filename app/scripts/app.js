@@ -3,21 +3,22 @@
 // Defining Angular app model with all other dependent modules
 var Roll4Guild = angular.module('Roll4Guild',["ngRoute"]);
 
-<<<<<<< HEAD
-Roll4Guild.factory('UserService', function() {
-    	var user;
-    	return {
-            getUser : function () {
-                localStorage.getItem("Username");
-            	return user;
-            },
 
-            setUser : function (UID) {
-                user = UID;
-                localStorage.setItem("Username", user);
-            }
+Roll4Guild.factory('UserService', function() {
+    var user;
+    return {
+        getUser: function () {
+            localStorage.getItem("Username");
+            return user;
+        },
+
+        setUser: function (UID) {
+            user = UID;
+            localStorage.setItem("Username", user);
         }
-=======
+    }
+});
+
 Roll4Guild.run(function($rootScope) {
 	console.log('loading app');
 	$rootScope.user = {};
@@ -31,7 +32,6 @@ Roll4Guild.run(function($rootScope) {
 		"Betrayal at the House on the Hill",
 		"Secret Hitler",
 	];
->>>>>>> refs/remotes/origin/master
 });
 
 Roll4Guild
@@ -580,8 +580,10 @@ Roll4Guild
                 });
         };
     })
-    .controller('editProfCtrl', function($scope, $http) {
-
+    .controller('editProfCtrl', function($scope, $http, $rootScope) {
+		window.onload = function() {
+            $scope.games = $rootScope.games;
+        };
     })
 
 	// Services

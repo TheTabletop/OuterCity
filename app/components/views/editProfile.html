@@ -93,13 +93,12 @@ h2{
 	    <label><b>Games you play (Select all that Apply)</b></label>
 		 <br>
 		  <br>
-		  D&D 3.5: <input type="checkbox" name="sports" value="D&D"><br>
-
-		 Pathfinder: <input type="checkbox" name="sports" value="path"><br>
-
-		  GURPS: <input type="checkbox" name="sports" value="gurps"><br>
-
-		  Magic the Gathering: <input type="checkbox" name="sports" value="MTG"><br><br>
+		  <label ng-repeat="game in games">
+		  <input type="checkbox" name="{{game}}" value="{{game}}">
+			 {{game}}
+		  </label>
+		  <br>
+		  <br>
 
 	    <label><b>Bio (Optional)</b></label>
 	    <input type="text" placeholder="Tell everyone about yourself!" name="bio">
