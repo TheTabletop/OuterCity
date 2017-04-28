@@ -287,13 +287,6 @@ Roll4Guild
         $scope.name = 'inboxCtrl';
 		$scope.uncontactedContacts = [];
 
-
-		// $scope.currConversation={
-		// 	// prototype:$scope.Conversation,
-		// 	participants:undefined,
-		// 	messages:[],
-		// 	message:"",
-		// };
 		$scope.newMessage = {};
 		$scope.contacts = [];
 		$scope.conversations = [];
@@ -303,7 +296,6 @@ Roll4Guild
 		};
 		// Called when page first loads
 		$scope.init = function(conversation, newMessage){
-			console.log("$rootScope.user.name", $rootScope.user.name);
 			conversation = (conversation? conversation : $scope.getMostRecentConversation())
 			$scope.myUserName = 'Frodo';
 			$scope.updateInbox();
@@ -320,7 +312,7 @@ Roll4Guild
 				});
 			}
 			else if(conversation.ugid) {
-
+				$scope.setCurrConversation(conversation);
 			}
 			else{
 				// create a new conversation, will choose participants
@@ -380,12 +372,15 @@ Roll4Guild
 			$scope.conversations = [
 				{upid: '100', participants: ['Sam','Pippin','Merriadoc'], profilePic: 'https://at-cdn-s01.audiotool.com/2011/08/18/documents/concerning_hobbits/1/cover256x256-530088cd58af464ebb208af0944f6f02.jpg', messages:[
 					{date:'10.21.2016', sender:'Pippin', body:'Mushrooms!!'},
+					{date:'3.04.2017', sender:'Pippin', body:`Maybe Treebeard's right. We don't belong here, Merry. It's too big for us. What can we do in the end? We've got the Shire. Maybe we should go home. `},
+					{date:'3.04.2017', sender:'Merriadoc', body:`The fires of Isengard will spread. And the woods of Tuckborough and Buckland will burn. And... and all that was once green and good in this world will be gone. There won't be a Shire, Pippin.`},
 				],},
 				{upid: '101', participants: ['Sam'], messages:[
 					{date:'11.29.2016', sender:'Sam', body:'Over hill and under tree'},
 				]},
 				{upid: '103', participants: ['Gandalf','Aragorn son of Arathorn'], messages:[
 					{date:'04.14.2017', sender:'Gandalf', body:'Follow your nose'},
+					{date:'05.4.2017', sender:'Aragorn', body:`! see in your eyes the same fear that would take the heart of me. A day may come when the courage of men fails, when we forsake our friends and break all bonds of fellowship, but it is not this day. An hour of woes and shattered shields, when the age of men comes crashing down! But it is not this day! This day we fight! By all that you hold dear on this good Earth, I bid you *stand, Men of the West!* `},
 				]},
 			];
 		}
@@ -462,17 +457,19 @@ Roll4Guild
 		}
 
 		// Update displayed messages for the given conversation
-		$scope.getMessages = function(nextConversation, timestamp){
+		$scope.getMessages = function(currConversation, timestamp){
 			// temporary
 			var noMessages = [{date:undefined, body:"(no messages)"}];
 			var conversations = $scope.conversations.concat($scope.groups);
 			var conversation = undefined;
-			if( !nextConversation || !nextConversation.upid){
+			var isUser = currConversation.upid;
+			var isGroup = currConversation.ugid;
+			if( !currConversation || (!isUser && !isGroup)){
 				return noMessages;
 			}
 			for(var i = 0; i < conversations.length; i++){
 				conversation = conversations[i];
-				if(conversation.upid === nextConversation.upid){
+				if( (isUser && conversation.upid === currConversation.upid) || (isGroup && conversation.ugid === currConversation.ugid) ){
 					// console.log(conversation.participants, conversation.messages);
 					return conversation.messages;
 				}
@@ -506,7 +503,6 @@ Roll4Guild
 
 		}
 
-		// $scope.conversation=['Frodo', 'Gimli'];
 		$scope.listNames = function(names){
 			return names.join(', ');
 		}
