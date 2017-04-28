@@ -4,11 +4,12 @@
 var Roll4Guild = angular.module('Roll4Guild',["ngRoute"]);
 
 
-Roll4Guild.factory('UserService', function() {
+Roll4Guild
+.factory('UserService', function() {
     var user;
     return {
         getUser: function () {
-            localStorage.getItem("Username");
+            user = localStorage.getItem("Username");
             return user;
         },
 
@@ -17,7 +18,22 @@ Roll4Guild.factory('UserService', function() {
             localStorage.setItem("Username", user);
         }
     }
+})
+.factory('GroupService', function() {
+    var group;
+    return {
+        getGroup: function () {
+            group = localStorage.getItem("Groupname");
+            return group;
+        },
+
+        setGroup: function (GID) {
+            group = GID;
+            localStorage.setItem("Groupname", group);
+        }
+    }
 });
+
 
 Roll4Guild.run(function($rootScope) {
 	console.log('loading app');
@@ -85,9 +101,6 @@ Roll4Guild
     })
     .controller('userProfCtrl', function($scope, $http, UserService) {
 
-		// TODO: use hero's actual uhid, name
-		$scope.hero = {name:'Luke', uhid:'TK421'};
-
         $scope.init = function () {
             $http.get("https://www.omdbapi.com/?t=Star+Wars")
                 .then(function successCallback(response){
@@ -98,6 +111,7 @@ Roll4Guild
                 });
             $scope.results = this.getGroups();
             $scope.userInfo = this.getUsers();
+			$scope.name = UserService.getUser();
         };
 
 		$scope.popups = {
@@ -150,7 +164,7 @@ Roll4Guild
 
 
     })
-    .controller('searchCtrl', function($scope, $http, $rootScope) {
+	.controller('searchCtrl', function($scope, $http, $window, $rootScope, UserService, GroupService) {
         $scope.name = 'searchCtrl';
 
 		$scope.searchCriteria = {
@@ -246,7 +260,15 @@ Roll4Guild
 			}
 		}
 
+		$scope.visitUserProfile = function(user){
+			UserService.setUser(user);
+			$window.location = 'userProfile.html';
+        }
 
+		$scope.visitGroupProfile = function(group){
+			GroupService.setGroup(group);
+			$window.location = 'groupProfile.html';
+        }
 
     })
     .controller('passNewCtrl', function($scope, $http) {
@@ -524,7 +546,7 @@ Roll4Guild
                 });
         };
     })
-    .controller('groupProfCtrl', function($scope, $http, UserService) {
+    .controller('groupProfCtrl', function($scope, $http, UserService, GroupService) {
         $scope.init = function () {
             $http.get("https://www.omdbapi.com/?t=Star+Wars")
                 .then(function successCallback(response){
@@ -534,7 +556,7 @@ Roll4Guild
                     console.log("Unable to perform get request");
                 });
             $scope.results = this.getGroups();
-            console.log("Blat");
+            $scope.name = GroupService.getGroup();
         };
 
 		$scope.group = {name: 'Troopers', ugid:1138};

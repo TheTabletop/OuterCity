@@ -78,9 +78,9 @@ $("#includedContent").load("generalNav.html");
 			</div>
 		</form>
 
-		<div id="searchResults" class="scrollVertical" style="max-height:100%; margin:1%;">
+		<div id="searchResults" class="" style="max-height:100%; margin:1%;">
 			<div class="results scrollVertical roundBorder" ng-repeat="result in results | SearchFilter : searchCriteria">
-				<a class="result" href="userProfile.html" ng-if="searchCriteria.mode==='users'">
+				<a class="result" ng-if="searchCriteria.mode==='users'" ng-click="visitUserProfile(result.heroname)">
 					<div>
 						<h2>{{result.heroname}}</h2>
 						<p>Games:</p>
@@ -89,7 +89,7 @@ $("#includedContent").load("generalNav.html");
 						</ul>
 					</div>
 				</a>
-				<a class="result" href="groupProfile.html" ng-if="searchCriteria.mode==='groups'">
+				<a class="result" ng-if="searchCriteria.mode==='groups'" ng-click="visitGroupProfile(result.name)">
 					<div>
 						<h2>{{result.name}}  ({{result.members.length}})</h2>
 						<p>Games:</p>
