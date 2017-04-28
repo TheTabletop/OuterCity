@@ -46,6 +46,17 @@ $("#includedContent").load("generalNav.html");
 	text-decoration: none;
 	color: gray;
 }
+.filter {
+	margin-bottom: 2px;
+}
+.filterBody {
+	margin-left: 20px;
+}
+input[type=number] {
+	width: 25px;
+	text-align: center;
+	-moz-appearance: textfield;
+}
 
 </style>
 </head>
@@ -64,23 +75,42 @@ $("#includedContent").load("generalNav.html");
 		</div></center>
 
 		<form id="searchCriteria" style="float:left; width:300px; height:90%;">
-			Location:
-			<div>
-				<input type="text" ng-model="searchCriteria.location"/>
+			<div class="filter">
+				<div class="filterLabel">Max. distance:</div>
+				<div class="filterBody">
+					<div>
+						<input type="number" min="1" placeholder="&infin;" ng-model="searchCriteria.maxDistance"/>
+						miles
+					</div>
+				</div>
 			</div>
-
-			Games:
-			<div ng-repeat="game in searchCriteria.getGames()">
-				<label>
-					<input type="checkbox" ng-model="searchCriteria.games[game]" />
+			<div class="filter">
+				<div class="filterLabel">Games:</div>
+				<div ng-repeat="game in searchCriteria.getGames()">
+					<input class="filterBody" type="checkbox" ng-model="searchCriteria.games[game]" />
 					{{game}}
-				</label>
+				</div>
+			</div>
+			<div class="filter" ng-if="searchCriteria.mode=='groups'">
+				<div class="filterLabel">Group size:</div>
+				<div class="filterBody">
+					<input type="number" min="1" placeholder="1" ng-model="searchCriteria.minNumMembers">
+					<span><em>to</em></span>
+					<input type="number" min="1"  placeholder="&infin;" ng-model="searchCriteria.maxNumMembers">
+					<span>members</span>
+				</div>
+			</div>
+			<div class="filter">
+				<div class="filterLabel">General search</div>
+				<div class="filterBody">
+					<input type="search" placeholder="e.g. a name..." ng-model="searchCriteria.textualQuery"/>
+				</div>
 			</div>
 		</form>
 
 		<div id="searchResults" class="" style="max-height:100%; margin:1%;">
 			<div class="results scrollVertical roundBorder" ng-repeat="result in results | SearchFilter : searchCriteria">
-				<a class="result" ng-if="searchCriteria.mode==='users'" ng-click="visitUserProfile(result.heroname)">
+				<a class="result" href="#" ng-if="searchCriteria.mode==='users'" ng-click="visitUserProfile(result.heroname)">
 					<div>
 						<h2>{{result.heroname}}</h2>
 						<p>Games:</p>
@@ -89,7 +119,7 @@ $("#includedContent").load("generalNav.html");
 						</ul>
 					</div>
 				</a>
-				<a class="result" ng-if="searchCriteria.mode==='groups'" ng-click="visitGroupProfile(result.name)">
+				<a class="result" href="#" ng-if="searchCriteria.mode==='groups'" ng-click="visitGroupProfile(result.name)">
 					<div>
 						<h2>{{result.name}}  ({{result.members.length}})</h2>
 						<p>Games:</p>

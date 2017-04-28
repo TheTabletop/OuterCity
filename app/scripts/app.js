@@ -168,13 +168,17 @@ Roll4Guild
         $scope.name = 'searchCtrl';
 
 		$scope.searchCriteria = {
-			mode: undefined,
-			location: undefined,
 			experienceLevel: undefined,
-			name: undefined,
-			meetingTime: undefined,
-			regularity: undefined,
 			games: {},
+			lastSessionDate: undefined,
+			maxDistance: undefined,
+			maxNumMembers: undefined,
+			meetingTime: undefined,
+			minNumMembers: undefined,
+			mode: undefined,
+			name: undefined,
+			regularity: undefined,
+			textualQuery: undefined,
 			getGames: function() {
 				return Object.keys(this.games);
 			},
@@ -211,11 +215,11 @@ Roll4Guild
 					'heroname': "Bilbo",
 					'backstory': "He was hired by Thorin and Company to be their burglar in the Quest of Erebor, and later fought in the Battle of the Five Armies. Bilbo was also one of the bearers of the One Ring, and the first to voluntarily give it up, although with some difficulty. He wrote many of his adventures in a book he called There and Back Again. Bilbo adopted Frodo Baggins as his nephew after his parents, Drogo Baggins and Primula Brandybuck, drowned in the Brandywine River."},
 					{'_id': "3",
-					'games': ["7 Wonders", "MTG", "Coup"],
+					'games': ["7 Wonders", "Magic the Gathering", "Coup"],
 					'heroname': "Frodo",
 					'backstory': "I wander Middle Earth"},
 					{'_id': "4",
-					'games': ["7 Wonders", "MTG", "Coup"],
+					'games': ["7 Wonders", "Magic the Gathering", "Coup"],
 					'heroname': "Sam",
 					'backstory': "I wander Middle Earth"},
 					{'_id': "5",
@@ -223,7 +227,7 @@ Roll4Guild
 					'heroname': "Pippin",
 					'backstory': "I wander Middle Earth"},
 					{'_id': "6",
-					'games': ["7 Wonders", "MTG", "Secret Hitler"],
+					'games': ["7 Wonders", "Settlers of Catan", "Secret Hitler"],
 					'heroname': "Merriadoc",
 					'backstory': "I wander Middle Earth"},
 					{'_id': "7",
@@ -231,7 +235,7 @@ Roll4Guild
 					'heroname': "Gimli",
 					'backstory': "I wander Middle Earth"},
 					{'_id': "8",
-					'games': ["7 Wonders", "MTG", "Coup"],
+					'games': ["7 Wonders", "Settlers of Catan", "Coup"],
 					'heroname': "Elrond",
 					'backstory': "I wander Middle Earth"},
 				];
@@ -620,7 +624,7 @@ Roll4Guild
 	})
 
 	Roll4Guild
-	.filter('SearchFilter', function() {
+	.filter('SearchFilter', function(filterFilter) {
 		return function(results, searchCriteria) {
 			function meetsGameCriteria(result) {
 				var games = searchCriteria.getGames();
@@ -634,23 +638,44 @@ Roll4Guild
 				}
 				return true;
 			}
+			function meetsDistanceCriteria(result) {
+				return true;
+			}
+			function filterByTextualQuery(filteredResults) {
+				return filterFilter(filteredResults, searchCriteria.textualQuery);
+			}
+			function meetsGroupSizeCriteria(result) {
+				var meetsMin = !searchCriteria.minNumMembers || searchCriteria.minNumMembers <= result.members.length;
+				var meetsMax = !searchCriteria.maxNumMembers || searchCriteria.maxNumMembers >= result.members.length;
+				return meetsMin && meetsMax;
+			}
 
 			var filteredResults = [];
-			// All filtering that applies to Groups and Users:
 			for(var i in results){
 				var result = results[i];
-				if(meetsGameCriteria(result)) {
+
+				// All filtering that applies to Groups and Users:
+				var meetsCriteria = true
+				&& meetsGameCriteria(result)
+				&& meetsDistanceCriteria(result);
+
+				// Filtering that applies only to Groups or Users
+				switch(searchCriteria.mode) {
+					case 'users':
+						break;
+					case 'groups':
+						meetsCriteria = meetsCriteria
+						&& meetsGroupSizeCriteria(result);
+						break;
+				}
+
+				if(meetsCriteria) {
 					filteredResults.push(result);
 				}
 			}
 
-			// Filtering that applies only to Groups or Users
-			switch(searchCriteria.mode) {
-				case 'users':
-					break;
-				case 'groups':
-					break;
-			}
+			filteredResults = filterByTextualQuery(filteredResults);
+
 			return filteredResults;
 			// return undefined;
 		}
