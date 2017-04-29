@@ -115,7 +115,7 @@ input[type=number] {
 						<h2>{{result.heroname}}</h2>
 						<p>Games:</p>
 						<ul>
-							<li ng-repeat="game in result.games">{{game}}</li>
+							<li ng-repeat="game in result.games.slice(0,3)">{{game}}</li>
 						</ul>
 					</div>
 				</a>
@@ -124,7 +124,7 @@ input[type=number] {
 						<h2>{{result.name}}  ({{result.members.length}})</h2>
 						<p>Games:</p>
 						<ul>
-							<li ng-repeat="game in result.games">{{game}}</li>
+							<li ng-repeat="game in result.games.slice(0,3)">{{game}}</li>
 						</ul>
 					</div>
 				</a>
