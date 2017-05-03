@@ -88,8 +88,8 @@ Roll4Guild
 			return filterFilter(filteredResults, searchCriteria.textualQuery);
 		}
 		function meetsGroupSizeCriteria(result) {
-			var meetsMin = !searchCriteria.minNumMembers || searchCriteria.minNumMembers <= result.members.length;
-			var meetsMax = !searchCriteria.maxNumMembers || searchCriteria.maxNumMembers >= result.members.length;
+			var meetsMin = searchCriteria.minNumMembers == undefined || searchCriteria.minNumMembers <= result.members.length;
+			var meetsMax = searchCriteria.maxNumMembers == undefined || searchCriteria.maxNumMembers >= result.members.length;
 			return meetsMin && meetsMax;
 		}
 
@@ -662,12 +662,53 @@ Roll4Guild
         };
     })
 
+	.controller('editGroupCtrl', function($scope, $http, $rootScope, UserService, GroupService, $window) {
 
-    .controller('editGuildCtrl', function($scope, $http, $rootScope) {
+		// On Load we want to grab the array of games for the checkbox list, then initialize some scope variables
+		// to be used later
 		window.onload = function() {
-            $scope.games = $rootScope.games;
-        };
-    })
+			$scope.games = $rootScope.games;
+			$scope.send = {
+				"guildname": "",
+				"charter": "",
+				"location": "",
+				"games":[],
+				"creator": "",
+				"session": "",
+				"invite": "",
+			};
+			$scope.played = [];
+		};
+
+
+		// Creates the array of games then Posts to the Databse.  If the hero is created successfully
+		// then route to that users newly minted profile
+		$scope.onSubmit = function(){
+			var i = 0;
+			for(var j = 0; j < $scope.played.length; j++){
+				if($scope.played[j] != null){
+					$scope.send.games[i] = $scope.played[j];
+					i++;
+				}
+			}
+			$scope.data = JSON.stringify($scope.send);
+
+			$http({
+				method: 'POST',
+				url: $rootScope.root+'/hero/create',
+				data: $scope.send,
+				headers : {
+					'Content-Type': 'text/plain'
+				}
+			}).then(function mySucces(response) {
+				$rootScope.uhid = response.data.uhid;
+				GroupService.setGroup($rootScope.uhid);
+				$window.location = 'groupProfile.html';
+			}, function myError(response) {
+				console.log("LOL");
+			});
+		};
+	})
 
 
 	// Roll4Guild
