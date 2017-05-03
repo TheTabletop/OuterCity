@@ -129,6 +129,7 @@ input[type=number] {
 				<a class="result" href="#" ng-if="searchCriteria.mode==='groups'" ng-click="visitGroupProfile(result.name)">
 					<div>
 						<h2>{{result.name}}  ({{result.members.length}})</h2>
+						<p>({{result.distance | number:1}} miles away)</p>
 						<ul>
 							<li ng-repeat="game in result.games.slice(0,3)">{{game}}</li>
 						</ul>
