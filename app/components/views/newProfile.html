@@ -81,29 +81,34 @@ h2{
 
 	<form action="/action_page.php">
 	  <div class="container">
+
+		  <label><b>Name</b></label>
+		  <input type="text" placeholder="Enter Username"  ng-model="hname" required>
+
 	    <label><b>Hero Name</b></label>
-	    <input type="text" placeholder="Enter Username" name="uname" required>
+	    <input type="text" placeholder="Enter Username" ng-model="uname" required>
 
 	    <label><b>Password</b></label>
-	    <input type="password" placeholder="Enter Password" name="psw" required>
+	    <input type="password" placeholder="Enter Password" ng-model="psw" required>
 
 	   	<label><b>Email</b></label>
-	    <input type="text" placeholder="For recovery only" name="email" required>
+	    <input type="text" placeholder="For recovery only" ng-model="eAddr" required>
 
 	    <label><b>Games you play (Select all that Apply)</b></label>
 		 <br>
 		  <br>
 		  <label ng-repeat="game in games">
-		  <input type="checkbox" name="{{game}}" value="{{game}}">
+		  <input type="checkbox" name="{{game}}" value="{{game}}" ng-model="gamesPlayed[game]">
 			 {{game}}
 		  </label>
 		  <br>
 		  <br>
 
 	    <label><b>Bio (Optional)</b></label>
-	    <input type="text" placeholder="Tell everyone about yourself!" name="bio">
-	        
-	    <button type="submit" onclick="window.location='userProfile.html'">Login</button>
+	    <input type="text" placeholder="Tell everyone about yourself!" ng-model="bio">
+
+		  <button type="button" ng-click="showStuff()">Test</button>
+	    <button type="submit" ng-click="onSubmit()">Login</button>
 	    <button type="button" class="cancelbtn" onclick="window.location='../../index.html';return false;">Cancel</button>
 	  </div>
 	  <div class="container" style="background-color:#f1f1f1">
