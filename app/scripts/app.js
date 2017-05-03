@@ -3,6 +3,13 @@
 // Defining Angular app model with all other dependent modules
 var Roll4Guild = angular.module('Roll4Guild',["ngRoute"]);
 
+Roll4Guild.config(['$httpProvider', function ($httpProvider) {
+    //Reset headers to avoid OPTIONS request (aka preflight)
+    $httpProvider.defaults.headers.common = {};
+    $httpProvider.defaults.headers.post = {};
+    $httpProvider.defaults.headers.put = {};
+    $httpProvider.defaults.headers.patch = {};
+}]);
 
 Roll4Guild
 .factory('UserService', function() {
@@ -47,34 +54,29 @@ Roll4Guild.run(function($rootScope) {
 		"Settlers of Catan",
 		"Citadels",
 		"Betrayal at the House on the Hill",
-		"Secret Hitler",
+		"Secret Hitler"
 	];
+	$rootScope.uhid = "";
 });
 
 Roll4Guild
-    .controller('loginCtrl', function($scope, $http) {
+    .controller('loginCtrl', function($scope, $http, $rootScope, UserService, $window) {
 
-
-        $scope.showMeTheMoney = function(){
-            var data = {
-                "hero":$scope.email,
-                "key":$scope.password
-            };
-            console.log(data.hero);
-            console.log(data.key);
-        }
-
+    	// Posts to the database to login a hero.  Routes to their profile if user exists
        $scope.submit = function(){
            var data = {
-               "hero":$scope.email,
-               "key":$scope.password
+               "hero": $scope.email,
+               "key": $scope.password
            };
-           $http.post("www.todo.com/login", data)
+           $http.post("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/login", JSON.stringify(data))
                .then(function successCallback(response){
-                   $rootScope.userID = response.uhid;
+                   $rootScope.uhid = response.uhid;
+                   UserService.setUser($rootScope.uhid);
+                   $window.location = "userProfile.html";
                }, function errorCallback(response){
                console.log("Credentials don't match known user!");
                $scope.reset();
+               $window.location = "index.html";
            });
        };
 
@@ -100,71 +102,26 @@ Roll4Guild
 
 
     })
-    .controller('userProfCtrl', function($scope, $http, UserService) {
+    .controller('userProfCtrl', function($scope, $http, UserService, $rootScope) {
 
         $scope.init = function () {
-            $http.get("https://www.omdbapi.com/?t=Star+Wars")
+        	$rootScope.uhid = UserService.getUser();
+            console.log("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/hero/" + $rootScope.uhid);
+            $http.get("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/hero/" + $rootScope.uhid)
                 .then(function successCallback(response){
                     $scope.details = response.data;
-
+					$scope.guilds = response.data.guilds;
                 }, function errorCallback(response){
                     console.log("Unable to perform get request");
                 });
-            $scope.results = this.getGroups();
-            $scope.userInfo = this.getUsers();
-			$scope.name = UserService.getUser();
         };
 
 		$scope.popups = {
 			showMessagbox: false,
 		}
-
-		$scope.changeUser = function(){
-			UserService.setUser("Han Solo");
-            $scope.name = UserService.getUser();
-        }
-
-        $scope.getGroups = function() {
-            return [
-                {
-                    '_id': "001",
-                    'games': ["Pathfinder"],
-                    'name': "The Rebelz",
-                    'charter': "What is a charter?",
-                    'members': ["Luke Skywalker", "Princess Leia", "Han Solo"],
-                    'last_session': {"ts": "<timestamp", "game": "<game>"}
-                },
-                {
-                    '_id': "002",
-                    'games': ["D&D 3.5"],
-                    'name': "The Last Jedis",
-                    'charter': "What is a charter?",
-                    'members': ["Luke skywalker", "Rey"],
-                    'last_session': {"ts": "<timestamp", "game": "<game>"}
-                },
-            ];
-        }
-
-        $scope.getUsers = function(){
-			return [
-				{
-                    "_id": "<uhid>",
-                    "playername": "Luke Skywalker",
-                    "heroname" : "LastJedi2017",
-                    "games": ["Pathfinder, D&D3.5"],
-                    "companions": ["list", "of", "friends"],
-                    "guilds": ["The Rebelz", "The Last Jedis"],
-	 //the below are only returned if session token relates to hero requested (i.e. you request yourself)
-            		"email": "skywalker@skynet.com",
-               		 "guild_invites": ["guild", "ugids", "who", "invited", "hero"],
-               		 "requested_guilds": ["guild", "ugids", "hero", "request", "to join"],
-               		 "ucid": "<ucid>"
-				}
-			];
-		}
-
-
     })
+
+
 	.controller('searchCtrl', function($scope, $http, $window, $rootScope, UserService, GroupService) {
         $scope.name = 'searchCtrl';
 
@@ -593,11 +550,55 @@ Roll4Guild
                 });
         };
     })
-    .controller('editProfCtrl', function($scope, $http, $rootScope) {
-		window.onload = function() {
+
+    .controller('editProfCtrl', function($scope, $http, $rootScope, UserService, $window) {
+
+    	// On Load we want to grab the array of games for the checkbox list, then initialize some scope variables
+		// to be used later
+    	window.onload = function() {
             $scope.games = $rootScope.games;
+            $scope.send = {
+            	"email": "",
+				"key": "",
+				"playername": "",
+				"heroname": "",
+				"games":[],
+				"backstory":""
+			};
+            $scope.played = [];
+        };
+
+
+		// Creates the array of games then Posts to the Databse.  If the hero is created successfully
+		// then route to that users newly minted profile
+        $scope.onSubmit = function(){
+			var i = 0;
+        	for(var j = 0; j < $scope.played.length; j++){
+				if($scope.played[j] != null){
+					$scope.send.games[i] = $scope.played[j];
+					i++;
+				}
+			}
+            $scope.data = JSON.stringify($scope.send);
+
+            $http({
+                method: 'POST',
+                url: 'http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/hero/create',
+                data: $scope.send,
+                headers : {
+                    'Content-Type': 'text/plain'
+                }
+            }).then(function mySucces(response) {
+                $rootScope.uhid = response.data.uhid;
+                $window.location = 'userProfile.html';
+                UserService.setUser($rootScope.uhid);
+            }, function myError(response) {
+                console.log("LOL");
+            });
         };
     })
+
+
     .controller('editGuildCtrl', function($scope, $http, $rootScope) {
 		window.onload = function() {
             $scope.games = $rootScope.games;

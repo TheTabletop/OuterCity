@@ -81,14 +81,17 @@ h2{
 
 	<form action="/action_page.php">
 	  <div class="container">
+
+
 	    <label><b>Guild Name</b></label>
-	    <input type="text" placeholder="Enter Username" name="uname" required>
+	    <input type="text" placeholder="Enter Guild Name" name="uname" required>
+
 
 	    <label><b>Password</b></label>
-	    <input type="password" placeholder="Enter Password" name="psw" required>
+	    <input type="password" placeholder="Enter Password"  ng-model="psw" required>
 
 	   	<label><b>Email</b></label>
-	    <input type="text" placeholder="For recovery only" name="email" required>
+	    <input type="text" placeholder="For recovery only"  ng-model="email" required>
 
 	    <label><b>Games you play (Select all that Apply)</b></label>
 		 <br>
@@ -101,9 +104,11 @@ h2{
 		  <br>
 
 	    <label><b>Bio (Optional)</b></label>
-	    <input type="text" placeholder="Tell everyone about yourself!" name="bio">
 
-	    <button type="submit">Login</button>
+	    <input type="text" placeholder="Tell everyone about your guild!"  ng-model="bio">
+	        
+	    <button type="submit" ng-click="onSubmit()">Create</button>
+
 	    <button type="button" class="cancelbtn" onclick="window.location='../../index.html';return false;">Cancel</button>
 	  </div>
 	  <div class="container" style="background-color:#f1f1f1">
