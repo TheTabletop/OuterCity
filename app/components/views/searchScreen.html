@@ -101,9 +101,9 @@ input[type=number] {
 			<div class="filter" ng-if="searchCriteria.mode=='groups'">
 				<div class="filterLabel">Group size:</div>
 				<div class="filterBody">
-					<input type="number" min="1" placeholder="1" ng-model="searchCriteria.minNumMembers">
+					<input type="number" min="0" placeholder="1" ng-model="searchCriteria.minNumMembers">
 					<span><em>to</em></span>
-					<input type="number" min="1"  placeholder="&infin;" ng-model="searchCriteria.maxNumMembers">
+					<input type="number" min="0"  placeholder="&infin;" ng-model="searchCriteria.maxNumMembers">
 					<span>members</span>
 				</div>
 			</div>
