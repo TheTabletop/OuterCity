@@ -59,29 +59,23 @@ Roll4Guild.run(function($rootScope) {
 });
 
 Roll4Guild
-    .controller('loginCtrl', function($scope, $http) {
+    .controller('loginCtrl', function($scope, $http, $rootScope, UserService, $window) {
 
-
-        $scope.showMeTheMoney = function(){
-            var data = {
-                "hero":$scope.email,
-                "key":$scope.password
-            };
-            console.log(data.hero);
-            console.log(data.key);
-        }
-
+    	// Posts to the database to login a hero.  Routes to their profile if user exists
        $scope.submit = function(){
            var data = {
-               "hero":$scope.email,
-               "key":$scope.password
+               "hero": $scope.email,
+               "key": $scope.password
            };
-           $http.post("www.todo.com/login", data)
+           $http.post("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/login", JSON.stringify(data))
                .then(function successCallback(response){
-                   $rootScope.userID = response.uhid;
+                   $rootScope.uhid = response.uhid;
+                   UserService.setUser($rootScope.uhid);
+                   $window.location = "userProfile.html";
                }, function errorCallback(response){
                console.log("Credentials don't match known user!");
                $scope.reset();
+               $window.location = "index.html";
            });
        };
 
