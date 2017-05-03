@@ -37,6 +37,7 @@ Roll4Guild
 
 Roll4Guild.run(function($rootScope) {
 	console.log('loading app');
+	$rootScope.root = "http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com";
 	$rootScope.user = {};
 	$rootScope.games = [
 		"Dungeons and Dragons",
@@ -198,6 +199,7 @@ Roll4Guild
 			// get search results (i.e. relevant users) from back-end
 			this.updateResults = function(resultType) {
 				var users;
+				console.log($rootScope.root+"/search/"+resultType);
 				$http.get("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/search/"+resultType)
 				.then(function successCallback(response){
 					$scope.results = response.data;
