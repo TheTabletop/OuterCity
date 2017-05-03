@@ -149,82 +149,71 @@ Roll4Guild
 
         $scope.init = function () {
 			// console.log("$rootScope.user.name", $rootScope.user.name);
-            $http.get("https://www.omdbapi.com/?t=Star+Wars")
-                .then(function successCallback(response){
-                    $scope.details = response.data;
-
-                }, function errorCallback(response){
-                    console.log("Unable to perform get request");
-                });
 			$scope.searchCriteria.mode = 'users';
 			for(var i in $rootScope.games) {
 				$scope.searchCriteria.games[$rootScope.games[i]] = false;
 			}
 			$scope.search();
-
-			// $rootScope.user['name'] = 'Elrond';
 		}
 
 		$scope.search = function() {
-			// get search results (i.e. relevant users) from back-end
-			this.getUsers = function() {
-				return [
-					{'_id': "1",
-					'games': ["Dungeons and Dragons","7 Wonders", "Magic the Gathering", "Coup"],
-					'heroname': "Gandalf",
-					'backstory': "The Grey Pilgrim. That is what they used to call me. Three hundred lives of men I've walked this earth and now, I have no time."},
-					{'_id': "2",
-					'games': ["Betrayal at the House on the Hill", "X-Wing", "Settlers of Catan", "7 Wonders", "Dead of Winter", "Coup"],
-					'heroname': "Bilbo",
-					'backstory': "He was hired by Thorin and Company to be their burglar in the Quest of Erebor, and later fought in the Battle of the Five Armies. Bilbo was also one of the bearers of the One Ring, and the first to voluntarily give it up, although with some difficulty. He wrote many of his adventures in a book he called There and Back Again. Bilbo adopted Frodo Baggins as his nephew after his parents, Drogo Baggins and Primula Brandybuck, drowned in the Brandywine River."},
-					{'_id': "3",
-					'games': ["7 Wonders", "Magic the Gathering", "Coup"],
-					'heroname': "Frodo",
-					'backstory': "I wander Middle Earth"},
-					{'_id': "4",
-					'games': ["7 Wonders", "Magic the Gathering", "Coup"],
-					'heroname': "Sam",
-					'backstory': "I wander Middle Earth"},
-					{'_id': "5",
-					'games': ["7 Wonders", "Betrayal at the House on the Hill", "Coup"],
-					'heroname': "Pippin",
-					'backstory': "I wander Middle Earth"},
-					{'_id': "6",
-					'games': ["7 Wonders", "Settlers of Catan", "Secret Hitler"],
-					'heroname': "Merriadoc",
-					'backstory': "I wander Middle Earth"},
-					{'_id': "7",
-					'games': ["7 Wonders", "Citadels", "Coup"],
-					'heroname': "Gimli",
-					'backstory': "I wander Middle Earth"},
-					{'_id': "8",
-					'games': ["7 Wonders", "Settlers of Catan", "Coup"],
-					'heroname': "Elrond",
-					'backstory': "I wander Middle Earth"},
-				];
-			}
-
 			// get search results (i.e. relevant groups) from back-end
-			this.getGroups = function() {
-				return [
-					{'_id': "001",
-					'games': ["Coup", "Magic the Gathering", "Citadels"],
-					'name': "Shirelings",
-					'charter': "What is a charter?",
-					'members': ["list", "of", "members"],
-					'last_session': {"ts": "<timestamp", "game": "<game>"}
-				},
-			];
-		}
+			// get search results (i.e. relevant users) from back-end
+			this.updateResults = function(resultType) {
+				var users;
+				$http.get("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/search/"+resultType)
+				.then(function successCallback(response){
+					$scope.results = response.data;
+				}, function errorCallback(response){
+					console.log("Unable to perform get request");
+					users = [
+						{'_id': "1",
+						'games': ["Dungeons and Dragons","7 Wonders", "Magic the Gathering", "Coup"],
+						'heroname': "Gandalf",
+						'backstory': "The Grey Pilgrim. That is what they used to call me. Three hundred lives of men I've walked this earth and now, I have no time."},
+						{'_id': "2",
+						'games': ["Betrayal at the House on the Hill", "X-Wing", "Settlers of Catan", "7 Wonders", "Dead of Winter", "Coup"],
+						'heroname': "Bilbo",
+						'backstory': "He was hired by Thorin and Company to be their burglar in the Quest of Erebor, and later fought in the Battle of the Five Armies. Bilbo was also one of the bearers of the One Ring, and the first to voluntarily give it up, although with some difficulty. He wrote many of his adventures in a book he called There and Back Again. Bilbo adopted Frodo Baggins as his nephew after his parents, Drogo Baggins and Primula Brandybuck, drowned in the Brandywine River."},
+						{'_id': "3",
+						'games': ["7 Wonders", "Magic the Gathering", "Coup"],
+						'heroname': "Frodo",
+						'backstory': "I wander Middle Earth"},
+						{'_id': "4",
+						'games': ["7 Wonders", "Magic the Gathering", "Coup"],
+						'heroname': "Sam",
+						'backstory': "I wander Middle Earth"},
+						{'_id': "5",
+						'games': ["7 Wonders", "Betrayal at the House on the Hill", "Coup"],
+						'heroname': "Pippin",
+						'backstory': "I wander Middle Earth"},
+						{'_id': "6",
+						'games': ["7 Wonders", "Settlers of Catan", "Secret Hitler"],
+						'heroname': "Merriadoc",
+						'backstory': "I wander Middle Earth"},
+						{'_id': "7",
+						'games': ["7 Wonders", "Citadels", "Coup"],
+						'heroname': "Gimli",
+						'backstory': "I wander Middle Earth"},
+						{'_id': "8",
+						'games': ["7 Wonders", "Settlers of Catan", "Coup"],
+						'heroname': "Elrond",
+						'backstory': "I wander Middle Earth"},
+					];
+				});
+				return users;
+			}
 
 			switch($scope.searchCriteria.mode) {
 				case 'users':
-					$scope.results = this.getUsers();
+					$scope.results = this.updateResults('heros');
+					// console.log($scope.results);
 					break;
 				case 'groups':
-					$scope.results = this.getGroups();
+					$scope.results = this.updateResults('guilds');
 					break;
 			}
+
 		}
 
 		$scope.visitUserProfile = function(user){
@@ -610,6 +599,11 @@ Roll4Guild
             });
         };
     })
+    .controller('editGuildCtrl', function($scope, $http, $rootScope) {
+		window.onload = function() {
+            $scope.games = $rootScope.games;
+        };
+    })
 
 	// Services
 	Roll4Guild
@@ -623,7 +617,7 @@ Roll4Guild
 	})
 
 	Roll4Guild
-	.filter('SearchFilter', function(filterFilter) {
+	.filter('SearchFilter', function(filterFilter, numberFilter) {
 		return function(results, searchCriteria) {
 			function meetsGameCriteria(result) {
 				var games = searchCriteria.getGames();
@@ -638,7 +632,7 @@ Roll4Guild
 				return true;
 			}
 			function meetsDistanceCriteria(result) {
-				return true;
+				return searchCriteria.maxDistance? numberFilter(result.distance, 1) <= numberFilter(searchCriteria.maxDistance, 4) : true;
 			}
 			function filterByTextualQuery(filteredResults) {
 				return filterFilter(filteredResults, searchCriteria.textualQuery);
