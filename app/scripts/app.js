@@ -53,7 +53,7 @@ Roll4Guild.run(function($rootScope) {
 		"Settlers of Catan",
 		"Citadels",
 		"Betrayal at the House on the Hill",
-		"Secret Hitler",
+		"Secret Hitler"
 	];
 	$rootScope.uhid = "";
 });
@@ -554,27 +554,36 @@ Roll4Guild
                 });
         };
     })
+
     .controller('editProfCtrl', function($scope, $http, $rootScope, UserService, $window) {
-		window.onload = function() {
+
+    	// On Load we want to grab the array of games for the checkbox list, then initialize some scope variables
+		// to be used later
+    	window.onload = function() {
             $scope.games = $rootScope.games;
             $scope.send = {
             	"email": "",
 				"key": "",
 				"playername": "",
 				"heroname": "",
-				"games":[""],
+				"games":[],
 				"backstory":""
 			};
+            $scope.played = [];
         };
 
 
+		// Creates the array of games then Posts to the Databse.  If the hero is created successfully
+		// then route to that users newly minted profile
         $scope.onSubmit = function(){
-           	console.log($scope.send.email);
-            console.log($scope.send.key);
-            console.log($scope.send.playername);
-            console.log($scope.send.heroname);
-            console.log($scope.send.backstory);
-            //$scope.data = JSON.stringify($scope.send);
+			var i = 0;
+        	for(var j = 0; j < $scope.played.length; j++){
+				if($scope.played[j] != null){
+					$scope.send.games[i] = $scope.played[j];
+					i++;
+				}
+			}
+            $scope.data = JSON.stringify($scope.send);
 
             $http({
                 method: 'POST',
@@ -592,6 +601,8 @@ Roll4Guild
             });
         };
     })
+
+
     .controller('editGuildCtrl', function($scope, $http, $rootScope) {
 		window.onload = function() {
             $scope.games = $rootScope.games;

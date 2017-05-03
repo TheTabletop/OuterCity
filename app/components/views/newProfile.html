@@ -98,7 +98,7 @@ h2{
 		 <br>
 		  <br>
 		  <label ng-repeat="game in games">
-		  <input type="checkbox" name="{{game}}" value="{{game}}" ng-model="send.games[game]">
+		  <input type="checkbox" name="{{game}}"  ng-model="played[$index]" ng-true-value="'{{game}}'" ng-false-value="''">
 			 {{game}}
 		  </label>
 		  <br>
@@ -107,6 +107,7 @@ h2{
 	    <label><b>Bio (Optional)</b></label>
 	    <input type="text" placeholder="Tell everyone about yourself!" ng-model="send.backstory">
 
+		  <button type="button" ng-click="testGames()">Test</button>
 	    <button type="submit" ng-click="onSubmit()">Login</button>
 	    <button type="button" class="cancelbtn" onclick="window.location='../../index.html';return false;">Cancel</button>
 	  </div>
