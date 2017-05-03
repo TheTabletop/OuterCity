@@ -557,36 +557,29 @@ Roll4Guild
     .controller('editProfCtrl', function($scope, $http, $rootScope, UserService, $window) {
 		window.onload = function() {
             $scope.games = $rootScope.games;
+            $scope.send = {
+            	"email": "",
+				"key": "",
+				"playername": "",
+				"heroname": "",
+				"games":[""],
+				"backstory":""
+			};
         };
 
-		$scope.showStuff = function() {
-            console.log($scope.eAddr);
-            console.log($scope.psw);
-            console.log($scope.hname);
-            console.log($scope.uname);
-            console.log($scope.bio);
-        };
 
         $scope.onSubmit = function(){
-            $scope.send = {
-                "email": "triangles@wisc.edu",
-                "key": $scope.psw,
-                "playername": $scope.uname,
-                "heroname": $scope.hname,
-                "games": ["Dungeons and Dragons 3.5ed"],
-                "backstory": $scope.bio
-            };
-
+           	console.log($scope.send.email);
             console.log($scope.send.key);
             console.log($scope.send.playername);
             console.log($scope.send.heroname);
             console.log($scope.send.backstory);
-            $scope.data = JSON.stringify($scope.send);
+            //$scope.data = JSON.stringify($scope.send);
 
             $http({
                 method: 'POST',
                 url: 'http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/hero/create',
-                data: $scope.data,
+                data: $scope.send,
                 headers : {
                     'Content-Type': 'text/plain'
                 }
