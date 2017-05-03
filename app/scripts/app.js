@@ -596,6 +596,11 @@ Roll4Guild
             $scope.games = $rootScope.games;
         };
     })
+    .controller('editGuildCtrl', function($scope, $http, $rootScope) {
+		window.onload = function() {
+            $scope.games = $rootScope.games;
+        };
+    })
 
 	// Services
 	Roll4Guild
