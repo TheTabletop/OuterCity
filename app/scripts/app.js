@@ -624,7 +624,7 @@ Roll4Guild
 				return true;
 			}
 			function meetsDistanceCriteria(result) {
-				return searchCriteria.maxDistance? numberFilter(result.distance, 1) <= searchCriteria.maxDistance : true;
+				return searchCriteria.maxDistance? numberFilter(result.distance, 1) <= numberFilter(searchCriteria.maxDistance, 4) : true;
 			}
 			function filterByTextualQuery(filteredResults) {
 				return filterFilter(filteredResults, searchCriteria.textualQuery);
