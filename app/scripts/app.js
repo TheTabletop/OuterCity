@@ -11,6 +11,23 @@ Roll4Guild.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.defaults.headers.patch = {};
 }]);
 
+Roll4Guild.run(function($rootScope) {
+	console.log('loading app');
+	$rootScope.root = "http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com";
+	$rootScope.user = {};
+	$rootScope.games = [
+		"Dungeons and Dragons",
+		"Magic the Gathering",
+		"7 Wonders",
+		"Coup",
+		"Settlers of Catan",
+		"Citadels",
+		"Betrayal at the House on the Hill",
+		"Secret Hitler"
+	];
+	$rootScope.uhid = "";
+});
+
 Roll4Guild
 .factory('UserService', function() {
     var user;
@@ -39,25 +56,73 @@ Roll4Guild
             localStorage.setItem("Groupname", group);
         }
     }
-});
+})
+.service('message', function() {
+	this.send = function(newMessage) {
+		if(!newMessage || !newMessage.body) { return; }
 
+		// send message
+		console.log("\""+ newMessage.body +"\" sent from", newMessage.sender, "to", newMessage.participants);
+	}
+})
 
-Roll4Guild.run(function($rootScope) {
-	console.log('loading app');
-	$rootScope.root = "http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com";
-	$rootScope.user = {};
-	$rootScope.games = [
-		"Dungeons and Dragons",
-		"Magic the Gathering",
-		"7 Wonders",
-		"Coup",
-		"Settlers of Catan",
-		"Citadels",
-		"Betrayal at the House on the Hill",
-		"Secret Hitler"
-	];
-	$rootScope.uhid = "";
-});
+Roll4Guild
+.filter('SearchFilter', function(filterFilter, numberFilter) {
+	return function(results, searchCriteria) {
+		function meetsGameCriteria(result) {
+			var games = searchCriteria.getGames();
+			var gamesMatch = true;
+			for(var j in games){
+				var game = games[j];
+				if(searchCriteria.games[game] && !result.games.includes(game)){
+					gamesMatch = false;
+					return false;
+				}
+			}
+			return true;
+		}
+		function meetsDistanceCriteria(result) {
+			return searchCriteria.maxDistance? numberFilter(result.distance, 1) <= numberFilter(searchCriteria.maxDistance, 4) : true;
+		}
+		function filterByTextualQuery(filteredResults) {
+			return filterFilter(filteredResults, searchCriteria.textualQuery);
+		}
+		function meetsGroupSizeCriteria(result) {
+			var meetsMin = !searchCriteria.minNumMembers || searchCriteria.minNumMembers <= result.members.length;
+			var meetsMax = !searchCriteria.maxNumMembers || searchCriteria.maxNumMembers >= result.members.length;
+			return meetsMin && meetsMax;
+		}
+
+		var filteredResults = [];
+		for(var i in results){
+			var result = results[i];
+
+			// All filtering that applies to Groups and Users:
+			var meetsCriteria = true
+			&& meetsGameCriteria(result)
+			&& meetsDistanceCriteria(result);
+
+			// Filtering that applies only to Groups or Users
+			switch(searchCriteria.mode) {
+				case 'users':
+					break;
+				case 'groups':
+					meetsCriteria = meetsCriteria
+					&& meetsGroupSizeCriteria(result);
+					break;
+			}
+
+			if(meetsCriteria) {
+				filteredResults.push(result);
+			}
+		}
+
+		filteredResults = filterByTextualQuery(filteredResults);
+
+		return filteredResults;
+		// return undefined;
+	}
+})
 
 Roll4Guild
     .controller('loginCtrl', function($scope, $http, $rootScope, UserService, $window) {
@@ -156,8 +221,7 @@ Roll4Guild
 			// get search results (i.e. relevant users) from back-end
 			this.updateResults = function(resultType) {
 				var users;
-				console.log($rootScope.root+"/search/"+resultType);
-				$http.get("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/search/"+resultType)
+				$http.get($rootScope.root+"/search/"+resultType)
 				.then(function successCallback(response){
 					$scope.results = response.data;
 				}, function errorCallback(response){
@@ -605,74 +669,6 @@ Roll4Guild
         };
     })
 
-	// Services
-	Roll4Guild
-	.service('message', function() {
-		this.send = function(newMessage) {
-			if(!newMessage || !newMessage.body) { return; }
-
-			// send message
-			console.log("\""+ newMessage.body +"\" sent from", newMessage.sender, "to", newMessage.participants);
-		}
-	})
-
-	Roll4Guild
-	.filter('SearchFilter', function(filterFilter, numberFilter) {
-		return function(results, searchCriteria) {
-			function meetsGameCriteria(result) {
-				var games = searchCriteria.getGames();
-				var gamesMatch = true;
-				for(var j in games){
-					var game = games[j];
-					if(searchCriteria.games[game] && !result.games.includes(game)){
-						gamesMatch = false;
-						return false;
-					}
-				}
-				return true;
-			}
-			function meetsDistanceCriteria(result) {
-				return searchCriteria.maxDistance? numberFilter(result.distance, 1) <= numberFilter(searchCriteria.maxDistance, 4) : true;
-			}
-			function filterByTextualQuery(filteredResults) {
-				return filterFilter(filteredResults, searchCriteria.textualQuery);
-			}
-			function meetsGroupSizeCriteria(result) {
-				var meetsMin = !searchCriteria.minNumMembers || searchCriteria.minNumMembers <= result.members.length;
-				var meetsMax = !searchCriteria.maxNumMembers || searchCriteria.maxNumMembers >= result.members.length;
-				return meetsMin && meetsMax;
-			}
-
-			var filteredResults = [];
-			for(var i in results){
-				var result = results[i];
-
-				// All filtering that applies to Groups and Users:
-				var meetsCriteria = true
-				&& meetsGameCriteria(result)
-				&& meetsDistanceCriteria(result);
-
-				// Filtering that applies only to Groups or Users
-				switch(searchCriteria.mode) {
-					case 'users':
-						break;
-					case 'groups':
-						meetsCriteria = meetsCriteria
-						&& meetsGroupSizeCriteria(result);
-						break;
-				}
-
-				if(meetsCriteria) {
-					filteredResults.push(result);
-				}
-			}
-
-			filteredResults = filterByTextualQuery(filteredResults);
-
-			return filteredResults;
-			// return undefined;
-		}
-	})
 
 	// Roll4Guild
 	// .config(function($routeProvider, $locationProvider) {
