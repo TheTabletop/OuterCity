@@ -6,15 +6,20 @@ form {
 	border: 3px solid #f1f1f1;
 }
 
-input[type=text], input[type=password] {
-	width: 100%;
+input[type=text] {
 	padding: 12px 20px;
 	margin: 8px 0;
-	display: inline-block;
-	border: 1px solid #ccc;
 	box-sizing: border-box;
 }
 
+input[type=text] {
+	width: 100%;
+}
+input[type=number] {
+	width: 10%;
+	text-align: center;
+	-moz-appearance: textfield;
+}
 button {
 	background-color: #4CAF50;
 	color: white;
@@ -72,42 +77,66 @@ h2{
 	<script src="../../scripts/app.js"></script>
 </head>
 
-<body ng-controller="editProfCtrl">
+<body ng-controller="editGroupCtrl">
+	<div ng-init="init()"></div>
+
 	<!-- <script src="js/scripts.js"></script> -->
 	<div id="navigation"></div>
 	<div class="main_content"></div>
 
-	<h2>Create your Guild!</h2>
+	<h2>Create a new Guild!</h2>
 
 	<form>
 		<div class="container">
 			<label><b>Name</b></label>
-			<input type="text" placeholder="Enter Username"  ng-model="send.heroname" required>
+			<input type="text" placeholder="Give your new guild a name!"  ng-model="send.guildname" required>
 
-			<label><b>Hero Name</b></label>
-			<input type="text" placeholder="Enter Hero Name" ng-model="send.playername" required>
+			<label><b>Charter</b></label>
+			<input type="text" placeholder="Tell people something interesting about your guild"  ng-model="send.charter" required>
 
-			<label><b>Password</b></label>
-			<input type="password" placeholder="Enter Password" ng-model="send.key" required>
+			<label><b>Location</b> (Only visible to members of this guild)</label>
+			<input type="text" placeholder="Choose the default gathering spot" ng-model="send.location">
 
-			<label><b>Email</b></label>
-			<input type="text" placeholder="For recovery only" ng-model="send.email" required>
+			<!-- <fieldset>
+				<legend><b>Next Session</b> (Optional, only visible to members of this guild)</legend>
 
-			<label><b>Games you play (Select all that Apply)</b></label>
+				<label><b>Location</b></label>
+				<input type="text" placeholder="Where will members of your guild meet?"  ng-model="send.session.location">
+
+
+				<label><b>Game</b></label>
+				<select>
+					<option ng-repeat="game in games">
+						{{game}}
+					</option>
+				</select>
+
+				<input type="datetime-local"/>
+
+			</fieldset> -->
+
+			<!-- <label><b>Day</b></label>
+			<select>
+				<option value="{{day}}" ng-repeat="day in days">
+					{{day}}
+				</option>
+			</select> -->
+
 			<br>
-			<br>
-			<label ng-repeat="game in games">
-			<input type="checkbox" name="{{game}}"  ng-model="played[$index]" ng-true-value="'{{game}}'" ng-false-value="''">
-			{{game}}
-			</label>
-			<br>
-			<br>
+			<label><b>Games you play</b> (Select all that Apply)</label>
+				<br>
+				<label ng-repeat="game in games">
+					<input type="checkbox" ng-model="played[$index]" ng-true-value="'{{game}}'" ng-false-value="''">
+					{{game}}
+				</label>
 
-			<label><b>Bio (Optional)</b></label>
-			<input type="text" placeholder="Tell everyone about yourself!" ng-model="send.backstory">
+			<!-- <label><b>Currently looking for companions?</b></label>
+			<input type="checkbox" ng-model="send.searchable" style=""> -->
 
-			<button type="button" ng-click="testGames()">Test</button>
-			<button type="submit" ng-click="onSubmit()">Login</button>
+			<!-- <label><b>Max. number companions</b></label>
+			<input type="number" min="0"  placeholder="&infin;" ng-model="send.session.maxNumMembers"> -->
+
+			<button type="submit" ng-click="onSubmit()">Submit</button>
 			<button type="button" class="cancelbtn" onclick="window.location='../../index.html';return false;">Cancel</button>
 			</div>
 			<div class="container" style="background-color:#f1f1f1">
