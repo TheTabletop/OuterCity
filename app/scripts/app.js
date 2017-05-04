@@ -86,12 +86,14 @@ Roll4Guild
 	var key = 'CurrUser';
     return {
         getUser: function () {
+			console.log('here at getUser()');
             return localStorage.getItem(key);
         },
         setUser: function (user) {
             localStorage.setItem(key, user);
         },
 		getUhid: function () {
+			console.log('here at getUhid()');
 			return localStorage.getItem(key).uhid;
 		},
         setUhid: function (uhid) {
@@ -234,7 +236,7 @@ Roll4Guild
         };
     })
 
-    .controller('navCtrl', function($scope, CurrUserService){
+    .controller('navCtrl', function($scope, $rootScope, GroupService, UserService, CurrUserService){
         $scope.openNav = function() {
 			$scope.user = CurrUserService.getUser();
 			if($scope.user) {
