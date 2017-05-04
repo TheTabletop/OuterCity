@@ -26,6 +26,16 @@ Roll4Guild.run(function($rootScope) {
 		"Secret Hitler"
 	];
 	$rootScope.uhid = "";
+
+	$rootScope.days = [
+		'Sunday',
+		'Monday',
+		'Tuesday',
+		'Wednesday',
+		'Thursday',
+		'Friday',
+		'Saturday',
+	];
 });
 
 Roll4Guild
@@ -121,6 +131,17 @@ Roll4Guild
 
 		return filteredResults;
 		// return undefined;
+	}
+})
+.filter('RemoveEmpty', function() {
+	return function(array) {
+		var clean = [];
+		angular.forEach(array, function(element) {
+			if( (element != "") && (element) || (element === 0) ) {
+				clean.push(element);
+			}
+		});
+		return clean;
 	}
 })
 
@@ -666,18 +687,23 @@ Roll4Guild
 
 		// On Load we want to grab the array of games for the checkbox list, then initialize some scope variables
 		// to be used later
-		window.onload = function() {
+		$scope.init = function() {
 			$scope.games = $rootScope.games;
 			$scope.send = {
-				"guildname": "",
-				"charter": "",
-				"location": "",
-				"games":[],
-				"creator": "",
-				"session": "",
-				"invite": "",
+				guildname: "",
+				charter: "",
+				location: "",
+				games:[],
+				creator: "",
+				session: {
+					date: "31-05-2017 19:00",
+					game: 'Coup',
+					location: 'Memorial Union',
+				},
+				invite: [],
 			};
 			$scope.played = [];
+			$scope.days = $rootScope.days;
 		};
 
 
@@ -695,15 +721,14 @@ Roll4Guild
 
 			$http({
 				method: 'POST',
-				url: $rootScope.root+'/hero/create',
+				url: $rootScope.root+'/guild/formguild',
 				data: $scope.send,
 				headers : {
 					'Content-Type': 'text/plain'
 				}
 			}).then(function mySucces(response) {
-				$rootScope.uhid = response.data.uhid;
-				GroupService.setGroup($rootScope.uhid);
-				$window.location = 'groupProfile.html';
+				GroupService.setGroup(response.ugid);
+				// $window.location = 'groupProfile.html';
 			}, function myError(response) {
 				console.log("LOL");
 			});
