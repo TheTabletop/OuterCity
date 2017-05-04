@@ -158,7 +158,7 @@ th, td {
           <th>{{playerGuild.charter}}</th>
           <th>{{playerGuild.games.join(', ')}}</th>
           <th>
-            <a href="groupProfile.html">Visit their Notice Board!</a>
+            <button ng-click="toGuild(playerGuild.ugid)">Visit their Notice Board!</button>
           </th>
         </tr>
 

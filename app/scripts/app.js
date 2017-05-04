@@ -30,6 +30,7 @@ Roll4Guild.run(function($rootScope, UserService, GroupService, CurrUserService) 
 	$rootScope.CurrUserService = CurrUserService;
 
 	$rootScope.uhid = "";
+	$rootScope.ugid = "";
 
 	$rootScope.days = [
 		'Sunday',
@@ -260,7 +261,7 @@ Roll4Guild
 
 
     })
-    .controller('userProfCtrl', function($scope, $http, UserService, CurrUserService, $rootScope) {
+    .controller('userProfCtrl', function($scope, $http, UserService, CurrUserService, $rootScope, GroupService) {
         $scope.playerGuilds = [];
         var j = 0;
     	$scope.init = function () {
@@ -278,6 +279,7 @@ Roll4Guild
                     	$http.get("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/guild/" + $scope.guilds[i].ugid)
                             .then(function successCallback(response){
                                $scope.playerGuilds[j] = response.data;
+                               $scope.playerGuilds[j].ugid = $scope.guilds[j].ugid;
                                j++;
                             }, function errorCallback(response){
                                 console.log("Unable to perform get request");
@@ -294,10 +296,14 @@ Roll4Guild
                     console.log("Unable to perform get request");
                 });
         };
-		
+
+    	$scope.toGuild = function(ugid){
+			GroupService.visitGroupProfile(ugid);
+		};
+
 		$scope.popups = {
 			showMessagbox: false,
-		}
+		};
     })
 
 
@@ -626,50 +632,36 @@ Roll4Guild
                 });
         };
     })
-    .controller('groupProfCtrl', function($scope, $http, UserService, GroupService) {
+    .controller('groupProfCtrl', function($scope, $http, UserService, GroupService, $rootScope) {
         $scope.init = function () {
-            $http.get("https://www.omdbapi.com/?t=Star+Wars")
+            $rootScope.ugid = GroupService.getGroup();
+            $scope.players = [];
+            var j = 0;
+            $http.get("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/guild/" + $rootScope.ugid)
                 .then(function successCallback(response){
-                    $scope.details = response.data;
-
+                   $scope.guildData = response.data;
+                   $scope.playerGuild = $scope.guildData.members;
+                    for(var i = 0; i < $scope.playerGuild.length; i++){
+                        $http.get("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/hero/" + $scope.playerGuild[i].uhid)
+                            .then(function successCallback(response){
+                                $scope.players[j] = response.data;
+                                $scope.players[j].uhid = $scope.playerGuild[j].uhid;
+                                j++;
+                            }, function errorCallback(response){
+                                console.log("Unable to perform get request");
+                            });
+                    }
                 }, function errorCallback(response){
                     console.log("Unable to perform get request");
                 });
-            $scope.results = this.getGroups();
-            $scope.name = GroupService.getGroup();
         };
 
-		$scope.group = {name: 'Troopers', ugid:1138};
-		$scope.popups = {
-			showMessagbox: false,
-		};
-
-		$scope.getCurrentUser = function(){
-			$scope.name = localStorage.getItem("Username");
+        $scope.toUser = function(uhid){
+        	UserService.visitUserProfile(uhid);
 		}
 
-        $scope.getGroups = function() {
-            return [
-                {
-                    '_id': "001",
-                    'games': ["Pathfinder"],
-                    'name': "The Rebelz",
-                    'charter': "What is a charter?",
-                    'members': ["Luke Skywalker", "Princess Leia", "Han Solo"],
-                    'last_session': {"ts": "<timestamp", "game": "<game>"}
-                },
-                {
-                    '_id': "002",
-                    'games': ["D&D 3.5"],
-                    'name': "The Last Jedis",
-                    'charter': "What is a charter?",
-                    'members': ["Luke skywalker", "Rey"],
-                    'last_session': {"ts": "<timestamp", "game": "<game>"}
-                },
-            ];
-        }
-
 	})
+
     .controller('groupWallCtrl', function($scope, $http) {
         $scope.name = 'groupWallCtrl';
         $scope.init = function () {
