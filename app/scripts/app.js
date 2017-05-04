@@ -11,20 +11,24 @@ Roll4Guild.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.defaults.headers.patch = {};
 }]);
 
-Roll4Guild.run(function($rootScope) {
+// This executes every time the app loads
+Roll4Guild.run(function($rootScope, UserService, GroupService, CurrUserService) {
 	console.log('loading app');
 	$rootScope.root = "http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com";
 	$rootScope.user = {};
 	$rootScope.games = [
 		"Dungeons and Dragons",
-		"Magic the Gathering",
-		"7 Wonders",
-		"Coup",
-		"Settlers of Catan",
-		"Citadels",
-		"Betrayal at the House on the Hill",
-		"Secret Hitler"
+		"7th Sea",
+		"Iron Kingdoms",
+		"GURPS",
+		"Shadowrun",
+		"Pathfinder",
 	];
+
+	$rootScope.UserService = UserService;
+	$rootScope.GroupService = GroupService;
+	$rootScope.CurrUserService = CurrUserService;
+
 	$rootScope.uhid = "";
 
 	$rootScope.days = [
@@ -39,42 +43,92 @@ Roll4Guild.run(function($rootScope) {
 });
 
 Roll4Guild
-.factory('UserService', function() {
-    var user;
-    return {
-        getUser: function () {
-            user = localStorage.getItem("Username");
-            return user;
-        },
+.factory('UserService', ['$window', function($window) {
 
-        setUser: function (UID) {
-            user = UID;
-            localStorage.setItem("Username", user);
-        }
-    }
-})
-.factory('GroupService', function() {
-    var group;
+	var key = 'Username';
+	return {
+		getUser: function () {
+			console.log(localStorage.getItem(key));
+			return localStorage.getItem(key);
+		},
+
+		setUser: function (UID) {
+			console.log(UID);
+			localStorage.setItem(key, UID);
+		},
+
+		visitUserProfile: function(user){
+			console.log('here at visitUserProfile()');
+			this.setUser(user);
+			$window.location = 'userProfile.html';
+		},
+	}
+}])
+.factory('GroupService', ['$window', function($window) {
+    var key = 'Groupname';
     return {
         getGroup: function () {
-            group = localStorage.getItem("Groupname");
-            return group;
+            return localStorage.getItem(key);
         },
 
         setGroup: function (GID) {
-            group = GID;
-            localStorage.setItem("Groupname", group);
-        }
+            localStorage.setItem(key, GID);
+        },
+
+		visitGroupProfile: function(group){
+			console.log('here at visitGroupProfile()');
+			this.setGroup(group);
+			$window.location = 'groupProfile.html';
+        },
     }
+}])
+.factory('CurrUserService', function() {
+	var key = 'CurrUser';
+    return {
+        getUser: function () {
+            return localStorage.getItem(key);
+        },
+        setUser: function (user) {
+            localStorage.setItem(key, user);
+        },
+		getUhid: function () {
+			return localStorage.getItem(key).uhid;
+		},
+        setUhid: function (uhid) {
+			var user = this.getUser();
+			user.uhid = uhid;
+            this.setUser(user);
+        },
+		getSessionId: function () {
+			return localStorage.getItem(key).uhid;
+		},
+        setSessionId: function (sessionId) {
+			var user = this.getUser();
+			user.sessionId = sessionId;
+			this.setUser(user);
+        },
+    };
 })
-.service('message', function() {
+.factory('LocalStorageService', function() {
+    return {
+        get: function (key) {
+            return localStorage.getItem(key);
+        },
+
+        set: function (key, data) {
+            localStorage.setItem(key, data);
+        },
+    };
+})
+
+.service('MessageService', function() {
 	this.send = function(newMessage) {
 		if(!newMessage || !newMessage.body) { return; }
 
 		// send message
 		console.log("\""+ newMessage.body +"\" sent from", newMessage.sender, "to", newMessage.participants);
 	}
-})
+});
 
 Roll4Guild
 .filter('SearchFilter', function(filterFilter, numberFilter) {
@@ -92,7 +146,7 @@ Roll4Guild
 			return true;
 		}
 		function meetsDistanceCriteria(result) {
-			return searchCriteria.maxDistance? numberFilter(result.distance, 1) <= numberFilter(searchCriteria.maxDistance, 4) : true;
+			return searchCriteria.maxDistance? parseFloat(result.distance) <= parseFloat(searchCriteria.maxDistance) : true;
 		}
 		function filterByTextualQuery(filteredResults) {
 			return filterFilter(filteredResults, searchCriteria.textualQuery);
@@ -146,7 +200,7 @@ Roll4Guild
 })
 
 Roll4Guild
-    .controller('loginCtrl', function($scope, $http, $rootScope, UserService, $window) {
+    .controller('loginCtrl', function($scope, $http, $rootScope, UserService, CurrUserService, $window) {
 
     	// Posts to the database to login a hero.  Routes to their profile if user exists
        $scope.submit = function(){
@@ -163,9 +217,12 @@ Roll4Guild
                    'Content-Type': 'text/plain'
                }
            }).then(function mySucces(response) {
-               $rootScope.uhid = response.data.uhid;
+			   CurrUserService.setUser({
+				   uhid: response.data.uhid,
+				   sessionId: response.data.session_hash,
+			   });
+			   UserService.setUser(response.data.uhid);
                $window.location = 'components/views/userProfile.html';
-               UserService.setUser($rootScope.uhid);
            }, function myError(response) {
                console.log("LOL");
            });
@@ -177,8 +234,14 @@ Roll4Guild
         };
     })
 
-    .controller('navCtrl', function($scope){
+    .controller('navCtrl', function($scope, CurrUserService){
         $scope.openNav = function() {
+			$scope.user = CurrUserService.getUser();
+			if($scope.user) {
+				$scope.uhid = $scope.user.uhid;
+				$scope.sessionId = $scope.user.sessionId;
+			}
+			$scope.guilds = [{name:'Redwall'},];
             document.getElementById("mySidenav").style.width = "250px";
             document.getElementById("main").style.marginLeft = "250px";
         }
@@ -193,18 +256,31 @@ Roll4Guild
 
 
     })
-    .controller('userProfCtrl', function($scope, $http, UserService, $rootScope) {
+    .controller('userProfCtrl', function($scope, $http, UserService, CurrUserService, $rootScope) {
 
         $scope.init = function () {
         	$rootScope.uhid = UserService.getUser();
             console.log("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/hero/" + $rootScope.uhid);
             $http.get("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/hero/" + $rootScope.uhid)
                 .then(function successCallback(response){
-                    $scope.details = response.data;
-					$scope.guilds = response.data.guilds;
+                    var d = response.data;
+					$scope.uhid = d._id;
+					$scope.playername = d.playername;
+					$scope.heroname = d.heroname;
+					$scope.games = d.games;
+					$scope.companions = d.companions;
+					$scope.guilds = d.guilds;
+					$scope.backstory = d.backstory;
+					// if(CurrUserService.get('CurrUser') === d._id) {
+					// 	$scope.email = d.email;
+					// 	$scope.invitesFromGuilds = d.guild_invites;
+					// 	$scope.requestsToGuilds = d.requested_guilds;
+					// 	$scope.ucid = d.ucid;
+					// }
                 }, function errorCallback(response){
                     console.log("Unable to perform get request");
                 });
+			console.log(CurrUserService.getUhid());
         };
 
 		$scope.popups = {
@@ -246,71 +322,25 @@ Roll4Guild
 			// get search results (i.e. relevant groups) from back-end
 			// get search results (i.e. relevant users) from back-end
 			this.updateResults = function(resultType) {
-				var users;
 				$http.get($rootScope.root+"/search/"+resultType)
 				.then(function successCallback(response){
 					$scope.results = response.data;
 				}, function errorCallback(response){
-					console.log("Unable to perform get request");
-					users = [
-						{'_id': "1",
-						'games': ["Dungeons and Dragons","7 Wonders", "Magic the Gathering", "Coup"],
-						'heroname': "Gandalf",
-						'backstory': "The Grey Pilgrim. That is what they used to call me. Three hundred lives of men I've walked this earth and now, I have no time."},
-						{'_id': "2",
-						'games': ["Betrayal at the House on the Hill", "X-Wing", "Settlers of Catan", "7 Wonders", "Dead of Winter", "Coup"],
-						'heroname': "Bilbo",
-						'backstory': "He was hired by Thorin and Company to be their burglar in the Quest of Erebor, and later fought in the Battle of the Five Armies. Bilbo was also one of the bearers of the One Ring, and the first to voluntarily give it up, although with some difficulty. He wrote many of his adventures in a book he called There and Back Again. Bilbo adopted Frodo Baggins as his nephew after his parents, Drogo Baggins and Primula Brandybuck, drowned in the Brandywine River."},
-						{'_id': "3",
-						'games': ["7 Wonders", "Magic the Gathering", "Coup"],
-						'heroname': "Frodo",
-						'backstory': "I wander Middle Earth"},
-						{'_id': "4",
-						'games': ["7 Wonders", "Magic the Gathering", "Coup"],
-						'heroname': "Sam",
-						'backstory': "I wander Middle Earth"},
-						{'_id': "5",
-						'games': ["7 Wonders", "Betrayal at the House on the Hill", "Coup"],
-						'heroname': "Pippin",
-						'backstory': "I wander Middle Earth"},
-						{'_id': "6",
-						'games': ["7 Wonders", "Settlers of Catan", "Secret Hitler"],
-						'heroname': "Merriadoc",
-						'backstory': "I wander Middle Earth"},
-						{'_id': "7",
-						'games': ["7 Wonders", "Citadels", "Coup"],
-						'heroname': "Gimli",
-						'backstory': "I wander Middle Earth"},
-						{'_id': "8",
-						'games': ["7 Wonders", "Settlers of Catan", "Coup"],
-						'heroname': "Elrond",
-						'backstory': "I wander Middle Earth"},
-					];
+					console.log("Unable to GET "+ $rootScope.root+"/search/"+resultType);
 				});
-				return users;
 			}
 
 			switch($scope.searchCriteria.mode) {
 				case 'users':
-					$scope.results = this.updateResults('heros');
+					this.updateResults('heros');
 					// console.log($scope.results);
 					break;
 				case 'groups':
-					$scope.results = this.updateResults('guilds');
+					this.updateResults('guilds');
 					break;
 			}
 
 		}
-
-		$scope.visitUserProfile = function(user){
-			UserService.setUser(user);
-			$window.location = 'userProfile.html';
-        }
-
-		$scope.visitGroupProfile = function(group){
-			GroupService.setGroup(group);
-			$window.location = 'groupProfile.html';
-        }
 
     })
     .controller('passNewCtrl', function($scope, $http) {
@@ -321,7 +351,7 @@ Roll4Guild
         $scope.name = 'passVerCtrl';
 
     })
-    .controller('inboxCtrl', function($scope, $http, $rootScope, message) {
+    .controller('inboxCtrl', function($scope, $http, $rootScope, MessageService) {
         $scope.name = 'inboxCtrl';
 		$scope.uncontactedContacts = [];
 
@@ -545,7 +575,7 @@ Roll4Guild
 			return names.join(', ');
 		}
     })
-	.controller('messagePopup', function($scope, $http, message) {
+	.controller('messagePopup', function($scope, $http, MessageService) {
 		$scope.init = function() {
 			document.getElementById("msgText").focus();
 			$scope.newMessage = $scope.getNewMessage();
