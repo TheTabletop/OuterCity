@@ -108,7 +108,7 @@ input[type=number] {
 				</div>
 			</div>
 			<div class="filter">
-				<div class="filterLabel">General search</div>
+				<div class="filterLabel">General search:</div>
 				<div class="filterBody">
 					<input type="search" placeholder="e.g. a name..." ng-model="searchCriteria.textualQuery"/>
 				</div>
@@ -117,21 +117,21 @@ input[type=number] {
 
 		<div id="searchResults" class="" style="position:absolute; left:250px; max-height:100%; margin:1%;">
 			<div class="results scrollVertical roundBorder" ng-repeat="result in results | SearchFilter : searchCriteria">
-				<a class="result" href="#" ng-if="searchCriteria.mode==='users'" ng-click="visitUserProfile(result.heroname)">
+				<a class="result" href="#" ng-if="searchCriteria.mode==='users'" ng-click="visitUserProfile(result._id)">
 					<div>
 						<h2>{{result.heroname}}</h2>
 						<p>({{result.distance | number:1}} miles away)</p>
 						<ul>
-							<li ng-repeat="game in result.games | RemoveEmpty | limitTo : 3">{{game}}</li>
+							<li ng-repeat="game in result.games | RemoveEmpty | orderBy">{{game}}</li>
 						</ul>
 					</div>
 				</a>
-				<a class="result" href="#" ng-if="searchCriteria.mode==='groups'" ng-click="visitGroupProfile(result.name)">
+				<a class="result" href="#" ng-if="searchCriteria.mode==='groups'" ng-click="visitGroupProfile(result._id)">
 					<div>
-						<h2>{{result.name}}  ({{result.members.length}})</h2>
+						<h2>{{result.guildname}}  ({{result.members.length}})</h2>
 						<p>({{result.distance | number:1}} miles away)</p>
 						<ul>
-							<li ng-repeat="game in result.games | RemoveEmpty | limitTo : 3">{{game}}</li>
+							<li ng-repeat="game in result.games | RemoveEmpty | orderBy">{{game}}</li>
 						</ul>
 					</div>
 				</a>
