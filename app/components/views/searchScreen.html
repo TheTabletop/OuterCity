@@ -117,7 +117,7 @@ input[type=number] {
 
 		<div id="searchResults" class="" style="position:absolute; left:250px; max-height:100%; margin:1%;">
 			<div class="results scrollVertical roundBorder" ng-repeat="result in results | SearchFilter : searchCriteria">
-				<a class="result" href="#" ng-if="searchCriteria.mode==='users'" ng-click="visitUserProfile(result._id)">
+				<a class="result" href="#" ng-if="searchCriteria.mode==='users'" ng-click="UserService.visitUserProfile(result.uhid)">
 					<div>
 						<h2>{{result.heroname}}</h2>
 						<p>({{result.distance | number:1}} miles away)</p>
@@ -126,7 +126,7 @@ input[type=number] {
 						</ul>
 					</div>
 				</a>
-				<a class="result" href="#" ng-if="searchCriteria.mode==='groups'" ng-click="visitGroupProfile(result._id)">
+				<a class="result" href="#" ng-if="searchCriteria.mode==='groups'" ng-click="GroupService.visitGroupProfile(result.ugid)">
 					<div>
 						<h2>{{result.guildname}}  ({{result.members.length}})</h2>
 						<p>({{result.distance | number:1}} miles away)</p>
