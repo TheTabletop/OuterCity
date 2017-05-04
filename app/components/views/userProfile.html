@@ -89,6 +89,7 @@ th, td {
 <div data-ng-init="init()"></div>
 
 
+
 <div id="includedContent"></div>
 
 
@@ -102,7 +103,7 @@ th, td {
   </div>
   <div class="w3-center">
     <button class="button button2" ng-click="popups.showMessagbox = true">Message</button>
-    <button class="button button3" ng-click="">Invite to Group</button>
+    <button class="button button3" ng-click="testAgain()">Invite to Group</button>
   </div>
 
   <div class="w3-cell-row">
@@ -147,18 +148,18 @@ th, td {
       <thead>
       <tr class="w3-light-grey">
         <th>Guild Name</th>
-        <th>Guild Location</th>
+        <th>Guild Charter</th>
         <th>Guild System</th>
         <th>Guild Link</th>
       </tr>
       </thead>
-        <tr ng-repeat="guild in guilds">
-          <!-- <th>{{guild.ugid}}</th> -->
-         <!-- <th>{{result.charter}}</th>
-          <th>{{result.games[0]}}</th>
+        <tr ng-repeat="playerGuild in playerGuilds">
+           <th>{{playerGuild.guildname}}</th>
+          <th>{{playerGuild.charter}}</th>
+          <th>{{playerGuild.games.join(', ')}}</th>
           <th>
             <a href="groupProfile.html">Visit their Notice Board!</a>
-          </th> -->
+          </th>
         </tr>
 
     </table>

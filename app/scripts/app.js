@@ -82,6 +82,8 @@ Roll4Guild
         },
     }
 }])
+
+
 .factory('CurrUserService', function() {
 	var key = 'CurrUser';
     return {
@@ -210,11 +212,11 @@ Roll4Guild
                "email": $scope.send.email,
                "key": $scope.send.password
            };
-           data = JSON.stringify(data);
+           $scope.send = JSON.stringify(data);
            $http({
                method: 'POST',
                url: 'http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/login',
-               data: data,
+               data: $scope.send,
                headers : {
                    'Content-Type': 'text/plain'
                }
@@ -259,19 +261,28 @@ Roll4Guild
 
     })
     .controller('userProfCtrl', function($scope, $http, UserService, CurrUserService, $rootScope) {
-
-        $scope.init = function () {
+        $scope.playerGuilds = [];
+        var j = 0;
+    	$scope.init = function () {
         	$rootScope.uhid = UserService.getUser();
-            console.log("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/hero/" + $rootScope.uhid);
             $http.get("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/hero/" + $rootScope.uhid)
                 .then(function successCallback(response){
-                    var d = response.data;
+                   	var d = response.data;
 					$scope.uhid = d._id;
 					$scope.playername = d.playername;
 					$scope.heroname = d.heroname;
 					$scope.games = d.games;
 					$scope.companions = d.companions;
 					$scope.guilds = d.guilds;
+                    for(var i = 0; i < $scope.guilds.length; i++){
+                    	$http.get("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/guild/" + $scope.guilds[i].ugid)
+                            .then(function successCallback(response){
+                               $scope.playerGuilds[j] = response.data;
+                               j++;
+                            }, function errorCallback(response){
+                                console.log("Unable to perform get request");
+                            });
+                    }
 					$scope.backstory = d.backstory;
 					// if(CurrUserService.get('CurrUser') === d._id) {
 					// 	$scope.email = d.email;
@@ -282,8 +293,11 @@ Roll4Guild
                 }, function errorCallback(response){
                     console.log("Unable to perform get request");
                 });
-			console.log(CurrUserService.getUhid());
         };
+
+    	$scope.testAgain = function(){
+    		console.log($scope.playerGuilds.length);
+		}
 
 		$scope.popups = {
 			showMessagbox: false,
@@ -690,8 +704,19 @@ Roll4Guild
             $scope.played = [];
         };
 
+        $scope.onTest = function() {
+            var i = 0;
+            for (var j = 0; j < $scope.played.length; j++) {
+                if ($scope.played[j] != null) {
+                	console.log($scope.played[j]);
+                    $scope.send.games[i] = $scope.played[j];
+                    i++;
+                }
+            }
+        }
 
-		// Creates the array of games then Posts to the Databse.  If the hero is created successfully
+
+		// Creates the array of games then Posts to the Database.  If the hero is created successfully
 		// then route to that users newly minted profile
         $scope.onSubmit = function(){
 			var i = 0;
@@ -701,7 +726,7 @@ Roll4Guild
 					i++;
 				}
 			}
-            $scope.data = JSON.stringify($scope.send);
+
 
             $http({
                 method: 'POST',
@@ -712,7 +737,7 @@ Roll4Guild
                 }
             }).then(function mySucces(response) {
                 $rootScope.uhid = response.data.uhid;
-                $window.location = 'userProfile.html';
+                //$window.location = 'userProfile.html';
                 UserService.setUser($rootScope.uhid);
             }, function myError(response) {
                 console.log("LOL");
