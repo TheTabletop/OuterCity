@@ -725,7 +725,7 @@ Roll4Guild
                 }
             }).then(function mySucces(response) {
                 $rootScope.uhid = response.data.uhid;
-                //$window.location = 'userProfile.html';
+                $window.location = 'userProfile.html';
                 UserService.setUser($rootScope.uhid);
             }, function myError(response) {
                 console.log("LOL");
