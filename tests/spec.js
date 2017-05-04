@@ -52,11 +52,64 @@ describe('Group Profile Page', function () {
         expect(showMessage.evaluate('popups.showMessagbox')).toEqual(true);
     });
 
-    it('sends you to the user\'s profile, after clicking on their profile link.', function () {
-        var profileLink = element(by.linkText('Profile'));
+    // it('sends you to the user\'s profile, after clicking on their profile link.', function () {
+    //     var profileLink = element(by.linkText('Profile'));
+    //
+    //     profileLink.click();
+    //
+    //     expect(browser.getCurrentUrl()).toBe('https://thetabletop.github.io/components/views/userProfile.html');
+    // });
 
-        profileLink.click();
 
-        expect(browser.getCurrentUrl()).toBe('https://thetabletop.github.io/components/views/userProfile.html');
+});
+
+describe('Search Screen', function () {
+    beforeEach(function () {
+        browser.get('https://thetabletop.github.io/components/views/searchScreen.html');
     });
+
+    it('should display group size filter.', function () {
+        expect(browser.getCurrentUrl()).toBe('https://thetabletop.github.io/components/views/searchScreen.html');
+    });
+
+    // it('sends you to the user\'s profile, after clicking on their profile link.', function () {
+    //     var profileLink = element(by.linkText('Profile'));
+    //
+    //     profileLink.click();
+    //
+    //     expect(browser.getCurrentUrl()).toBe('https://thetabletop.github.io/components/views/userProfile.html');
+    // });
+
+
+});
+
+describe('Messages page', function () {
+    beforeEach(function () {
+        browser.get('https://thetabletop.github.io/components/views/inbox.html');
+    });
+
+    it('should display all messages.', function () {
+        expect(browser.getCurrentUrl()).toBe('https://thetabletop.github.io/components/views/inbox.html');
+    });
+
+    // it('sends you to the user\'s profile, after clicking on their profile link.', function () {
+    //     var profileLink = element(by.linkText('Profile'));
+    //
+    //     profileLink.click();
+    //
+    //     expect(browser.getCurrentUrl()).toBe('https://thetabletop.github.io/components/views/userProfile.html');
+    // });
+
+
+});
+
+describe('Contact Us page', function () {
+    beforeEach(function () {
+        browser.get('https://thetabletop.github.io/components/views/aboutUs.html');
+    });
+
+    it('should display the about us page.', function () {
+        expect(browser.getCurrentUrl()).toBe('https://thetabletop.github.io/components/views/aboutUs.html');
+    });
+
 });
