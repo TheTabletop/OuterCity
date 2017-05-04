@@ -294,11 +294,7 @@ Roll4Guild
                     console.log("Unable to perform get request");
                 });
         };
-
-    	$scope.testAgain = function(){
-    		console.log($scope.playerGuilds.length);
-		}
-
+		
 		$scope.popups = {
 			showMessagbox: false,
 		}
