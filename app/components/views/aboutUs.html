@@ -2,15 +2,15 @@
 <html ng-app="Roll4Guild">
 <head>
 <title>About Us</title>
-<link rel="stylesheet" href="../../styles/css/styles.css">
+	<link rel="stylesheet" href="../../styles/css/styles.css">
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
     <script src="../../scripts/app.js"></script>
-
     <script>
         $(function(){
             $("#includedContent").load("generalNav.html");
@@ -18,13 +18,18 @@
     </script>
 
     <style>
-body {
+	body {
 
-}
-h1 {
+	}
+	h1 {
 
-}
-
+	}
+	p1 {
+		font-family: "Comic Sans MS";
+	}
+	p27 {
+		font-family: "Times New Roman";
+	}
 </style>
 </head>
 <body ng-controller="aboutCtrl">
@@ -34,8 +39,25 @@ h1 {
 <div id="main">
     <span ng-controller="navCtrl" style="font-size:30px;cursor:pointer" ng-click="openNav()">&#9776; Navigation</span>
     <h1>About Us</h1>
-    <p>    Initially formed for a small software engineering project, the Tabletop team is a small group of dedicated programmers working to ensure that fewer people undergo the frustration of finding a local group to play tabletop games with.</p>
-    <p><b>Individual bios/pictures?</b> Seems a bit overboard until we take off.</p>
+    <img src="../../resources/img/DRL.gif" alt="lolol" style="float:right;" width="421" height="384">
+    <p>Have you ever been excited to play a tabltop game, but were unable to find a group of people to play with?</p>
+    <p>Are you tired of the endless flood of emails and messages that it takes to organize your weekly sessions?</p>
+    <p>Trying to expand your group and add a few new players?</p>
+    <p>We understand your pain.</p>
+    <p>Like, so much.</p>
+    <p>Finding people in your area? Gotcha covered.</p>
+    <p>Setting up meeting times? Done.</p>
+    <p>Group and individual messaging? Easy breezy.</p>
+    <p>No matter where you decide to take your adventures, we've got your back.</p>
+    <p>Current Team:</p>
+    <p1 style="color:hotpink;"><i>Backend Lead: Thomas Malcom</i></p1>
+    <p><i>Backend Architect: Logan Colla</i></p>
+    <p><u>Backend Design: Jake Adams</u></p>
+    <p><b>Frontend Lead: Gunnar Sroka</b></p>
+    <p><i>Frondend Artist: Chris Gottsacker</i></p>
+    <p27 style="color:navy;">Frontend Specialist: Quinn Mettel</p27>
+    <p><b>Encompassing Programming: Alex Huang</b></p>
+
 
 
 </div>
