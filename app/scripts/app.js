@@ -151,18 +151,23 @@ Roll4Guild
     	// Posts to the database to login a hero.  Routes to their profile if user exists
        $scope.submit = function(){
            var data = {
-               "hero": $scope.email,
-               "key": $scope.password
+               "email": $scope.send.email,
+               "key": $scope.send.password
            };
-           $http.post("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/login", JSON.stringify(data))
-               .then(function successCallback(response){
-                   $rootScope.uhid = response.uhid;
-                   UserService.setUser($rootScope.uhid);
-                   $window.location = "userProfile.html";
-               }, function errorCallback(response){
-               console.log("Credentials don't match known user!");
-               $scope.reset();
-               $window.location = "index.html";
+           data = JSON.stringify(data);
+           $http({
+               method: 'POST',
+               url: 'http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/login',
+               data: data,
+               headers : {
+                   'Content-Type': 'text/plain'
+               }
+           }).then(function mySucces(response) {
+               $rootScope.uhid = response.data.uhid;
+               $window.location = 'components/views/userProfile.html';
+               UserService.setUser($rootScope.uhid);
+           }, function myError(response) {
+               console.log("LOL");
            });
        };
 
